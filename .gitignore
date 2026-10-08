@@ -1,0 +1,20 @@
+node_modules/
+dist/
+
+# Variables de entorno y credenciales: nunca al repo
+.env
+.env.*
+!.env.example
+*service-account*.json
+*serviceAccount*.json
+
+# Firebase
+.firebase/
+.firebaserc
+.emulator-data/
+*-debug.log
+
+# Editor / sistema
+.vscode/
+.DS_Store
+Thumbs.db

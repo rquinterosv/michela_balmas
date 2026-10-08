@@ -1,0 +1,49 @@
+/* Marca: para cambiar colores o tipografías del sitio, se toca solo este archivo. */
+:root {
+  /* Colores (contraste AA comprobado: texto y primario sobre fondo/superficie) */
+  --color-bg: #faf7f2; /* fondo general, blanco cálido */
+  --color-surface: #ffffff; /* tarjetas, formularios */
+  --color-surface-soft: #f1ebe2; /* secciones alternas, footer */
+  --color-text: #2e2a26; /* texto principal */
+  --color-text-muted: #645c53; /* texto secundario */
+  --color-primary: #4f6f5c; /* verde salvia: botones, enlaces */
+  --color-primary-hover: #3f5a4a;
+  --color-on-primary: #ffffff; /* texto sobre el color primario */
+  --color-accent: #b9714f; /* terracota suave: detalles */
+  --color-border: #ddd4c8;
+  --color-focus: #1f5fa8; /* anillo de foco, bien visible */
+  --color-success: #2f6b46;
+  --color-success-bg: #e6f2ea;
+  --color-error: #a3332b;
+  --color-error-bg: #fbeae8;
+
+  /* Tipografías. La fuente final se define en la fase de diseño;
+     estas pilas del sistema ya soportan bien los acentos italianos. */
+  --font-heading: Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.125rem;
+  --text-3xl: 2.75rem;
+  --line-height: 1.65;
+
+  /* Espacios */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --content-width: 68rem; /* ancho máximo de página */
+  --text-width: 42rem; /* ancho cómodo de lectura */
+  --radius: 0.75rem;
+  --radius-sm: 0.375rem;
+  --shadow: 0 1px 2px rgb(46 42 38 / 6%), 0 8px 24px rgb(46 42 38 / 6%);
+}

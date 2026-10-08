@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// Todo se escribe desde el backend con firebase-admin, que NO pasa por estas
+// reglas. Aquí solo se define qué puede hacer un cliente (navegador) directo.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Páginas: lectura pública solo de las publicadas.
+    // (Una consulta de lista debe filtrar por published == true para pasar.)
+    match /pages/{pageId} {
+      allow read: if resource.data.published == true;
+      allow write: if false;
+    }
+
+    // Datos del sitio (footer, contactos): lectura pública.
+    match /siteSettings/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Mensajes del formulario: sin acceso desde el cliente.
+    match /messages/{messageId} {
+      allow read, write: if false;
+    }
+  }
+}

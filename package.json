@@ -1,0 +1,34 @@
+{
+  "name": "studio-psicologia",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n emu,server,client -c gray,cyan,magenta \"npm run emulators\" \"npm run dev -w server\" \"npm run dev -w client\"",
+    "emulators": "firebase emulators:start --only auth,firestore --project demo-studio --import=./.emulator-data --export-on-exit=./.emulator-data",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test -w server"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.5",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "prettier": "^3.9.9",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.1"
+  }
+}
