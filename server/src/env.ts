@@ -14,6 +14,8 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3001),
   // Orígenes permitidos por CORS, separados por coma.
   CORS_ORIGINS: z.string().default("http://localhost:5173"),
+  // URL pública del sitio (sin barra final). Se usa en el enlace del email de aviso.
+  SITE_URL: z.string().default("http://localhost:5173"),
 
   FIREBASE_PROJECT_ID: z.string().min(1).default("demo-studio"),
   FIREBASE_CLIENT_EMAIL: z.string().optional(),

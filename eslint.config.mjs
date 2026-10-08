@@ -16,6 +16,12 @@ export default defineConfig(
       "react-hooks/exhaustive-deps": "warn",
     },
   },
+  {
+    // Un parámetro que empieza por "_" está sin usar a propósito.
+    rules: {
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    },
+  },
   // Siempre al final: apaga las reglas de formato que chocan con Prettier.
   prettier,
 );

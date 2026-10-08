@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" role="img" aria-label="Immagine di esempio">
+  <!-- Imagen de ejemplo del seed: sustituir por una foto real desde el panel. -->
+  <rect width="600" height="750" fill="#e9dccd"/>
+  <circle cx="300" cy="290" r="110" fill="#cdd9cf"/>
+  <path d="M90 750 C90 560 190 460 300 460 S510 560 510 750Z" fill="#cdd9cf"/>
+</svg>

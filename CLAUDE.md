@@ -73,6 +73,10 @@ Admin (`requireAdmin`): `GET/POST /api/admin/pages`,
 `GET/PUT /api/admin/settings`, `GET /api/admin/messages`,
 `PATCH/DELETE /api/admin/messages/:id`.
 
+Las rutas lanzan `HttpError` (o dejan que falle `schema.parse`) y `errorHandler` arma la
+respuesta. La página `home` no puede eliminarse, despublicarse ni cambiar de slug. El
+email de aviso (opcional, Resend) no incluye el texto del mensaje, por privacidad.
+
 ## Comandos (desde la raíz)
 
 ```
@@ -83,7 +87,12 @@ npm run lint         # eslint
 npm run format       # prettier --write
 npm test             # tests del backend (vitest + supertest)
 npm run build        # build del frontend
+npm run seed         # contenido inicial (-- --force para sobrescribirlo)
+npm run set-admin -- <email> ["password"]   # da el claim admin (crea el usuario si hay password)
 ```
+
+`seed` y `set-admin` actúan sobre lo que diga `server/.env` (emuladores o proyecto real).
+Los tests no usan emuladores: simulan `src/firebase.ts` y los repositorios con `vi.mock`.
 
 Los emuladores necesitan Java (JDK 21 o superior). El proyecto local es `demo-studio`:
 un ID que empieza por `demo-` solo existe en los emuladores, no puede tocar producción.
@@ -128,7 +137,7 @@ No hay que tocar rutas, repositorios ni reglas de Firestore.
 Se construye por fases; al terminar cada una se actualiza esta lista.
 
 - [x] 1. Scaffolding, Firebase/emuladores, tipos compartidos, `it.ts`
-- [ ] 2. Backend: API, contacto, admin, seed, `set-admin`, tests
+- [x] 2. Backend: API, contacto, admin, seed, `set-admin`, tests
 - [ ] 3. Frontend público
 - [ ] 4. Panel de administración
 - [ ] 5. Pulido, README completo, revisión final

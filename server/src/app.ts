@@ -2,6 +2,14 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import { env } from "./env";
+import { createContactRateLimit } from "./middleware/contactRateLimit";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
+import { requireAdmin } from "./middleware/requireAdmin";
+import { adminMessagesRouter } from "./routes/adminMessages";
+import { adminPagesRouter } from "./routes/adminPages";
+import { adminSettingsRouter } from "./routes/adminSettings";
+import { contactRouter } from "./routes/contact";
+import { publicRouter } from "./routes/public";
 
 // Crea la app sin llamar a listen(), para poder usarla en los tests con supertest.
 export function createApp() {
@@ -19,7 +27,17 @@ export function createApp() {
     res.json({ ok: true });
   });
 
-  // Fase 2: aquí se montan las rutas públicas, /api/contact y /api/admin/*.
+  // Todo lo que cuelga de /api/admin exige un usuario con el claim admin.
+  app.use("/api/admin", requireAdmin);
+  app.use("/api/admin/pages", adminPagesRouter);
+  app.use("/api/admin/settings", adminSettingsRouter);
+  app.use("/api/admin/messages", adminMessagesRouter);
+
+  app.use("/api/contact", createContactRateLimit(), contactRouter);
+  app.use("/api", publicRouter);
+
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   return app;
 }
