@@ -138,6 +138,6 @@ Se construye por fases; al terminar cada una se actualiza esta lista.
 
 - [x] 1. Scaffolding, Firebase/emuladores, tipos compartidos, `it.ts`
 - [x] 2. Backend: API, contacto, admin, seed, `set-admin`, tests
-- [ ] 3. Frontend público
+- [x] 3. Frontend público
 - [ ] 4. Panel de administración
 - [ ] 5. Pulido, README completo, revisión final

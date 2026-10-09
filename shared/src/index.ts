@@ -6,6 +6,7 @@ import { z } from "zod";
 z.config(z.locales.it());
 
 export * from "./blocks";
+export * from "./fieldErrors";
 export * from "./schemas";
 export * from "./slug";
 export * from "./types";

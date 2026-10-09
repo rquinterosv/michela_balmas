@@ -1,0 +1,49 @@
+.hero {
+  padding-block: var(--space-12);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-6);
+  text-wrap: balance;
+}
+
+.subtitle {
+  max-width: 34rem;
+  margin-bottom: var(--space-8);
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+@media (min-width: 56rem) {
+  .hero {
+    padding-block: var(--space-24);
+  }
+
+  .inner {
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-16);
+  }
+
+  .title {
+    font-size: var(--text-3xl);
+  }
+
+  .image {
+    aspect-ratio: 4 / 5;
+    max-height: 34rem;
+  }
+}

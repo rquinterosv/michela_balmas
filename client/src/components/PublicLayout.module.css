@@ -1,0 +1,32 @@
+/* El pie queda abajo aunque la página tenga poco contenido */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+}
+
+.main:focus {
+  outline: none;
+}
+
+/* Invisible hasta que recibe el foco con el teclado */
+.skipLink {
+  position: absolute;
+  left: var(--space-4);
+  top: -10rem;
+  z-index: 20;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 600;
+}
+
+.skipLink:focus {
+  top: var(--space-2);
+  color: var(--color-on-primary);
+}

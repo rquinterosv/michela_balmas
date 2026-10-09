@@ -1,0 +1,25 @@
+.richText {
+  max-width: var(--text-width);
+}
+
+.richText > :last-child {
+  margin-bottom: 0;
+}
+
+.richText ul,
+.richText ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+}
+
+.richText li {
+  margin-bottom: var(--space-2);
+}
+
+.richText li > p {
+  margin: 0;
+}
+
+.richText a {
+  overflow-wrap: anywhere;
+}
