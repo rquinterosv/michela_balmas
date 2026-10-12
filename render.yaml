@@ -1,0 +1,23 @@
+# Backend (API Express) en Render. En Render: New > Blueprint > elegir este repo.
+# Los valores marcados con "sync: false" se piden al crear el servicio y no se guardan
+# en el repo (son las credenciales de la service account de Firebase).
+services:
+  - type: web
+    name: michela-balmas-api
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://michelabalmas.vercel.app
+      - key: SITE_URL
+        value: https://michelabalmas.vercel.app
+      - key: FIREBASE_PROJECT_ID
+        value: michela-balmas-psicoterapeuta
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false

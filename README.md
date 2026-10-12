@@ -138,7 +138,8 @@ El backend es un servidor Express normal. Sirve cualquier hosting de Node:
 Render, Railway o Fly.io tienen plan gratuito; elige una **región europea** si
 se puede (en Render: Frankfurt).
 
-Ejemplo con Render (New > Web Service, conectando el repo):
+Ejemplo con Render. El repo trae un `render.yaml` (New > Blueprint) que rellena lo
+siguiente solo; a mano sería New > Web Service, conectando el repo:
 
 | Ajuste         | Valor                       |
 | -------------- | --------------------------- |
