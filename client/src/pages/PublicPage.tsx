@@ -32,17 +32,19 @@ export function PublicPage() {
 }
 
 // Contenido de una página ya cargada. También lo usará la vista previa del panel.
-export function PageContent({ page }: { page: Page }) {
+// `updateMeta: false` en la vista previa del panel: no debe tocar el <head>.
+export function PageContent({ page, updateMeta = true }: { page: Page; updateMeta?: boolean }) {
   const settings = useSiteSettings();
 
   useEffect(() => {
+    if (!updateMeta) return;
     setPageMeta({
       title: page.seo.title || `${page.title} | ${settings.siteName}`,
       description: page.seo.description || it.seo.defaultDescription,
       path: pagePath(page.slug),
       siteName: settings.siteName,
     });
-  }, [page, settings.siteName]);
+  }, [page, settings.siteName, updateMeta]);
 
   // Cada página necesita un <h1>. El bloque "Intestazione" trae el suyo;
   // si la página no empieza por uno, el título de la página hace de <h1>.

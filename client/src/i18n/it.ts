@@ -283,7 +283,12 @@ export const it = {
       orderedList: "Elenco numerato",
       link: "Collegamento",
       removeLink: "Rimuovi collegamento",
-      linkPrompt: "Indirizzo del collegamento (es. https://www.esempio.it)",
+      linkPrompt:
+        "Indirizzo del collegamento (es. https://www.esempio.it). Lasciare vuoto per rimuoverlo.",
+      // Texto corto que se ve en los botones de la barra.
+      bulletListShort: "Elenco",
+      orderedListShort: "Elenco",
+      linkShort: "Collegamento",
     },
 
     settings: {
@@ -318,6 +323,7 @@ export const it = {
       intro: "I messaggi ricevuti dal modulo di contatto del sito.",
       empty: "Non ci sono ancora messaggi.",
       emptyFiltered: "Nessun messaggio in questa categoria.",
+      filterLabel: "Filtra i messaggi",
       filterAll: "Tutti",
       from: "Da",
       email: "Email",

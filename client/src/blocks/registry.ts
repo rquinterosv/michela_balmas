@@ -11,7 +11,14 @@ import {
 import type { ComponentType } from "react";
 import type { z } from "zod";
 import { it } from "../i18n/it";
+import { AboutEditor } from "./about/AboutEditor";
 import { AboutRender } from "./about/AboutRender";
+import { ContactFormEditor } from "./contactForm/ContactFormEditor";
+import { ContactInfoEditor } from "./contactInfo/ContactInfoEditor";
+import type { BlockEditorProps } from "./editorTypes";
+import { HeroEditor } from "./hero/HeroEditor";
+import { ImageEditor } from "./image/ImageEditor";
+import { RichTextBlockEditor } from "./richText/RichTextBlockEditor";
 import { ContactFormRender } from "./contactForm/ContactFormRender";
 import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
 import { HeroRender } from "./hero/HeroRender";
@@ -19,7 +26,7 @@ import { ImageRender } from "./image/ImageRender";
 import { RichTextRender } from "./richText/RichTextRender";
 
 // Todo lo que el frontend necesita saber de un tipo de bloque.
-// (El EditorComponent, el formulario del panel, se añade en la fase 4.)
+
 export interface BlockDefinition<T extends BlockType> {
   // Nombre que ve la psicóloga en el panel.
   label: string;
@@ -28,6 +35,8 @@ export interface BlockDefinition<T extends BlockType> {
   zodSchema: z.ZodType<BlockData<T>>;
   // Datos de un bloque recién creado.
   defaultData: BlockData<T>;
+  // Formulario de edición en el panel.
+  EditorComponent: ComponentType<BlockEditorProps<T>>;
   // Cómo se ve en el sitio público.
   RenderComponent: ComponentType<{ data: BlockData<T> }>;
 }
@@ -47,6 +56,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
       buttonLabel: "",
       buttonHref: "",
     },
+    EditorComponent: HeroEditor,
     RenderComponent: HeroRender,
   },
   about: {
@@ -54,6 +64,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.about,
     zodSchema: aboutDataSchema,
     defaultData: { title: "", photoUrl: "", photoAlt: "", html: "", lists: [] },
+    EditorComponent: AboutEditor,
     RenderComponent: AboutRender,
   },
   richText: {
@@ -61,6 +72,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.richText,
     zodSchema: richTextDataSchema,
     defaultData: { html: "" },
+    EditorComponent: RichTextBlockEditor,
     RenderComponent: RichTextRender,
   },
   contactForm: {
@@ -68,6 +80,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.contactForm,
     zodSchema: contactFormDataSchema,
     defaultData: { title: "", intro: "" },
+    EditorComponent: ContactFormEditor,
     RenderComponent: ContactFormRender,
   },
   contactInfo: {
@@ -81,6 +94,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
       showAddress: true,
       showOnlineSessions: true,
     },
+    EditorComponent: ContactInfoEditor,
     RenderComponent: ContactInfoRender,
   },
   image: {
@@ -88,6 +102,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.image,
     zodSchema: imageDataSchema,
     defaultData: { url: "", alt: "", caption: "" },
+    EditorComponent: ImageEditor,
     RenderComponent: ImageRender,
   },
 };

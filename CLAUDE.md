@@ -39,6 +39,25 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 - **Errores de la API:** siempre `{ error: string, fields?: Record<string, string> }`,
   con textos en italiano listos para mostrar.
 
+### Frontend
+
+- `client/src/blocks/`: una carpeta por tipo de bloque (`XRender.tsx`, `XEditor.tsx`,
+  CSS) y `registry.ts`, que los une. `BlockRenderer` dibuja un bloque en el sitio;
+  `admin/BlockListEditor` lo edita en el panel.
+- `client/src/admin/`: el panel (`/admin`, rutas en italiano: `pagine`, `messaggi`,
+  `impostazioni`). `AdminLayout` decide entre login, "no autorizado" y el panel según
+  `AuthContext`. Las llamadas van por `adminApi.ts`, que añade el token. Todas las
+  pantallas comparten `Admin.module.css`.
+- Los formularios validan con el mismo esquema zod que el backend (`safeParse` +
+  `zodFieldErrors`) y muestran los errores por campo con `Field`/`TextField`.
+- La vista previa de una página dibuja el borrador con `PageContent`, el mismo
+  componente del sitio público, dentro de un contenedor `inert`.
+- El router es `createBrowserRouter` porque el aviso de cambios sin guardar
+  (`useUnsavedChangesWarning`) necesita `useBlocker`.
+- El editor de texto (TipTap) solo ofrece negrita, cursiva, listas y enlaces. Si se
+  activa un formato nuevo, hay que permitir su etiqueta en
+  `server/src/services/sanitizeHtml.ts` o el backend la borrará al guardar.
+
 ### Dónde viven los textos en italiano
 
 | Qué                                         | Dónde                                 |
@@ -139,5 +158,5 @@ Se construye por fases; al terminar cada una se actualiza esta lista.
 - [x] 1. Scaffolding, Firebase/emuladores, tipos compartidos, `it.ts`
 - [x] 2. Backend: API, contacto, admin, seed, `set-admin`, tests
 - [x] 3. Frontend público
-- [ ] 4. Panel de administración
+- [x] 4. Panel de administración
 - [ ] 5. Pulido, README completo, revisión final
