@@ -181,6 +181,20 @@ panel. A propósito no incluye el texto del mensaje.
 
 ## 6. Desplegar el frontend
 
+### Modo demo (sin backend ni Firebase)
+
+Si el build se hace **sin `VITE_API_URL`**, el sitio público se muestra con el
+contenido de ejemplo de `shared/src/seedContent.ts`, que va incluido en el
+JavaScript. Sirve para enseñar el diseño antes de conectar nada: basta con
+desplegar el repo en Vercel sin definir ninguna variable.
+
+En modo demo el formulario de contacto no envía ni guarda nada (lo avisa en
+pantalla), no hay panel (`/admin` necesita Firebase) y para cambiar un texto hay
+que editar `seedContent.ts` y volver a desplegar. Se apaga solo al definir
+`VITE_API_URL`. En local se prueba con `VITE_DEMO_MODE=true` en `client/.env`.
+
+### Con backend
+
 El frontend es un sitio estático (`client/dist`). Necesita estas variables **en
 el momento del build** (explicadas en `client/.env.example`):
 
@@ -257,6 +271,8 @@ después de que se haya editado el contenido.
       `[DATA]`). Tienen que revisarlos un profesional. Entre los proveedores hay
       que citar a Google (Firebase) y a los hostings del frontend y del backend.
 - [ ] Sustituir las imágenes de ejemplo (`/images/placeholder-*.svg`).
+- [ ] Comprobar que `VITE_API_URL` está definida en el hosting del frontend: sin
+      ella el sitio queda en modo demo y el formulario no envía nada.
 - [ ] Revisar los textos de Home y Contatti.
 - [ ] Probar el formulario de contacto y comprobar que el mensaje llega al panel.
 

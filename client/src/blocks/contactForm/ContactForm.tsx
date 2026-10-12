@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Field, describedBy } from "../../components/Field";
 import { it } from "../../i18n/it";
-import { api, ApiRequestError } from "../../lib/api";
+import { api, ApiRequestError, DEMO_MODE } from "../../lib/api";
 import { pagePath } from "../../lib/paths";
 import { useSiteSettings } from "../../lib/SiteSettingsContext";
 import styles from "./ContactForm.module.css";
@@ -94,6 +94,7 @@ export function ContactForm() {
       <div ref={successRef} tabIndex={-1} role="status" className={styles.success}>
         <h3>{it.contactForm.successTitle}</h3>
         <p>{it.contactForm.successText}</p>
+        {DEMO_MODE && <p className={styles.demoNotice}>{it.contactForm.demoNotice}</p>}
         <button type="button" className="button button-secondary" onClick={() => setStatus("idle")}>
           {it.contactForm.sendAnother}
         </button>
@@ -104,6 +105,7 @@ export function ContactForm() {
   return (
     // noValidate: se usan nuestros mensajes en italiano, no los del navegador.
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
+      {DEMO_MODE && <p className={styles.demoNotice}>{it.contactForm.demoNotice}</p>}
       <Field id={fieldId("name")} label={it.contactForm.name} error={errors.name}>
         <input
           id={fieldId("name")}

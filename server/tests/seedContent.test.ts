@@ -1,6 +1,6 @@
 import { pageInputSchema, siteSettingsSchema } from "@studio/shared";
 import { describe, expect, it } from "vitest";
-import { seedPages, seedSettings } from "../scripts/seedContent";
+import { seedPages, seedSettings } from "@studio/shared/seedContent";
 import { sanitizeBlocks, sanitizeRichText } from "../src/services/sanitizeHtml";
 
 // El seed no se puede probar sin emuladores, pero sí su contenido.

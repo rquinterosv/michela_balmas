@@ -71,6 +71,9 @@ export const it = {
     successTitle: "Messaggio inviato",
     successText: "Grazie per avermi scritto. Le risponderò il prima possibile.",
     sendAnother: "Invia un altro messaggio",
+    // Solo en modo demo (sitio sin backend): el formulario no envía nada.
+    demoNotice:
+      "Versione dimostrativa: i messaggi inviati da questo modulo non vengono recapitati.",
     errorValidation: "Controlli i campi evidenziati e riprovi.",
     errorGeneric:
       "Non è stato possibile inviare il messaggio. Riprovi tra qualche minuto oppure mi scriva via email.",

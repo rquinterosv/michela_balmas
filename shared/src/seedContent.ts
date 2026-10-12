@@ -1,4 +1,4 @@
-import type { PageInput, SiteSettings } from "@studio/shared";
+import type { PageInput, SiteSettings } from "./types";
 
 // Contenido de ejemplo en italiano. TODOS los datos son ficticios (nombre, número
 // de Albo, Partita IVA, recapiti): hay que sustituirlos desde el panel.

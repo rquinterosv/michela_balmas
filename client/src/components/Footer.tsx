@@ -1,6 +1,7 @@
 import type { MenuPage, SiteSettings } from "@studio/shared";
 import { Link } from "react-router-dom";
 import { it } from "../i18n/it";
+import { DEMO_MODE } from "../lib/api";
 import { pagePath, phoneHref } from "../lib/paths";
 import styles from "./Footer.module.css";
 
@@ -81,10 +82,13 @@ export function Footer({ settings, pages }: FooterProps) {
       <div className="container">
         <div className={styles.bottom}>
           <p>{it.footer.copyright(new Date().getFullYear(), settings.siteName)}</p>
-          {/* Acceso discreto al panel: una recarga completa, el panel es otra "zona". */}
-          <a href="/admin" className={styles.reserved}>
-            {it.footer.reservedArea}
-          </a>
+          {/* Acceso discreto al panel: una recarga completa, el panel es otra "zona".
+              En modo demo no hay panel (necesita Firebase), así que no se enlaza. */}
+          {!DEMO_MODE && (
+            <a href="/admin" className={styles.reserved}>
+              {it.footer.reservedArea}
+            </a>
+          )}
         </div>
       </div>
     </footer>

@@ -65,7 +65,7 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 | Interfaz (sitio público y panel)            | `client/src/i18n/it.ts`               |
 | Validación de formularios (client y server) | `shared/src/validationMessages.it.ts` |
 | Errores de la API y plantilla de email      | `server/src/messages.it.ts`           |
-| Contenido de ejemplo                        | `server/scripts/seed.ts`              |
+| Contenido de ejemplo (seed y modo demo)     | `shared/src/seedContent.ts`           |
 
 ### Modelo de datos (Firestore)
 
@@ -161,6 +161,11 @@ No hay que tocar rutas, repositorios ni reglas de Firestore.
 - El código del panel va en trozos aparte (`lazy` en `App.tsx` y en el registro de
   bloques): el sitio público no carga Firebase Auth ni TipTap, y funciona aunque
   falten las variables `VITE_FIREBASE_*` (el panel no).
+- **Modo demo:** un build de producción sin `VITE_API_URL` (o con
+  `VITE_DEMO_MODE=true`) muestra el sitio público con el contenido de
+  `shared/src/seedContent.ts`, sin backend ni Firebase (`client/src/lib/demoApi.ts`).
+  El formulario no envía nada (lo avisa) y no hay panel. Se apaga al definir
+  `VITE_API_URL`.
 - Las cinco fases del plan inicial están hechas. Lo que queda pendiente y las
   limitaciones conocidas están en el punto 10 del README.
 - Verificado solo con Firebase simulado (tests con `vi.mock` y pruebas manuales con

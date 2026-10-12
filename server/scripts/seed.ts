@@ -3,7 +3,7 @@ import { Timestamp } from "firebase-admin/firestore";
 import { env } from "../src/env";
 import { db } from "../src/firebase";
 import { sanitizeBlocks } from "../src/services/sanitizeHtml";
-import { seedPages, seedSettings } from "./seedContent";
+import { seedPages, seedSettings } from "@studio/shared/seedContent";
 
 // Carga el contenido inicial (páginas y datos del sitio) con textos de ejemplo.
 //
