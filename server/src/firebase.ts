@@ -7,6 +7,20 @@ import { env } from "./env";
 // - Con emuladores (desarrollo): basta el projectId; firebase-admin detecta solo
 //   FIRESTORE_EMULATOR_HOST y FIREBASE_AUTH_EMULATOR_HOST.
 // - En producción: credenciales de la service account por variables de entorno.
+
+// La clave se copia a mano del JSON de la service account a un panel de hosting, y
+// es fácil arrastrar restos: las comillas, la coma final o los saltos de línea
+// escritos como barra + n (el JSON la guarda en una sola línea). Aquí se deja como
+// la espera firebase-admin.
+function normalizePrivateKey(raw: string): string {
+  return raw
+    .trim()
+    .replace(/,$/, "")
+    .replace(/^["']|["']$/g, "")
+    .replace(/\\n/g, "\n")
+    .trim();
+}
+
 function createFirebaseApp() {
   if (env.usingEmulators) {
     return initializeApp({ projectId: env.FIREBASE_PROJECT_ID });
@@ -31,8 +45,7 @@ function createFirebaseApp() {
     credential: cert({
       projectId: env.FIREBASE_PROJECT_ID,
       clientEmail: env.FIREBASE_CLIENT_EMAIL,
-      // Los paneles de hosting guardan la clave en una sola línea con "\n" literales.
-      privateKey: env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      privateKey: normalizePrivateKey(env.FIREBASE_PRIVATE_KEY),
     }),
   });
 }
