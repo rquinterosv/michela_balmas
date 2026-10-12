@@ -196,19 +196,13 @@ export const seedPages: Record<string, PageInput> = {
         type: "richText",
         data: {
           html:
-            "<p>Per richiedere informazioni o fissare un primo colloquio può compilare il " +
-            "modulo qui sotto oppure usare i recapiti indicati in questa pagina. " +
-            "Le risponderò personalmente, di norma entro due giorni lavorativi.</p>",
+            "<p>Per richiedere informazioni o fissare un primo colloquio può usare i recapiti " +
+            "indicati in questa pagina. Le risponderò personalmente, di norma entro due " +
+            "giorni lavorativi.</p>",
         },
       },
-      {
-        id: "contatti-form",
-        type: "contactForm",
-        data: {
-          title: "Mi scriva",
-          intro: "I campi sono obbligatori, salvo dove indicato diversamente.",
-        },
-      },
+      // El formulario ("Modulo di contatto") no va en el contenido inicial por ahora:
+      // se añade desde el panel como una sección más cuando haga falta.
       {
         id: "contatti-info",
         type: "contactInfo",
