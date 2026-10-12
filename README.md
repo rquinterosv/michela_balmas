@@ -31,7 +31,8 @@ convenciones del código están en [CLAUDE.md](./CLAUDE.md).
 
 ## 1. Requisitos
 
-- **Node 20.12 o superior** (probado con Node 24).
+- **Node 22 o superior** (probado con Node 24). `firebase-admin` 14 lo exige: con
+  Node 20, npm se salta en silencio su dependencia de Firestore y el backend no arranca.
 - **Java (JDK 21 o superior)**, solo para los emuladores de Firebase.
   En Windows: `winget install EclipseAdoptium.Temurin.21.JDK`.
 - **Firebase CLI**: `npm install -g firebase-tools`.
