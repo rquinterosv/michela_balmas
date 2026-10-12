@@ -143,20 +143,26 @@ Ejemplo: un bloque `quote` ("Citazione").
    (TypeScript da error hasta que estén) y las etiquetas del formulario en
    `admin.blockEditors.quote`.
 3. **`client/src/blocks/quote/`**: crear `QuoteRender.tsx` (cómo se ve en el sitio) y
-   `QuoteEditor.tsx` (formulario del panel).
+   `QuoteEditor.tsx` (formulario del panel; recibe `BlockEditorProps<"quote">` y tiene
+   que ser `export default`, porque el registro lo carga con `lazy()`).
 4. **`client/src/blocks/registry.ts`**: agregar la entrada
-   `quote: { label, EditorComponent, RenderComponent, zodSchema, defaultData }`.
+   `quote: { label, description, zodSchema, defaultData, EditorComponent, RenderComponent }`,
+   con `EditorComponent: lazy(() => import("./quote/QuoteEditor"))`.
 5. Si el bloque guarda HTML del editor de texto, sanearlo en el backend igual que
    `richText` (`server/src/services/sanitizeHtml.ts`).
 
 No hay que tocar rutas, repositorios ni reglas de Firestore.
 
-## Estado del proyecto
+## Despliegue y estado
 
-Se construye por fases; al terminar cada una se actualiza esta lista.
-
-- [x] 1. Scaffolding, Firebase/emuladores, tipos compartidos, `it.ts`
-- [x] 2. Backend: API, contacto, admin, seed, `set-admin`, tests
-- [x] 3. Frontend público
-- [x] 4. Panel de administración
-- [ ] 5. Pulido, README completo, revisión final
+- Frontend: sitio estático (`client/dist`). `vercel.json` lo configura para Vercel;
+  `firebase.json` para Firebase Hosting. Backend: `npm run start` en cualquier hosting
+  de Node. Los pasos completos están en el README.
+- El código del panel va en trozos aparte (`lazy` en `App.tsx` y en el registro de
+  bloques): el sitio público no carga Firebase Auth ni TipTap, y funciona aunque
+  falten las variables `VITE_FIREBASE_*` (el panel no).
+- Las cinco fases del plan inicial están hechas. Lo que queda pendiente y las
+  limitaciones conocidas están en el punto 10 del README.
+- Verificado solo con Firebase simulado (tests con `vi.mock` y pruebas manuales con
+  una API falsa): al tocar repositorios, `seed`, `set-admin` o el login, probar con
+  los emuladores (`npm run dev`), que necesitan Java.

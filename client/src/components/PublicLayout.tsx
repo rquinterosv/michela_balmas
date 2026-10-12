@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { it } from "../i18n/it";
 import { api } from "../lib/api";
@@ -17,9 +17,16 @@ export function PublicLayout() {
   const { state, reload } = useLoad(() => Promise.all([api.getSettings(), api.getMenuPages()]), []);
   const { pathname } = useLocation();
 
-  // Cada página nueva empieza arriba.
+  // Cada página nueva empieza arriba, y el foco pasa al contenido para que el lector
+  // de pantalla anuncie el cambio. En la primera carga no se toca el foco.
+  const isFirstRender = useRef(true);
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    document.getElementById(MAIN_ID)?.focus({ preventScroll: true });
   }, [pathname]);
 
   if (state.status === "loading") return <PageLoading />;

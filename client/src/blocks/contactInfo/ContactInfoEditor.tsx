@@ -3,7 +3,7 @@ import { CheckboxField, TextField } from "../../components/TextField";
 import { it } from "../../i18n/it";
 import type { BlockEditorProps } from "../editorTypes";
 
-export function ContactInfoEditor(props: BlockEditorProps<"contactInfo">) {
+export default function ContactInfoEditor(props: BlockEditorProps<"contactInfo">) {
   const { data, onChange, errors, idPrefix } = props;
   const labels = it.admin.blockEditors.contactInfo;
 

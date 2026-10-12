@@ -4,7 +4,11 @@ import { optionalText, optionalUrl, requiredText } from "./fields";
 import { RESERVED_SLUGS, SLUG_PATTERN } from "./slug";
 import { validation } from "./validationMessages.it";
 
-const email = z.string().trim().min(1, validation.required).pipe(z.email(validation.invalidEmail));
+const email = z
+  .string(validation.required)
+  .trim()
+  .min(1, validation.required)
+  .pipe(z.email(validation.invalidEmail));
 
 // Teléfono permisivo: dígitos, espacios y + ( ) . -  Vacío = no informado.
 const optionalPhone = optionalText(30).refine(
@@ -18,8 +22,12 @@ export const contactSchema = z.object({
   name: requiredText(120),
   email,
   phone: optionalPhone,
-  reason: z.string().trim().min(1, validation.invalidReason).max(120),
-  message: z.string().trim().min(10, validation.tooShort(10)).max(4000, validation.tooLong(4000)),
+  reason: z.string(validation.invalidReason).trim().min(1, validation.invalidReason).max(120),
+  message: z
+    .string(validation.required)
+    .trim()
+    .min(10, validation.tooShort(10))
+    .max(4000, validation.tooLong(4000)),
   consent: z.literal(true, validation.consentRequired),
   // Honeypot anti-spam: campo oculto que una persona deja vacío y un bot rellena.
   // Aquí se acepta cualquier texto; la ruta descarta el mensaje si viene relleno.

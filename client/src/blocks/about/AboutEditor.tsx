@@ -8,7 +8,12 @@ import type { BlockEditorProps } from "../editorTypes";
 
 type AboutList = BlockData<"about">["lists"][number];
 
-export function AboutEditor({ data, onChange, errors, idPrefix }: BlockEditorProps<"about">) {
+export default function AboutEditor({
+  data,
+  onChange,
+  errors,
+  idPrefix,
+}: BlockEditorProps<"about">) {
   const labels = it.admin.blockEditors.about;
   const imageLabels = it.admin.blockEditors.image;
 

@@ -3,7 +3,7 @@ import { TextField } from "../../components/TextField";
 import { it } from "../../i18n/it";
 import type { BlockEditorProps } from "../editorTypes";
 
-export function ContactFormEditor(props: BlockEditorProps<"contactForm">) {
+export default function ContactFormEditor(props: BlockEditorProps<"contactForm">) {
   const { data, onChange, errors, idPrefix } = props;
   const labels = it.admin.blockEditors.contactForm;
 

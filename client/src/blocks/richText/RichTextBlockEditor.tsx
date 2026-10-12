@@ -2,7 +2,7 @@ import { RichTextEditor } from "../../admin/RichTextEditor";
 import { it } from "../../i18n/it";
 import type { BlockEditorProps } from "../editorTypes";
 
-export function RichTextBlockEditor(props: BlockEditorProps<"richText">) {
+export default function RichTextBlockEditor(props: BlockEditorProps<"richText">) {
   const { data, onChange, errors, idPrefix } = props;
 
   return (

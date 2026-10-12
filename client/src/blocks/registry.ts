@@ -8,17 +8,11 @@ import {
   type BlockData,
   type BlockType,
 } from "@studio/shared";
-import type { ComponentType } from "react";
+import { lazy, type ComponentType } from "react";
 import type { z } from "zod";
 import { it } from "../i18n/it";
-import { AboutEditor } from "./about/AboutEditor";
 import { AboutRender } from "./about/AboutRender";
-import { ContactFormEditor } from "./contactForm/ContactFormEditor";
-import { ContactInfoEditor } from "./contactInfo/ContactInfoEditor";
 import type { BlockEditorProps } from "./editorTypes";
-import { HeroEditor } from "./hero/HeroEditor";
-import { ImageEditor } from "./image/ImageEditor";
-import { RichTextBlockEditor } from "./richText/RichTextBlockEditor";
 import { ContactFormRender } from "./contactForm/ContactFormRender";
 import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
 import { HeroRender } from "./hero/HeroRender";
@@ -35,7 +29,10 @@ export interface BlockDefinition<T extends BlockType> {
   zodSchema: z.ZodType<BlockData<T>>;
   // Datos de un bloque recién creado.
   defaultData: BlockData<T>;
-  // Formulario de edición en el panel.
+  // Formulario de edición en el panel. Se carga con lazy(): así el código de los
+  // editores (y el editor de texto, que pesa) solo se descarga dentro del panel y
+  // no lo pagan los visitantes del sitio. lazy() exige que el archivo del editor
+  // tenga `export default`.
   EditorComponent: ComponentType<BlockEditorProps<T>>;
   // Cómo se ve en el sitio público.
   RenderComponent: ComponentType<{ data: BlockData<T> }>;
@@ -56,7 +53,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
       buttonLabel: "",
       buttonHref: "",
     },
-    EditorComponent: HeroEditor,
+    EditorComponent: lazy(() => import("./hero/HeroEditor")),
     RenderComponent: HeroRender,
   },
   about: {
@@ -64,7 +61,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.about,
     zodSchema: aboutDataSchema,
     defaultData: { title: "", photoUrl: "", photoAlt: "", html: "", lists: [] },
-    EditorComponent: AboutEditor,
+    EditorComponent: lazy(() => import("./about/AboutEditor")),
     RenderComponent: AboutRender,
   },
   richText: {
@@ -72,7 +69,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.richText,
     zodSchema: richTextDataSchema,
     defaultData: { html: "" },
-    EditorComponent: RichTextBlockEditor,
+    EditorComponent: lazy(() => import("./richText/RichTextBlockEditor")),
     RenderComponent: RichTextRender,
   },
   contactForm: {
@@ -80,7 +77,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.contactForm,
     zodSchema: contactFormDataSchema,
     defaultData: { title: "", intro: "" },
-    EditorComponent: ContactFormEditor,
+    EditorComponent: lazy(() => import("./contactForm/ContactFormEditor")),
     RenderComponent: ContactFormRender,
   },
   contactInfo: {
@@ -94,7 +91,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
       showAddress: true,
       showOnlineSessions: true,
     },
-    EditorComponent: ContactInfoEditor,
+    EditorComponent: lazy(() => import("./contactInfo/ContactInfoEditor")),
     RenderComponent: ContactInfoRender,
   },
   image: {
@@ -102,7 +99,7 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     description: it.blockDescriptions.image,
     zodSchema: imageDataSchema,
     defaultData: { url: "", alt: "", caption: "" },
-    EditorComponent: ImageEditor,
+    EditorComponent: lazy(() => import("./image/ImageEditor")),
     RenderComponent: ImageRender,
   },
 };

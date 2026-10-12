@@ -2,11 +2,17 @@ import { z } from "zod";
 import { validation } from "./validationMessages.it";
 
 // Piezas reutilizables para armar los esquemas.
+// z.string(mensaje): el mensaje sale si el campo falta o no es texto.
 
 export const requiredText = (max: number) =>
-  z.string().trim().min(1, validation.required).max(max, validation.tooLong(max));
+  z
+    .string(validation.required)
+    .trim()
+    .min(1, validation.required)
+    .max(max, validation.tooLong(max));
 
-export const optionalText = (max: number) => z.string().trim().max(max, validation.tooLong(max));
+export const optionalText = (max: number) =>
+  z.string(validation.required).trim().max(max, validation.tooLong(max));
 
 const isHttpUrl = (value: string) => /^https?:\/\/\S+$/.test(value);
 // Ruta local: empieza con una sola barra ("/contatti", "/images/foto.jpg").

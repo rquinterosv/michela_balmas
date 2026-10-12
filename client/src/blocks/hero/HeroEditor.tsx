@@ -3,7 +3,7 @@ import { TextField } from "../../components/TextField";
 import { it } from "../../i18n/it";
 import type { BlockEditorProps } from "../editorTypes";
 
-export function HeroEditor({ data, onChange, errors, idPrefix }: BlockEditorProps<"hero">) {
+export default function HeroEditor({ data, onChange, errors, idPrefix }: BlockEditorProps<"hero">) {
   const labels = it.admin.blockEditors.hero;
   const imageLabels = it.admin.blockEditors.image;
 

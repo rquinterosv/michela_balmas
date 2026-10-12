@@ -1,5 +1,5 @@
 import type { Block, BlockType } from "@studio/shared";
-import { useState, type ComponentType } from "react";
+import { Suspense, useState, type ComponentType } from "react";
 import type { BlockEditorProps } from "../blocks/editorTypes";
 import { blockRegistry } from "../blocks/registry";
 import { it } from "../i18n/it";
@@ -135,18 +135,21 @@ export function BlockListEditor({ blocks, onChange, errors }: BlockListEditorPro
 
               {/* Se oculta en vez de desmontarse: así el editor de texto no pierde su estado. */}
               <div id={panelId} hidden={!isOpen} className={styles.blockBody}>
-                <Editor
-                  data={block.data}
-                  errors={blockErrors}
-                  idPrefix={`block-${block.id}`}
-                  onChange={(data) =>
-                    onChange(
-                      blocks.map((old) =>
-                        old.id === block.id ? ({ ...old, data } as Block) : old,
-                      ),
-                    )
-                  }
-                />
+                {/* Suspense: el formulario se descarga la primera vez que hace falta. */}
+                <Suspense fallback={<p>{it.admin.common.loading}</p>}>
+                  <Editor
+                    data={block.data}
+                    errors={blockErrors}
+                    idPrefix={`block-${block.id}`}
+                    onChange={(data) =>
+                      onChange(
+                        blocks.map((old) =>
+                          old.id === block.id ? ({ ...old, data } as Block) : old,
+                        ),
+                      )
+                    }
+                  />
+                </Suspense>
               </div>
             </li>
           );

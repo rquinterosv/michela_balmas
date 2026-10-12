@@ -3,7 +3,12 @@ import { TextField } from "../../components/TextField";
 import { it } from "../../i18n/it";
 import type { BlockEditorProps } from "../editorTypes";
 
-export function ImageEditor({ data, onChange, errors, idPrefix }: BlockEditorProps<"image">) {
+export default function ImageEditor({
+  data,
+  onChange,
+  errors,
+  idPrefix,
+}: BlockEditorProps<"image">) {
   const labels = it.admin.blockEditors.image;
 
   return (
