@@ -7,6 +7,7 @@ z.config(z.locales.it());
 
 export * from "./blocks";
 export * from "./fieldErrors";
+export * from "./images";
 export * from "./schemas";
 export * from "./siteTexts.it";
 export * from "./slug";

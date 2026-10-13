@@ -2,6 +2,7 @@ import type { MenuPage } from "@studio/shared";
 import { Router } from "express";
 import { HttpError } from "../middleware/errorHandler";
 import { messages } from "../messages.it";
+import { getImage } from "../repositories/images";
 import { getPageBySlug, listPublishedPages } from "../repositories/pages";
 import { getSettings } from "../repositories/settings";
 
@@ -31,4 +32,21 @@ publicRouter.get("/pages/:slug", async (req, res) => {
 
 publicRouter.get("/settings", async (_req, res) => {
   res.json(await getSettings());
+});
+
+// Imágenes subidas desde el panel (siempre JPEG, ver adminImages.ts).
+publicRouter.get("/images/:id", async (req, res) => {
+  const image = await getImage(req.params.id);
+  if (!image) throw new HttpError(404, messages.imageNotFound);
+
+  res.set({
+    "Content-Type": "image/jpeg",
+    // Una imagen subida no cambia nunca (una nueva tiene otro id): el navegador
+    // puede guardarla un año y no volver a pedirla.
+    "Cache-Control": "public, max-age=31536000, immutable",
+    // helmet solo deja usar las respuestas desde el mismo origen; el sitio público
+    // está en otro dominio que el backend y tiene que poder mostrar la imagen.
+    "Cross-Origin-Resource-Policy": "cross-origin",
+  });
+  res.send(image);
 });

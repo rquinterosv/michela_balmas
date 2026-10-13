@@ -515,3 +515,26 @@
 .blockSection {
   margin-bottom: var(--space-8);
 }
+
+/* Campo de imagen: botón para subir una foto y enlace para quitarla. */
+.imageActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin: calc(-1 * var(--space-3)) 0 var(--space-6);
+}
+
+.uploadButton {
+  cursor: pointer;
+}
+
+/* El <input type="file"> está oculto: el foco se dibuja en la etiqueta. */
+.uploadButton:focus-within {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.imageActions + .imagePreview {
+  margin-top: 0;
+}

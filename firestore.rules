@@ -17,6 +17,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Imágenes subidas desde el panel: las sirve el backend (GET /api/images/:id).
+    match /images/{imageId} {
+      allow read, write: if false;
+    }
+
     // Mensajes del formulario: sin acceso desde el cliente.
     match /messages/{messageId} {
       allow read, write: if false;

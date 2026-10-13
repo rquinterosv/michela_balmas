@@ -1,6 +1,7 @@
 import type { BlockData } from "@studio/shared";
 import { RichText } from "../../components/RichText";
 import styles from "./About.module.css";
+import { imageSrc } from "../../lib/images";
 
 // Presentación: foto, texto y listas (formazione, specializzazioni, approccio).
 export function AboutRender({ data }: { data: BlockData<"about"> }) {
@@ -11,7 +12,7 @@ export function AboutRender({ data }: { data: BlockData<"about"> }) {
           {data.photoUrl && (
             <img
               className={styles.photo}
-              src={data.photoUrl}
+              src={imageSrc(data.photoUrl)}
               alt={data.photoAlt}
               width={600}
               height={750}

@@ -82,6 +82,7 @@ siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber,
                     phone, address, onlineSessions, social{instagram,linkedin},
                     contactReasons[], texts{onlineSessions,alboPrefix,vatLabel,copyright,
                     emailLabel,phoneLabel,addressLabel}
+images/{id}         data (bytes del JPEG), createdAt
 messages/{id}       name, email, phone, reason, message, consent, consentAt,
                     status ("nuovo" | "letto" | "risposto"), createdAt
 ```
@@ -92,16 +93,24 @@ La página con `slug: "home"` se sirve en `/` y no se puede eliminar. Los slugs 
 ### API
 
 Públicos: `GET /api/pages`, `GET /api/pages/:slug`, `GET /api/settings`,
-`POST /api/contact`.
+`GET /api/images/:id`, `POST /api/contact`.
 
 Admin (`requireAdmin`): `GET/POST /api/admin/pages`,
 `PATCH /api/admin/pages/reorder`, `GET/PUT/DELETE /api/admin/pages/:id`,
 `GET/PUT /api/admin/settings`, `GET /api/admin/messages`,
-`PATCH/DELETE /api/admin/messages/:id`.
+`PATCH/DELETE /api/admin/messages/:id`, `POST /api/admin/images`.
 
 Las rutas lanzan `HttpError` (o dejan que falle `schema.parse`) y `errorHandler` arma la
 respuesta. La página `home` no puede eliminarse, despublicarse ni cambiar de slug. El
 email de aviso (opcional, Resend) no incluye el texto del mensaje, por privacidad.
+
+### Imágenes
+
+Se suben desde el panel (`admin/ImageField`): el navegador las reduce y las pasa a JPEG
+(`admin/resizeImage.ts`), y el backend las guarda en Firestore, no en Storage (plan de
+pago). En la página se guarda la dirección `/api/images/<id>`, relativa al backend: todo
+`<img>` de contenido tiene que pasar su dirección por `imageSrc()` (`lib/images.ts`), o
+la imagen no se verá en producción, donde frontend y backend están en dominios distintos.
 
 ## Comandos (desde la raíz)
 

@@ -9,7 +9,7 @@ import {
 import { it } from "../i18n/it";
 
 // Vacío en desarrollo: las peticiones a /api las redirige Vite al backend local.
-const API_URL = import.meta.env.VITE_API_URL ?? "";
+export const API_URL = import.meta.env.VITE_API_URL ?? "";
 
 // Modo demo: un build de producción sin VITE_API_URL no tiene a quién pedirle el
 // contenido, así que el sitio público muestra el contenido de ejemplo (demoApi.ts).

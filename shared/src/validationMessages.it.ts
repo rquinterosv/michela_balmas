@@ -10,6 +10,8 @@ export const validation = {
   invalidUrl: "Inserire un indirizzo web valido (es. https://www.esempio.it)",
   invalidImageUrl:
     "Inserire un indirizzo valido per l'immagine (es. https://… oppure /images/foto.jpg)",
+  invalidImageFile: "Il file scelto non è un'immagine valida",
+  imageTooLarge: "L'immagine è troppo grande",
   invalidLink: "Inserire un collegamento valido (es. /contatti oppure https://…)",
   consentRequired: "Per inviare il messaggio è necessario acconsentire al trattamento dei dati",
   invalidReason: "Selezionare un motivo del contatto",

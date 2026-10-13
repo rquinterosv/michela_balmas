@@ -24,9 +24,8 @@ export const optionalUrl = optionalText(500).refine(
   validation.invalidUrl,
 );
 
-// Imagen: URL externa o archivo de /client/public (p. ej. /images/foto.jpg). Puede quedar vacía.
-// TODO: cuando se integre Firebase Storage o Cloudinary, este campo seguirá guardando
-// la URL final de la imagen subida, así que el esquema no debería cambiar.
+// Imagen: URL externa, archivo de /client/public (p. ej. /images/foto.jpg) o imagen
+// subida desde el panel ("/api/images/<id>", ver images.ts). Puede quedar vacía.
 export const optionalImageUrl = optionalText(500).refine(
   (value) => value === "" || isHttpUrl(value) || isLocalPath(value),
   validation.invalidImageUrl,

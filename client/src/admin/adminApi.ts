@@ -40,4 +40,7 @@ export const adminApi = {
   updateMessageStatus: (id: string, status: MessageStatus) =>
     adminRequest<Message>(`/messages/${id}`, "PATCH", { status }),
   deleteMessage: (id: string) => adminRequest<void>(`/messages/${id}`, "DELETE"),
+
+  // Sube un JPEG en base64; devuelve la dirección que se guarda en la página.
+  uploadImage: (data: string) => adminRequest<{ url: string }>("/images", "POST", { data }),
 };

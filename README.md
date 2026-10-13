@@ -297,11 +297,14 @@ npm run start        # backend en modo producción
 
 ## 10. Cosas pendientes y limitaciones
 
-- **Imágenes:** el panel pide la dirección (URL) de cada imagen. Los archivos
-  propios van en `client/public/images/` y se usan como `/images/archivo.jpg`
-  (hace falta volver a desplegar). El lugar para integrar una subida real con
-  Firebase Storage o Cloudinary está marcado con un `TODO` en
-  `client/src/admin/ImageField.tsx`. Firebase Storage exige el plan Blaze.
+- **Imágenes:** se suben desde el panel. El navegador las reduce (lado mayor de
+  1600 px como mucho) y las convierte a JPEG de menos de 600 kB, y el backend las
+  guarda en Firestore (colección `images`), no en Firebase Storage, que exige el
+  plan Blaze. Consecuencias: un PNG con transparencia queda con fondo blanco; las
+  imágenes las sirve el backend, así que la primera tarda si el hosting gratuito
+  estaba dormido; y una imagen que se deja de usar no se borra sola (ocupa sitio
+  en el 1 GB gratuito de Firestore, que da para unas 2.000). También se puede
+  pegar la dirección de una imagen externa.
 - **Cookies y analytics:** el sitio no usa analytics ni cookies de terceros, y
   las fuentes se sirven desde el propio sitio; por eso no hay banner. Si se
   añade analytics u otro servicio externo, hay que poner un banner de

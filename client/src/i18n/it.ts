@@ -225,7 +225,17 @@ export const it = {
     blockEditors: {
       image: {
         url: "Indirizzo dell'immagine",
-        urlHelp: "Incollare l'indirizzo web dell'immagine (es. https://… oppure /images/foto.jpg).",
+        urlHelp:
+          "Si compila da solo quando si carica un'immagine. In alternativa, incollare " +
+          "l'indirizzo web di un'immagine (es. https://…).",
+        upload: "Carica un'immagine dal computer",
+        replace: "Sostituisci l'immagine",
+        uploading: "Caricamento dell'immagine…",
+        uploaded: "Immagine caricata. Ricordarsi di salvare la pagina.",
+        remove: "Rimuovi l'immagine",
+        errorNotImage:
+          "Non è stato possibile leggere il file. Scegliere un'immagine in formato JPG o PNG.",
+        errorUpload: "Non è stato possibile caricare l'immagine. Riprovare.",
         alt: "Descrizione dell'immagine",
         altHelp: "Viene letta dai lettori di schermo a chi non può vedere l'immagine.",
         caption: "Didascalia",

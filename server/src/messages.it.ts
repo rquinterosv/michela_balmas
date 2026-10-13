@@ -5,6 +5,7 @@ export const messages = {
   notFound: "Risorsa non trovata.",
   pageNotFound: "Pagina non trovata.",
   messageNotFound: "Messaggio non trovato.",
+  imageNotFound: "Immagine non trovata.",
   invalidRequest: "Richiesta non valida.",
   validation: "Alcuni dati non sono validi. Controllare i campi evidenziati.",
   internal: "Si è verificato un errore imprevisto. Riprovare più tardi.",

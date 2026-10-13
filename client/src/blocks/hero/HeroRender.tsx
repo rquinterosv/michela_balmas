@@ -1,6 +1,7 @@
 import type { BlockData } from "@studio/shared";
 import { SmartLink } from "../../components/SmartLink";
 import styles from "./Hero.module.css";
+import { imageSrc } from "../../lib/images";
 
 // Cabecera de página: título grande (el <h1>), subtítulo, botón e imagen.
 export function HeroRender({ data }: { data: BlockData<"hero"> }) {
@@ -19,7 +20,7 @@ export function HeroRender({ data }: { data: BlockData<"hero"> }) {
         {data.imageUrl && (
           <img
             className={styles.image}
-            src={data.imageUrl}
+            src={imageSrc(data.imageUrl)}
             // Sin descripción, la imagen es decorativa y el lector de pantalla la salta.
             alt={data.imageAlt}
             width={1200}
