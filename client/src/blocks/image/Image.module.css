@@ -6,12 +6,18 @@
   margin: 0;
 }
 
+/* La imagen conserva su proporción. Una horizontal ocupa el ancho; a una vertical
+   se le limita el alto para que no llene varias pantallas, y queda centrada. */
 .image {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 40rem;
+  margin-inline: auto;
   border-radius: var(--radius);
 }
 
 .caption {
+  text-align: center;
   margin-top: var(--space-2);
   font-size: var(--text-sm);
   color: var(--color-text-muted);

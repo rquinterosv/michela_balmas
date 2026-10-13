@@ -23,8 +23,6 @@ export function HeroRender({ data }: { data: BlockData<"hero"> }) {
             src={imageSrc(data.imageUrl)}
             // Sin descripción, la imagen es decorativa y el lector de pantalla la salta.
             alt={data.imageAlt}
-            width={1200}
-            height={800}
           />
         )}
       </div>

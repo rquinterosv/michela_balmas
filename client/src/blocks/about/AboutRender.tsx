@@ -8,14 +8,13 @@ export function AboutRender({ data }: { data: BlockData<"about"> }) {
   return (
     <section className={styles.about}>
       <div className="container">
-        <div className={styles.intro}>
+        {/* Sin foto, el texto ocupa todo el ancho en vez de la columna de la foto. */}
+        <div className={data.photoUrl ? `${styles.intro} ${styles.withPhoto}` : styles.intro}>
           {data.photoUrl && (
             <img
               className={styles.photo}
               src={imageSrc(data.photoUrl)}
               alt={data.photoAlt}
-              width={600}
-              height={750}
               loading="lazy"
             />
           )}

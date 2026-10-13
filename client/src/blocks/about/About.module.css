@@ -9,11 +9,11 @@
   align-items: start;
 }
 
+/* La foto conserva su proporción (vertical u horizontal): no se recorta. */
 .photo {
-  width: 100%;
-  max-width: 20rem;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  width: auto;
+  max-width: min(100%, 20rem);
+  max-height: 28rem;
   border-radius: var(--radius);
 }
 
@@ -57,7 +57,7 @@
     padding-block: var(--space-24);
   }
 
-  .intro {
+  .withPhoto {
     grid-template-columns: 20rem 1fr;
     gap: var(--space-16);
   }
