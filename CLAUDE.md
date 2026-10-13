@@ -60,12 +60,18 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 
 ### Dónde viven los textos en italiano
 
-| Qué                                         | Dónde                                 |
-| ------------------------------------------- | ------------------------------------- |
-| Interfaz (sitio público y panel)            | `client/src/i18n/it.ts`               |
-| Validación de formularios (client y server) | `shared/src/validationMessages.it.ts` |
-| Errores de la API y plantilla de email      | `server/src/messages.it.ts`           |
-| Contenido de ejemplo (seed y modo demo)     | `shared/src/seedContent.ts`           |
+| Qué                                           | Dónde                                 |
+| --------------------------------------------- | ------------------------------------- |
+| Interfaz (sitio público y panel)              | `client/src/i18n/it.ts`               |
+| Validación de formularios (client y server)   | `shared/src/validationMessages.it.ts` |
+| Errores de la API y plantilla de email        | `server/src/messages.it.ts`           |
+| Contenido de ejemplo (seed y modo demo)       | `shared/src/seedContent.ts`           |
+| Rótulos del pie y de los recapiti (iniciales) | `shared/src/siteTexts.it.ts`          |
+
+Los rótulos del pie y de los recapiti no están en `it.ts`: son editables desde el panel
+("Impostazioni del sito" > "Testi del sito") y se guardan en `siteSettings.texts`.
+`siteTexts.it.ts` solo da el valor inicial. Un texto visible en el sitio público que la
+profesional pueda querer cambiar va ahí, no en `it.ts`.
 
 ### Modelo de datos (Firestore)
 
@@ -74,7 +80,8 @@ pages/{pageId}      title, slug, order, published, showInMenu, seo{title,descrip
                     blocks[{id,type,data}], updatedAt
 siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber, email,
                     phone, address, onlineSessions, social{instagram,linkedin},
-                    contactReasons[]
+                    contactReasons[], texts{onlineSessions,alboPrefix,vatLabel,copyright,
+                    emailLabel,phoneLabel,addressLabel}
 messages/{id}       name, email, phone, reason, message, consent, consentAt,
                     status ("nuovo" | "letto" | "risposto"), createdAt
 ```

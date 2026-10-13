@@ -1,3 +1,4 @@
+import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import type { PageInput, SiteSettings } from "./types";
 
 // Contenido de ejemplo en italiano. TODOS los datos son ficticios (nombre, número
@@ -20,6 +21,7 @@ export const seedSettings: SiteSettings = {
     "Colloqui online",
     "Altro",
   ],
+  texts: DEFAULT_SITE_TEXTS,
 };
 
 const DRAFT_NOTICE =

@@ -169,6 +169,61 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className={styles.card}>
+        <h2>{labels.textsSection}</h2>
+        <p className={styles.help}>{labels.textsHelp}</p>
+        <TextField
+          id="settings-text-onlineSessions"
+          label={labels.textOnlineSessions}
+          hint={labels.textOnlineSessionsHelp}
+          value={draft.texts.onlineSessions}
+          onChange={(onlineSessions) => update({ texts: { ...draft.texts, onlineSessions } })}
+          error={errors["texts.onlineSessions"]}
+        />
+        <TextField
+          id="settings-text-alboPrefix"
+          label={labels.textAlboPrefix}
+          value={draft.texts.alboPrefix}
+          onChange={(alboPrefix) => update({ texts: { ...draft.texts, alboPrefix } })}
+          error={errors["texts.alboPrefix"]}
+        />
+        <TextField
+          id="settings-text-vatLabel"
+          label={labels.textVatLabel}
+          value={draft.texts.vatLabel}
+          onChange={(vatLabel) => update({ texts: { ...draft.texts, vatLabel } })}
+          error={errors["texts.vatLabel"]}
+        />
+        <TextField
+          id="settings-text-copyright"
+          label={labels.textCopyright}
+          value={draft.texts.copyright}
+          onChange={(copyright) => update({ texts: { ...draft.texts, copyright } })}
+          error={errors["texts.copyright"]}
+        />
+        <TextField
+          id="settings-text-emailLabel"
+          label={labels.textEmailLabel}
+          value={draft.texts.emailLabel}
+          onChange={(emailLabel) => update({ texts: { ...draft.texts, emailLabel } })}
+          error={errors["texts.emailLabel"]}
+        />
+        <TextField
+          id="settings-text-phoneLabel"
+          label={labels.textPhoneLabel}
+          value={draft.texts.phoneLabel}
+          onChange={(phoneLabel) => update({ texts: { ...draft.texts, phoneLabel } })}
+          error={errors["texts.phoneLabel"]}
+        />
+        <TextField
+          id="settings-text-addressLabel"
+          label={labels.textAddressLabel}
+          value={draft.texts.addressLabel}
+          onChange={(addressLabel) => update({ texts: { ...draft.texts, addressLabel } })}
+          error={errors["texts.addressLabel"]}
+        />
+      </section>
+
+      <section className={styles.card}>
         <h2>{labels.reasonsSection}</h2>
         <p className={styles.help}>{labels.reasonsHelp}</p>
         {draft.contactReasons.map((reason, index) => (

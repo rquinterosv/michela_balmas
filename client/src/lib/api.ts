@@ -1,4 +1,11 @@
-import type { ApiError, ContactInput, MenuPage, Page, SiteSettings } from "@studio/shared";
+import {
+  withDefaultSiteTexts,
+  type ApiError,
+  type ContactInput,
+  type MenuPage,
+  type Page,
+  type SiteSettings,
+} from "@studio/shared";
 import { it } from "../i18n/it";
 
 // Vacío en desarrollo: las peticiones a /api las redirige Vite al backend local.
@@ -67,7 +74,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 const liveApi = {
   getMenuPages: () => apiRequest<MenuPage[]>("/pages"),
   getPage: (slug: string) => apiRequest<Page>(`/pages/${encodeURIComponent(slug)}`),
-  getSettings: () => apiRequest<SiteSettings>("/settings"),
+  getSettings: () => apiRequest<SiteSettings>("/settings").then(withDefaultSiteTexts),
   sendContact: (input: ContactInput) =>
     apiRequest<{ ok: true }>("/contact", { method: "POST", body: input }),
 };

@@ -5,11 +5,8 @@ import { DEMO_MODE } from "../lib/api";
 import { pagePath, phoneHref } from "../lib/paths";
 import styles from "./Footer.module.css";
 
-// Páginas legales: no salen en el menú, solo aquí.
-const LEGAL_PAGES = [
-  { slug: "privacy-policy", label: it.footer.privacyPolicy },
-  { slug: "cookie-policy", label: it.footer.cookiePolicy },
-];
+// Páginas legales: no salen en el menú, solo aquí. Se enlazan con su título.
+const LEGAL_SLUGS = ["privacy-policy", "cookie-policy"];
 
 interface FooterProps {
   settings: SiteSettings;
@@ -20,8 +17,8 @@ interface FooterProps {
 // Pie de página con los datos que la normativa italiana exige a un profesional:
 // nombre completo, título, iscrizione all'Albo y Partita IVA, más los enlaces legales.
 export function Footer({ settings, pages }: FooterProps) {
-  const { albo, social } = settings;
-  const legalPages = LEGAL_PAGES.filter((legal) => pages.some((page) => page.slug === legal.slug));
+  const { albo, social, texts } = settings;
+  const legalPages = pages.filter((page) => LEGAL_SLUGS.includes(page.slug));
   const socialLinks = [
     { label: "Instagram", url: social.instagram },
     { label: "LinkedIn", url: social.linkedin },
@@ -33,13 +30,15 @@ export function Footer({ settings, pages }: FooterProps) {
         <div>
           <p className={styles.name}>{settings.siteName}</p>
           <p>{settings.professionalTitle}</p>
-          {albo.region && albo.number && <p>{it.footer.albo(albo.region, albo.number)}</p>}
-          {settings.vatNumber && <p>{it.footer.vatNumber(settings.vatNumber)}</p>}
+          {albo.region && albo.number && (
+            <p>{it.footer.albo(texts.alboPrefix, albo.region, albo.number)}</p>
+          )}
+          {settings.vatNumber && <p>{it.footer.vatNumber(texts.vatLabel, settings.vatNumber)}</p>}
         </div>
 
         <address className={styles.contact}>
           {settings.address && <p>{settings.address}</p>}
-          {settings.onlineSessions && <p>{it.footer.onlineSessions}</p>}
+          {settings.onlineSessions && <p>{texts.onlineSessions}</p>}
           {settings.email && (
             <p>
               <a href={`mailto:${settings.email}`}>{settings.email}</a>
@@ -58,7 +57,7 @@ export function Footer({ settings, pages }: FooterProps) {
               <ul className={styles.links}>
                 {legalPages.map((legal) => (
                   <li key={legal.slug}>
-                    <Link to={pagePath(legal.slug)}>{legal.label}</Link>
+                    <Link to={pagePath(legal.slug)}>{legal.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -81,7 +80,7 @@ export function Footer({ settings, pages }: FooterProps) {
 
       <div className="container">
         <div className={styles.bottom}>
-          <p>{it.footer.copyright(new Date().getFullYear(), settings.siteName)}</p>
+          <p>{it.footer.copyright(new Date().getFullYear(), settings.siteName, texts.copyright)}</p>
           {/* Acceso discreto al panel: una recarga completa, el panel es otra "zona".
               En modo demo no hay panel (necesita Firebase), así que no se enlaza. */}
           {!DEMO_MODE && (

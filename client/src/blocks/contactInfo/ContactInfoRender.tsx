@@ -1,12 +1,13 @@
 import type { BlockData } from "@studio/shared";
-import { it } from "../../i18n/it";
 import { phoneHref } from "../../lib/paths";
 import { useSiteSettings } from "../../lib/SiteSettingsContext";
 import styles from "./ContactInfo.module.css";
 
-// Recapiti: los datos salen de "Impostazioni del sito"; el bloque decide cuáles mostrar.
+// Recapiti: los datos y sus rótulos salen de "Impostazioni del sito"; el bloque
+// decide cuáles mostrar.
 export function ContactInfoRender({ data }: { data: BlockData<"contactInfo"> }) {
   const settings = useSiteSettings();
+  const { texts } = settings;
 
   const showEmail = data.showEmail && settings.email;
   const showPhone = data.showPhone && settings.phone;
@@ -20,7 +21,7 @@ export function ContactInfoRender({ data }: { data: BlockData<"contactInfo"> }) 
         <dl className={styles.list}>
           {showEmail && (
             <div className={styles.item}>
-              <dt>{it.contactInfo.email}</dt>
+              <dt>{texts.emailLabel}</dt>
               <dd>
                 <a href={`mailto:${settings.email}`}>{settings.email}</a>
               </dd>
@@ -28,7 +29,7 @@ export function ContactInfoRender({ data }: { data: BlockData<"contactInfo"> }) 
           )}
           {showPhone && (
             <div className={styles.item}>
-              <dt>{it.contactInfo.phone}</dt>
+              <dt>{texts.phoneLabel}</dt>
               <dd>
                 <a href={phoneHref(settings.phone)}>{settings.phone}</a>
               </dd>
@@ -36,12 +37,12 @@ export function ContactInfoRender({ data }: { data: BlockData<"contactInfo"> }) 
           )}
           {showAddress && (
             <div className={styles.item}>
-              <dt>{it.contactInfo.address}</dt>
+              <dt>{texts.addressLabel}</dt>
               <dd>{settings.address}</dd>
             </div>
           )}
         </dl>
-        {showOnline && <p className={styles.online}>{it.contactInfo.onlineSessions}</p>}
+        {showOnline && <p className={styles.online}>{texts.onlineSessions}</p>}
       </div>
     </section>
   );

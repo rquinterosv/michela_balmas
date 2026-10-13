@@ -35,23 +35,14 @@ export const it = {
   },
 
   footer: {
-    albo: (region: string, number: string) =>
-      `Iscritta all'Albo degli Psicologi ${region} n. ${number}`,
-    vatNumber: (vatNumber: string) => `P. IVA ${vatNumber}`,
-    onlineSessions: "Colloqui anche online",
+    // Las diciture (prefix, label, text) las escribe la profesional en el panel:
+    // "Impostazioni del sito" > "Testi del sito".
+    albo: (prefix: string, region: string, number: string) => `${prefix} ${region} n. ${number}`,
+    vatNumber: (label: string, vatNumber: string) => `${label} ${vatNumber}`,
     legalLabel: "Informazioni legali",
-    privacyPolicy: "Privacy Policy",
-    cookiePolicy: "Cookie Policy",
     socialLabel: "Profili social",
     reservedArea: "Area riservata",
-    copyright: (year: number, name: string) => `© ${year} ${name}. Tutti i diritti riservati.`,
-  },
-
-  contactInfo: {
-    email: "Email",
-    phone: "Telefono",
-    address: "Studio",
-    onlineSessions: "Colloqui anche online",
+    copyright: (year: number, name: string, text: string) => `© ${year} ${name}. ${text}`,
   },
 
   contactForm: {
@@ -273,7 +264,7 @@ export const it = {
         showEmail: "Email",
         showPhone: "Telefono",
         showAddress: "Indirizzo dello studio",
-        showOnlineSessions: "Dicitura «Colloqui anche online»",
+        showOnlineSessions: "Dicitura sui colloqui online",
         help: "I recapiti si modificano in «Impostazioni del sito».",
       },
     },
@@ -314,6 +305,16 @@ export const it = {
       socialSection: "Profili social",
       instagram: "Instagram (indirizzo del profilo)",
       linkedin: "LinkedIn (indirizzo del profilo)",
+      textsSection: "Testi del sito",
+      textsHelp: "Le diciture fisse che compaiono in fondo a ogni pagina e nei recapiti.",
+      textOnlineSessions: "Dicitura sui colloqui online",
+      textOnlineSessionsHelp: "Compare solo se è selezionato «Offro colloqui anche online».",
+      textAlboPrefix: "Dicitura prima dell'Ordine regionale",
+      textVatLabel: "Dicitura prima della Partita IVA",
+      textCopyright: "Dicitura dopo il nome, in fondo alla pagina",
+      textEmailLabel: "Etichetta dell'email nei recapiti",
+      textPhoneLabel: "Etichetta del telefono nei recapiti",
+      textAddressLabel: "Etichetta dell'indirizzo nei recapiti",
       reasonsSection: "Motivi del contatto",
       reasonsHelp: "Le opzioni tra cui il visitatore può scegliere nel modulo di contatto.",
       reason: "Motivo",

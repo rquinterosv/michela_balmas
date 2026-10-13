@@ -2,6 +2,7 @@ import { z } from "zod";
 import { blockSchema } from "./blocks";
 import { optionalText, optionalUrl, requiredText } from "./fields";
 import { RESERVED_SLUGS, SLUG_PATTERN } from "./slug";
+import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import { validation } from "./validationMessages.it";
 
 const email = z
@@ -80,6 +81,18 @@ export const siteSettingsSchema = z.object({
     linkedin: optionalUrl,
   }),
   contactReasons: z.array(requiredText(120)).min(1, validation.atLeastOneReason).max(20),
+  // Rótulos fijos del sitio, editables desde el panel (ver siteTexts.it.ts).
+  texts: z
+    .object({
+      onlineSessions: requiredText(120),
+      alboPrefix: requiredText(120),
+      vatLabel: requiredText(40),
+      copyright: requiredText(120),
+      emailLabel: requiredText(40),
+      phoneLabel: requiredText(40),
+      addressLabel: requiredText(40),
+    })
+    .default(DEFAULT_SITE_TEXTS),
 });
 
 // --- Mensajes ---

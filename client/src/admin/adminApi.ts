@@ -1,4 +1,11 @@
-import type { Message, MessageStatus, Page, PageInput, SiteSettings } from "@studio/shared";
+import {
+  withDefaultSiteTexts,
+  type Message,
+  type MessageStatus,
+  type Page,
+  type PageInput,
+  type SiteSettings,
+} from "@studio/shared";
 import { auth } from "../firebase";
 import { it } from "../i18n/it";
 import { apiRequest, ApiRequestError } from "../lib/api";
@@ -24,7 +31,7 @@ export const adminApi = {
   // ids de todas las páginas en su nuevo orden; devuelve la lista ya reordenada.
   reorderPages: (ids: string[]) => adminRequest<Page[]>("/pages/reorder", "PATCH", { ids }),
 
-  getSettings: () => adminRequest<SiteSettings>("/settings"),
+  getSettings: () => adminRequest<SiteSettings>("/settings").then(withDefaultSiteTexts),
   saveSettings: (settings: SiteSettings) =>
     adminRequest<SiteSettings>("/settings", "PUT", settings),
 
