@@ -1,0 +1,25 @@
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Círculo de 44 px: el tamaño mínimo cómodo para tocar con el dedo. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.icon:hover {
+  background: var(--color-primary-hover);
+  color: var(--color-on-primary);
+}

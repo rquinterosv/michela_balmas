@@ -16,11 +16,3 @@ export const DEFAULT_SITE_TEXTS = {
   phoneLabel: "Telefono",
   addressLabel: "Studio",
 };
-
-// Completa los textos que falten con su valor por defecto. Hace falta cuando los
-// datos guardados (o un backend aún sin actualizar) son anteriores a un texto nuevo.
-export function withDefaultSiteTexts<T extends { texts?: Partial<typeof DEFAULT_SITE_TEXTS> }>(
-  settings: T,
-): T & { texts: typeof DEFAULT_SITE_TEXTS } {
-  return { ...settings, texts: { ...DEFAULT_SITE_TEXTS, ...settings.texts } };
-}

@@ -50,10 +50,18 @@
   cursor: pointer;
 }
 
+/* Iconos de contacto. En móvil van en una fila propia, bajo el nombre; el menú,
+   cuando se abre, queda debajo de ellos. */
+.icons {
+  flex-basis: 100%;
+  order: 1;
+}
+
 /* Móvil: el menú ocupa toda la fila y solo se ve cuando está abierto */
 .nav {
   display: none;
   flex-basis: 100%;
+  order: 2;
 }
 
 .navOpen {
@@ -97,6 +105,15 @@
   .nav {
     display: block;
     flex-basis: auto;
+    order: 0;
+    /* Empuja el menú y los iconos a la derecha, junto al borde. */
+    margin-left: auto;
+  }
+
+  .icons {
+    flex-basis: auto;
+    order: 0;
+    margin-left: var(--space-4);
   }
 
   .nav ul {

@@ -77,6 +77,7 @@ export const siteSettingsSchema = z.object({
   address: optionalText(300),
   onlineSessions: z.boolean(),
   social: z.object({
+    facebook: optionalUrl,
     instagram: optionalUrl,
     linkedin: optionalUrl,
   }),

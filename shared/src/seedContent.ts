@@ -14,7 +14,7 @@ export const seedSettings: SiteSettings = {
   phone: "+39 000 000 0000",
   address: "Via Esempio 1, 20100 Milano (MI)",
   onlineSessions: true,
-  social: { instagram: "", linkedin: "" },
+  social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [
     "Primo colloquio conoscitivo",
     "Informazioni sui percorsi",

@@ -1,5 +1,5 @@
 import {
-  withDefaultSiteTexts,
+  withSettingsDefaults,
   type ApiError,
   type ContactInput,
   type MenuPage,
@@ -74,7 +74,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 const liveApi = {
   getMenuPages: () => apiRequest<MenuPage[]>("/pages"),
   getPage: (slug: string) => apiRequest<Page>(`/pages/${encodeURIComponent(slug)}`),
-  getSettings: () => apiRequest<SiteSettings>("/settings").then(withDefaultSiteTexts),
+  getSettings: () => apiRequest<SiteSettings>("/settings").then(withSettingsDefaults),
   sendContact: (input: ContactInput) =>
     apiRequest<{ ok: true }>("/contact", { method: "POST", body: input }),
 };

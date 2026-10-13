@@ -113,6 +113,7 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
 
       <section className={styles.card}>
         <h2>{labels.contactSection}</h2>
+        <p className={styles.help}>{labels.contactSectionHelp}</p>
         <TextField
           id="settings-email"
           type="email"
@@ -148,6 +149,16 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
 
       <section className={styles.card}>
         <h2>{labels.socialSection}</h2>
+        <p className={styles.help}>{labels.socialSectionHelp}</p>
+        <TextField
+          id="settings-facebook"
+          type="url"
+          label={labels.facebook}
+          value={draft.social.facebook}
+          onChange={(facebook) => update({ social: { ...draft.social, facebook } })}
+          error={errors["social.facebook"]}
+          optional
+        />
         <TextField
           id="settings-instagram"
           type="url"

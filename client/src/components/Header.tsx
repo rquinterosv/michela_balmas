@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { it } from "../i18n/it";
 import { pagePath } from "../lib/paths";
+import { ContactIcons } from "./ContactIcons";
 import styles from "./Header.module.css";
 
 interface HeaderProps {
@@ -11,8 +12,8 @@ interface HeaderProps {
   pages: MenuPage[];
 }
 
-// Cabecera del sitio: nombre + menú construido con las páginas publicadas que
-// tienen "Mostra nel menu". En móvil el menú se abre con un botón.
+// Cabecera del sitio: nombre, iconos de contacto y menú construido con las páginas
+// publicadas que tienen "Mostra nel menu". En móvil el menú se abre con un botón.
 export function Header({ settings, pages }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname } = useLocation();
@@ -70,6 +71,10 @@ export function Header({ settings, pages }: HeaderProps) {
             ))}
           </ul>
         </nav>
+
+        <div className={styles.icons}>
+          <ContactIcons settings={settings} />
+        </div>
       </div>
     </header>
   );

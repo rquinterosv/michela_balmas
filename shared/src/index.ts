@@ -9,6 +9,7 @@ export * from "./blocks";
 export * from "./fieldErrors";
 export * from "./images";
 export * from "./schemas";
+export * from "./settingsDefaults";
 export * from "./siteTexts.it";
 export * from "./slug";
 export * from "./types";

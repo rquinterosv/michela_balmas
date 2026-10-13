@@ -34,6 +34,15 @@ export const it = {
     closeMenu: "Chiudi il menu",
   },
 
+  // Iconos redondos de la cabecera (nombre accesible de cada enlace).
+  contactIcons: {
+    label: "Contatti e profili social",
+    facebook: "Facebook",
+    instagram: "Instagram",
+    email: "Invia un'email",
+    phone: "Chiama",
+  },
+
   footer: {
     // Las diciture (prefix, label, text) las escribe la profesional en el panel:
     // "Impostazioni del sito" > "Testi del sito".
@@ -312,7 +321,14 @@ export const it = {
       phone: "Telefono",
       address: "Indirizzo dello studio",
       onlineSessions: "Offro colloqui anche online",
+      contactSectionHelp:
+        "Email e telefono compaiono anche come icone in cima a ogni pagina. " +
+        "Lasciando vuoto il telefono, la sua icona non viene mostrata.",
       socialSection: "Profili social",
+      socialSectionHelp:
+        "Facebook e Instagram compaiono come icone in cima a ogni pagina. " +
+        "Lasciando vuoto un campo, la sua icona non viene mostrata.",
+      facebook: "Facebook (indirizzo della pagina)",
       instagram: "Instagram (indirizzo del profilo)",
       linkedin: "LinkedIn (indirizzo del profilo)",
       textsSection: "Testi del sito",

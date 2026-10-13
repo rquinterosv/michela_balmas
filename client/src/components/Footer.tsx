@@ -20,6 +20,7 @@ export function Footer({ settings, pages }: FooterProps) {
   const { albo, social, texts } = settings;
   const legalPages = pages.filter((page) => LEGAL_SLUGS.includes(page.slug));
   const socialLinks = [
+    { label: "Facebook", url: social.facebook },
     { label: "Instagram", url: social.instagram },
     { label: "LinkedIn", url: social.linkedin },
   ].filter((link) => link.url);

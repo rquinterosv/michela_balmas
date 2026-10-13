@@ -1,5 +1,5 @@
 import {
-  withDefaultSiteTexts,
+  withSettingsDefaults,
   type Message,
   type MessageStatus,
   type Page,
@@ -31,7 +31,7 @@ export const adminApi = {
   // ids de todas las páginas en su nuevo orden; devuelve la lista ya reordenada.
   reorderPages: (ids: string[]) => adminRequest<Page[]>("/pages/reorder", "PATCH", { ids }),
 
-  getSettings: () => adminRequest<SiteSettings>("/settings").then(withDefaultSiteTexts),
+  getSettings: () => adminRequest<SiteSettings>("/settings").then(withSettingsDefaults),
   saveSettings: (settings: SiteSettings) =>
     adminRequest<SiteSettings>("/settings", "PUT", settings),
 

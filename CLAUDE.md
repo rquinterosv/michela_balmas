@@ -79,7 +79,7 @@ profesional pueda querer cambiar va ahí, no en `it.ts`.
 pages/{pageId}      title, slug, order, published, showInMenu, seo{title,description},
                     blocks[{id,type,data}], updatedAt
 siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber, email,
-                    phone, address, onlineSessions, social{instagram,linkedin},
+                    phone, address, onlineSessions, social{facebook,instagram,linkedin},
                     contactReasons[], texts{onlineSessions,alboPrefix,vatLabel,copyright,
                     emailLabel,phoneLabel,addressLabel}
 images/{id}         data (bytes del JPEG), createdAt

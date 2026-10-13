@@ -1,4 +1,4 @@
-import { DEFAULT_SITE_TEXTS, withDefaultSiteTexts, type SiteSettings } from "@studio/shared";
+import { DEFAULT_SITE_TEXTS, withSettingsDefaults, type SiteSettings } from "@studio/shared";
 import { db } from "../firebase";
 
 const settingsDoc = () => db.collection("siteSettings").doc("main");
@@ -14,7 +14,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   phone: "",
   address: "",
   onlineSessions: false,
-  social: { instagram: "", linkedin: "" },
+  social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [],
   texts: DEFAULT_SITE_TEXTS,
 };
@@ -25,7 +25,7 @@ export async function getSettings(): Promise<SiteSettings> {
 
   // Un documento guardado antes de que existiera `texts` (o algún texto nuevo) se
   // completa con los valores por defecto.
-  return withDefaultSiteTexts(doc.data() as SiteSettings);
+  return withSettingsDefaults(doc.data() as SiteSettings);
 }
 
 export async function saveSettings(settings: SiteSettings): Promise<SiteSettings> {
