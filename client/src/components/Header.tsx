@@ -28,8 +28,12 @@ export function Header({ settings, pages }: HeaderProps) {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <Link to="/" className={styles.brand}>
-          <span className={styles.name}>{settings.siteName}</span>
-          <span className={styles.role}>{settings.professionalTitle}</span>
+          {/* Logo fijo (client/public/images/logo.png). Decorativo: el nombre va al lado. */}
+          <img className={styles.logo} src="/images/logo.png" alt="" width={113} height={128} />
+          <span className={styles.brandText}>
+            <span className={styles.name}>{settings.siteName}</span>
+            <span className={styles.role}>{settings.professionalTitle}</span>
+          </span>
         </Link>
 
         <button
