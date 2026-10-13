@@ -15,6 +15,8 @@
   max-width: min(100%, 20rem);
   max-height: 28rem;
   border-radius: var(--radius);
+  /* En móvil va primero el texto y después la foto (en el HTML la foto está antes). */
+  order: 1;
 }
 
 .title {
@@ -60,6 +62,11 @@
   .withPhoto {
     grid-template-columns: 20rem 1fr;
     gap: var(--space-16);
+  }
+
+  /* En pantallas anchas la foto vuelve a su sitio, a la izquierda del texto. */
+  .photo {
+    order: 0;
   }
 
   .lists {
