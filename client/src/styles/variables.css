@@ -1,21 +1,40 @@
 /* Marca: para cambiar colores o tipografías del sitio, se toca solo este archivo. */
 :root {
-  /* Colores (contraste AA comprobado: texto y primario sobre fondo/superficie) */
-  --color-bg: #faf7f2; /* fondo general, blanco cálido */
-  --color-surface: #ffffff; /* tarjetas, formularios */
-  --color-surface-soft: #f1ebe2; /* secciones alternas, footer */
-  --color-text: #2e2a26; /* texto principal */
-  --color-text-muted: #645c53; /* texto secundario */
-  --color-primary: #4f6f5c; /* verde salvia: botones, enlaces */
-  --color-primary-hover: #3f5a4a;
-  --color-on-primary: #ffffff; /* texto sobre el color primario */
-  --color-accent: #b9714f; /* terracota suave: detalles */
-  --color-border: #ddd4c8;
-  --color-focus: #1f5fa8; /* anillo de foco, bien visible */
-  --color-success: #2f6b46;
-  --color-success-bg: #e6f2ea;
-  --color-error: #a3332b;
-  --color-error-bg: #fbeae8;
+  /* ---- Paleta de marca ----
+     Contraste (WCAG AA) calculado para cada pareja texto/fondo; el valor va al lado.
+     Los neutros son cálidos: salen del marrón del texto con transparencia, así
+     funcionan sobre cualquiera de los fondos. */
+  --color-bg: #faede3; /* crema: fondo principal */
+  --color-surface: #fff9f4; /* blanco cálido: tarjetas y campos de formulario */
+  --color-secondary: #e6b8a2; /* rosa empolvado: secciones alternas, pie, etiquetas */
+  --color-text: #4a3228; /* marrón oscuro: texto y títulos (10,3:1 sobre crema; 6,6:1 sobre rosa) */
+  --color-text-muted: rgb(74 50 40 / 85%); /* texto secundario (6,7:1 crema; 4,8:1 rosa) */
+
+  /* Terracota de marca. Con texto blanco o como texto pequeño NO llega a AA
+     (3,5:1 sobre crema): solo para elementos no textuales (iconos, bordes, subrayados). */
+  --color-primary: #c0683e;
+  /* Terracota oscurecido: fondo de botones con texto blanco (5,3:1) y texto de
+     enlaces sobre crema (4,6:1) o sobre blanco cálido (5,1:1). No usar sobre rosa. */
+  --color-primary-strong: #a65530;
+  --color-primary-hover: #8a4322; /* hover y pulsado (7,2:1 con blanco) */
+  --color-on-primary: #ffffff; /* texto e iconos sobre el terracota */
+
+  /* Color de los enlaces. Las secciones con fondo rosa lo cambian al marrón del
+     texto, porque el terracota no contrasta lo suficiente ahí (ver About y Footer). */
+  --color-link: var(--color-primary-strong);
+  --color-link-hover: var(--color-primary-hover);
+
+  --color-accent: #c8b45c; /* mostaza: solo detalles decorativos (viñetas). Nunca texto. */
+  --color-border: rgb(74 50 40 / 20%); /* separadores y bordes de tarjetas */
+  --color-border-strong: rgb(74 50 40 / 60%); /* borde de campos de formulario (3:1 o más) */
+  --color-focus: #4a3228; /* anillo de foco: marrón, bien visible sobre crema y rosa */
+  --color-overlay: rgb(74 50 40 / 50%); /* fondo oscurecido tras un diálogo */
+
+  /* Estados. No son de la marca, pero se han llevado a tonos cálidos. */
+  --color-success: #55601c; /* oliva (5,9:1 crema; 5,7:1 sobre su fondo; 6,8:1 con blanco) */
+  --color-success-bg: #f0ebc8;
+  --color-error: #a3332b; /* (6,0:1 crema; 5,3:1 sobre su fondo; 6,9:1 con blanco) */
+  --color-error-bg: #f8ddd5;
 
   /* Tipografías: fuentes servidas desde el propio sitio (@fontsource), sin Google Fonts,
      para no enviar datos de los visitantes a terceros. Se importan en main.tsx. */
@@ -47,5 +66,5 @@
   --text-width: 42rem; /* ancho cómodo de lectura */
   --radius: 0.75rem;
   --radius-sm: 0.375rem;
-  --shadow: 0 1px 2px rgb(46 42 38 / 6%), 0 8px 24px rgb(46 42 38 / 6%);
+  --shadow: 0 1px 2px rgb(74 50 40 / 8%), 0 8px 24px rgb(74 50 40 / 8%);
 }

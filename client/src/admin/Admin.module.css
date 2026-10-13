@@ -52,7 +52,7 @@
 
 .nav a.navActive {
   border-bottom-color: var(--color-primary);
-  color: var(--color-primary);
+  color: var(--color-primary-strong);
 }
 
 .content {
@@ -211,7 +211,7 @@
 }
 
 .badgeOff {
-  background: var(--color-surface-soft);
+  background: var(--color-secondary);
   color: var(--color-text-muted);
 }
 
@@ -238,7 +238,7 @@
   padding: 0 var(--space-2);
   border: 0;
   background: none;
-  color: var(--color-primary);
+  color: var(--color-primary-strong);
   font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
@@ -294,7 +294,7 @@
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  color: #ffffff;
+  color: var(--color-on-primary);
   font-weight: 600;
 }
 
@@ -316,7 +316,7 @@
 }
 
 .dialog::backdrop {
-  background: rgb(46 42 38 / 50%);
+  background: var(--color-overlay);
 }
 
 .dialog h2 {
@@ -422,7 +422,7 @@
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   background: var(--color-text);
-  color: #ffffff;
+  color: var(--color-on-primary);
   font-weight: 600;
   text-align: center;
 }
@@ -453,8 +453,8 @@
 }
 
 .filterButton[aria-pressed="true"] {
-  border-color: var(--color-primary);
-  background: var(--color-primary);
+  border-color: var(--color-primary-strong);
+  background: var(--color-primary-strong);
   color: var(--color-on-primary);
 }
 
@@ -471,7 +471,7 @@
 
 .unread::before {
   content: "● ";
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
 .details {

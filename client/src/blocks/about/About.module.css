@@ -1,6 +1,9 @@
 .about {
   padding-block: var(--space-16);
-  background: var(--color-surface-soft);
+  background: var(--color-secondary);
+  /* Sobre rosa, los enlaces van en el marrón del texto (el terracota no contrasta). */
+  --color-link: var(--color-text);
+  --color-link-hover: var(--color-text);
 }
 
 .intro {
@@ -38,7 +41,7 @@
 
 .listTitle {
   font-size: var(--text-lg);
-  color: var(--color-primary);
+  color: var(--color-primary-strong);
 }
 
 .list ul {
