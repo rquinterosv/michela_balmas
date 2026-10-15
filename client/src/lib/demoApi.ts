@@ -1,5 +1,18 @@
-import type { ContactInput, MenuPage, Page, SiteSettings } from "@studio/shared";
-import { seedPages, seedSettings } from "@studio/shared/seedContent";
+import {
+  categoriesWithCounts,
+  paginatePosts,
+  relatedPosts,
+  type Category,
+  type CategoryWithCount,
+  type ContactInput,
+  type MenuPage,
+  type Page,
+  type Post,
+  type PostsPage,
+  type PostWithRelated,
+  type SiteSettings,
+} from "@studio/shared";
+import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
 import { it } from "../i18n/it";
 import { ApiRequestError } from "./api";
 
@@ -12,6 +25,18 @@ const pages: Page[] = Object.entries(seedPages)
   .map(([id, page]) => ({ ...page, id, updatedAt: new Date(0).toISOString() }))
   .filter((page) => page.published)
   .sort((a, b) => a.order - b.order);
+
+const categories: Category[] = Object.entries(seedCategories).map(([id, category]) => ({
+  ...category,
+  id,
+}));
+
+const posts: Post[] = Object.entries(seedPosts)
+  .map(([id, post]) => {
+    const timestamp = `${post.date}T00:00:00.000Z`;
+    return { ...post, id, createdAt: timestamp, updatedAt: timestamp };
+  })
+  .filter((post) => post.published);
 
 export const demoApi = {
   async getMenuPages(): Promise<MenuPage[]> {
@@ -26,6 +51,22 @@ export const demoApi = {
 
   async getSettings(): Promise<SiteSettings> {
     return seedSettings;
+  },
+
+  async getBlogCategories(): Promise<CategoryWithCount[]> {
+    return categoriesWithCounts(categories, posts);
+  },
+
+  async getPosts(categorySlug: string | undefined, page: number): Promise<PostsPage> {
+    const category = categories.find((candidate) => candidate.slug === categorySlug);
+    if (categorySlug && !category) throw new ApiRequestError(404, it.notFound.title);
+    return paginatePosts(posts, categories, { categoryId: category?.id, page });
+  },
+
+  async getPost(slug: string): Promise<PostWithRelated> {
+    const post = posts.find((candidate) => candidate.slug === slug);
+    if (!post) throw new ApiRequestError(404, it.notFound.title);
+    return { post, related: relatedPosts(post, posts, categories) };
   },
 
   async sendContact(_input: ContactInput): Promise<{ ok: true }> {

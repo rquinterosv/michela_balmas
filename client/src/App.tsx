@@ -4,6 +4,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { BlogIndexPage } from "./blog/BlogIndexPage";
+import { BlogPostPage } from "./blog/BlogPostPage";
 import { PageLoading } from "./components/PageStatus";
 import { PublicLayout } from "./components/PublicLayout";
 import { RouteError } from "./components/RouteError";
@@ -40,6 +42,10 @@ const router = createBrowserRouter(
       {/* Sitio público: cada página sale de la base de datos según su dirección. */}
       <Route element={<PublicLayout />} errorElement={<RouteError />}>
         <Route index element={<PublicPage />} />
+        {/* Blog: rutas fijas, tienen prioridad sobre ":slug". */}
+        <Route path="blog" element={<BlogIndexPage />} />
+        <Route path="blog/categoria/:categorySlug" element={<BlogIndexPage />} />
+        <Route path="blog/:postSlug" element={<BlogPostPage />} />
         <Route path=":slug" element={<PublicPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>

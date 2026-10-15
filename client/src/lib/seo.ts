@@ -4,7 +4,21 @@
 // Limitación conocida: al ser una SPA, quien no ejecuta JavaScript (p. ej. la vista
 // previa de enlaces de WhatsApp o Facebook) solo ve los valores fijos de index.html.
 
+import { imageSrc } from "./images";
+
 const SITE_URL = import.meta.env.VITE_SITE_URL ?? window.location.origin;
+
+// Dirección completa de una ruta del sitio ("/blog" -> "https://…/blog").
+export function absoluteUrl(path: string): string {
+  return `${SITE_URL}${path}`;
+}
+
+// Dirección completa de una imagen: las subidas ya llevan la del backend; las del
+// propio sitio ("/images/foto.jpg") necesitan la del sitio.
+export function absoluteImageUrl(url: string): string {
+  const src = imageSrc(url);
+  return src.startsWith("/") ? absoluteUrl(src) : src;
+}
 
 function setMeta(attribute: "name" | "property", key: string, content: string) {
   let element = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${key}"]`);
@@ -14,6 +28,10 @@ function setMeta(attribute: "name" | "property", key: string, content: string) {
     document.head.appendChild(element);
   }
   element.content = content;
+}
+
+function removeMeta(attribute: "name" | "property", key: string) {
+  document.head.querySelector(`meta[${attribute}="${key}"]`)?.remove();
 }
 
 function setCanonical(url: string) {
@@ -34,10 +52,22 @@ interface PageMeta {
   siteName: string;
   // false para páginas que no deben aparecer en buscadores (404, panel).
   index?: boolean;
+  // Imagen al compartir en redes (dirección tal como se guarda).
+  image?: string;
+  // "article" para los artículos del blog.
+  type?: "website" | "article";
 }
 
-export function setPageMeta({ title, description, path, siteName, index = true }: PageMeta) {
-  const url = `${SITE_URL}${path}`;
+export function setPageMeta({
+  title,
+  description,
+  path,
+  siteName,
+  index = true,
+  image,
+  type = "website",
+}: PageMeta) {
+  const url = absoluteUrl(path);
 
   document.title = title;
   setMeta("name", "description", description);
@@ -49,5 +79,8 @@ export function setPageMeta({ title, description, path, siteName, index = true }
   setMeta("property", "og:url", url);
   setMeta("property", "og:site_name", siteName);
   setMeta("property", "og:locale", "it_IT");
-  setMeta("property", "og:type", "website");
+  setMeta("property", "og:type", type);
+  // Sin imagen se quita la de la página anterior.
+  if (image) setMeta("property", "og:image", absoluteImageUrl(image));
+  else removeMeta("property", "og:image");
 }

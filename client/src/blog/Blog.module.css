@@ -1,0 +1,442 @@
+/* Estilos del blog: listado, artículo y barra lateral. Solo variables de variables.css. */
+
+/* --- Marco (BlogShell) --- */
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding-block: var(--space-8) var(--space-16);
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.main {
+  min-width: 0; /* deja que el contenido largo (enlaces, tablas) se ajuste */
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.desktopOnly {
+  display: none;
+}
+
+@media (min-width: 56rem) {
+  .shell {
+    padding-top: var(--space-12);
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* 60 % / 40 % */
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  /* La barra lateral acompaña al desplazarse (debajo de la cabecera fija). */
+  .aside {
+    position: sticky;
+    top: var(--space-24);
+  }
+
+  .desktopOnly {
+    display: block;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+}
+
+/* Secciones (bloques) dentro del blog: sin el margen lateral ni el ancho propio de
+   cada sección, porque ya están dentro de la columna. */
+.flush :global(.container) {
+  max-width: none;
+  padding-inline: 0;
+}
+
+.flush section {
+  padding-block: var(--space-4);
+}
+
+/* --- Cabecera del listado --- */
+
+.intro {
+  margin-bottom: var(--space-8);
+}
+
+.introTitle {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-2xl);
+}
+
+@media (min-width: 56rem) {
+  .introTitle {
+    font-size: var(--text-3xl);
+  }
+}
+
+/* --- Tarjetas --- */
+
+.postList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardMedia {
+  display: block;
+}
+
+/* Imagen a todo el ancho de la columna, en 16:9 para que las tarjetas se alineen. */
+.thumbnail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--color-secondary);
+  color: var(--color-primary-strong);
+}
+
+.thumbnailImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnailPlay {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+}
+
+/* Móvil: la tarjeta blanca va debajo de la imagen, sin superponerse. */
+.cardPanel {
+  position: relative;
+  padding: var(--space-6);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.cardWithCover .cardPanel {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+@media (min-width: 56rem) {
+  /* Escritorio: la tarjeta sube sobre la parte inferior de la imagen. */
+  .thumbnail {
+    border-radius: var(--radius);
+  }
+
+  .cardWithCover .cardPanel {
+    margin: calc(-1 * var(--space-16)) var(--space-6) 0;
+    border-radius: var(--radius);
+  }
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.cardCategory {
+  font-weight: 600;
+  color: var(--color-primary-strong);
+}
+
+.cardTitle {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xl);
+}
+
+.cardTitle a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.cardTitle a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+.cardExcerpt {
+  color: var(--color-text-muted);
+}
+
+.cardFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.readMore {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.readMore:hover {
+  text-decoration: underline;
+}
+
+.author {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.authorPhoto {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.loadMore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-12);
+}
+
+/* --- Barra lateral --- */
+
+.sideCard {
+  padding: var(--space-6);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.sideTitle {
+  font-size: var(--text-lg);
+}
+
+.categoryList,
+.categoryList ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.categoryList a {
+  display: inline-block;
+  padding: var(--space-1) 0;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.categoryList a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+/* Categoría principal en negrita; sus hijas, debajo y con sangría. */
+.categoryParent > a {
+  font-weight: 700;
+}
+
+.categoryList ul {
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border);
+}
+
+.categoryCount {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.categoryList .categoryActive {
+  color: var(--color-primary-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+/* Chips (móvil): una fila que se desplaza en horizontal. */
+.chips ul {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 0 var(--space-2);
+  overflow-x: auto;
+  list-style: none;
+}
+
+.chips li {
+  flex-shrink: 0;
+}
+
+.chips a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 2.75rem; /* objetivo táctil cómodo */
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.chips .categoryActive {
+  border-color: var(--color-primary-strong);
+  background: var(--color-primary-strong);
+  color: var(--color-on-primary);
+}
+
+.chips .categoryActive .categoryCount {
+  color: var(--color-on-primary);
+}
+
+/* Tarjeta de contacto */
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.contactPhoto {
+  width: 7rem;
+  height: 7rem;
+  margin-bottom: var(--space-4);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contactRole {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary-strong);
+}
+
+.contactName {
+  margin: var(--space-1) 0 var(--space-4);
+  font-size: var(--text-xl);
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  margin: 0 0 var(--space-6);
+}
+
+.contactDetails dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.contactDetails dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.contactButton {
+  width: 100%;
+}
+
+/* --- Artículo --- */
+
+.articleHeader {
+  margin-bottom: var(--space-6);
+}
+
+.articleCategory {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.articleCategory a {
+  text-decoration: none;
+}
+
+.articleTitle {
+  font-size: var(--text-2xl);
+  text-wrap: balance;
+}
+
+@media (min-width: 56rem) {
+  .articleTitle {
+    font-size: var(--text-3xl);
+  }
+}
+
+.articleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* La copertina del artículo conserva su proporción: no se recorta. */
+.articleCover {
+  width: auto;
+  max-width: 100%;
+  max-height: 32rem;
+  border-radius: var(--radius);
+}
+
+.articleBody {
+  margin-bottom: var(--space-8);
+}
+
+.postFooter {
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+.backLink {
+  font-weight: 600;
+}
+
+.relatedTitle {
+  margin-top: var(--space-8);
+  font-size: var(--text-xl);
+}
+
+.relatedList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}

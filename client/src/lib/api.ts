@@ -1,9 +1,12 @@
 import {
   withSettingsDefaults,
   type ApiError,
+  type CategoryWithCount,
   type ContactInput,
   type MenuPage,
   type Page,
+  type PostsPage,
+  type PostWithRelated,
   type SiteSettings,
 } from "@studio/shared";
 import { it } from "../i18n/it";
@@ -77,6 +80,14 @@ const liveApi = {
   getSettings: () => apiRequest<SiteSettings>("/settings").then(withSettingsDefaults),
   sendContact: (input: ContactInput) =>
     apiRequest<{ ok: true }>("/contact", { method: "POST", body: input }),
+  getBlogCategories: () => apiRequest<CategoryWithCount[]>("/blog/categories"),
+  // Una página del listado (empieza en 1), opcionalmente de una categoría.
+  getPosts: (categorySlug: string | undefined, page: number) => {
+    const params = new URLSearchParams({ pagina: String(page) });
+    if (categorySlug) params.set("categoria", categorySlug);
+    return apiRequest<PostsPage>(`/blog/posts?${params.toString()}`);
+  },
+  getPost: (slug: string) => apiRequest<PostWithRelated>(`/blog/posts/${encodeURIComponent(slug)}`),
 };
 
 type PublicApi = typeof liveApi;
@@ -94,5 +105,8 @@ export const api: PublicApi = DEMO_MODE
       getPage: async (slug) => (await loadDemoApi()).getPage(slug),
       getSettings: async () => (await loadDemoApi()).getSettings(),
       sendContact: async (input) => (await loadDemoApi()).sendContact(input),
+      getBlogCategories: async () => (await loadDemoApi()).getBlogCategories(),
+      getPosts: async (categorySlug, page) => (await loadDemoApi()).getPosts(categorySlug, page),
+      getPost: async (slug) => (await loadDemoApi()).getPost(slug),
     }
   : liveApi;

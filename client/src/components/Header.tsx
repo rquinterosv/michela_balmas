@@ -61,7 +61,10 @@ export function Header({ settings, pages }: HeaderProps) {
       key: page.slug,
       label: page.title,
       to,
-      active: currentPath === to && !(isHome && onAboutAnchor),
+      // Una página también queda marcada en sus subpáginas (/blog/…), salvo la Home.
+      active: isHome
+        ? currentPath === to && !onAboutAnchor
+        : currentPath === to || currentPath.startsWith(`${to}/`),
     });
     if (isHome && settings.showAboutInMenu) items.push(aboutItem);
   }

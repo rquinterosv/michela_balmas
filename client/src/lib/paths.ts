@@ -1,4 +1,4 @@
-import { HOME_SLUG } from "@studio/shared";
+import { BLOG_SLUG, CATEGORY_SEGMENT, HOME_SLUG } from "@studio/shared";
 
 // Ruta pública de una página: la de inicio vive en "/".
 export function pagePath(slug: string): string {
@@ -12,6 +12,17 @@ export const ABOUT_HREF = `/#${ABOUT_ANCHOR}`;
 // Página con la presentación completa, a la que lleva el botón "Scopri di più".
 // No sale en el menú: mientras se ve, el ítem "Chi sono" queda marcado.
 export const ABOUT_PAGE_PATH = "/chi-sono";
+
+// Direcciones del blog.
+export const BLOG_PATH = `/${BLOG_SLUG}`;
+
+export function postPath(slug: string): string {
+  return `${BLOG_PATH}/${slug}`;
+}
+
+export function categoryPath(slug: string): string {
+  return `${BLOG_PATH}/${CATEGORY_SEGMENT}/${slug}`;
+}
 
 // Un enlace es interno si es una ruta del propio sitio ("/contatti").
 export function isInternalLink(href: string): boolean {
