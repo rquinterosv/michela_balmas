@@ -1,4 +1,4 @@
-// Textos fijos del sitio público (rótulos del pie, de los recapiti y del menú).
+// Textos fijos del sitio público (rótulos del pie, de los recapiti, del menú y del blog).
 // Son el valor inicial: se editan desde el panel, en "Impostazioni del sito", y se
 // guardan en siteSettings.texts. También se usan si el documento guardado es
 // anterior a que existieran.
@@ -17,4 +17,14 @@ export const DEFAULT_SITE_TEXTS = {
   addressLabel: "Studio",
   // Ítem del menú que baja a la sección "Chi sono" de la home (/#chi-sono).
   aboutMenu: "Chi sono",
+  // Blog: barra lateral, tarjetas y artículo.
+  blogCategories: "Categorie",
+  blogAllPosts: "Tutti gli articoli",
+  blogReadMore: "Leggi di più",
+  blogLoadMore: "Carica altri articoli",
+  blogBack: "Torna al blog",
+  blogRelated: "Articoli correlati",
+  // Tarjeta de contacto de la barra lateral del blog.
+  officeHoursLabel: "Orari",
+  contactCardButton: "Contattami",
 };

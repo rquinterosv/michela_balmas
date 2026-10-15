@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { blockSchema } from "./blocks";
-import { optionalText, optionalUrl, requiredText } from "./fields";
+import { optionalImageUrl, optionalText, optionalUrl, requiredText } from "./fields";
 import { RESERVED_SLUGS, SLUG_PATTERN } from "./slug";
 import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import { validation } from "./validationMessages.it";
@@ -76,6 +76,10 @@ export const siteSettingsSchema = z.object({
   phone: optionalPhone,
   address: optionalText(300),
   onlineSessions: z.boolean(),
+  // Foto de la profesional: tarjeta de contacto del blog y autor por defecto.
+  photoUrl: optionalImageUrl.default(""),
+  // Horario de atención, en la tarjeta de contacto del blog.
+  officeHours: optionalText(300).default(""),
   social: z.object({
     facebook: optionalUrl,
     instagram: optionalUrl,
@@ -95,6 +99,14 @@ export const siteSettingsSchema = z.object({
       phoneLabel: requiredText(40),
       addressLabel: requiredText(40),
       aboutMenu: requiredText(40),
+      blogCategories: requiredText(40),
+      blogAllPosts: requiredText(40),
+      blogReadMore: requiredText(40),
+      blogLoadMore: requiredText(40),
+      blogBack: requiredText(40),
+      blogRelated: requiredText(60),
+      officeHoursLabel: requiredText(40),
+      contactCardButton: requiredText(40),
     })
     .default(DEFAULT_SITE_TEXTS),
 });

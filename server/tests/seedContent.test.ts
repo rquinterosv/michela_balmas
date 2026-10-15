@@ -1,6 +1,11 @@
-import { pageInputSchema, siteSettingsSchema } from "@studio/shared";
+import {
+  categoryInputSchema,
+  pageInputSchema,
+  postInputSchema,
+  siteSettingsSchema,
+} from "@studio/shared";
 import { describe, expect, it } from "vitest";
-import { seedPages, seedSettings } from "@studio/shared/seedContent";
+import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
 import { sanitizeBlocks, sanitizeRichText } from "../src/services/sanitizeHtml";
 
 // El seed no se puede probar sin emuladores, pero sí su contenido.
@@ -20,6 +25,24 @@ describe("contenido del seed", () => {
       expect(sanitizeBlocks(page.blocks)).toEqual(page.blocks);
     },
   );
+});
+
+describe("contenido de ejemplo del blog", () => {
+  it.each(Object.entries(seedCategories))("la categoría %s cumple el esquema", (_id, category) => {
+    expect(categoryInputSchema.safeParse(category).success).toBe(true);
+  });
+
+  it.each(Object.entries(seedPosts))("el artículo %s cumple el esquema", (_id, post) => {
+    expect(postInputSchema.safeParse(post).success).toBe(true);
+    expect(sanitizeBlocks(post.blocks)).toEqual(post.blocks);
+    expect(Object.keys(seedCategories)).toContain(post.categoryId);
+  });
+
+  it("hay 6 artículos y todos están marcados para revisar", () => {
+    const posts = Object.values(seedPosts);
+    expect(posts).toHaveLength(6);
+    for (const post of posts) expect(JSON.stringify(post.blocks)).toContain("DA REVISIONARE");
+  });
 });
 
 describe("sanitizeRichText", () => {

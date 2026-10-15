@@ -1,4 +1,10 @@
-import { HOME_SLUG, pageInputSchema, reorderSchema, type PageInput } from "@studio/shared";
+import {
+  BLOG_SLUG,
+  HOME_SLUG,
+  pageInputSchema,
+  reorderSchema,
+  type PageInput,
+} from "@studio/shared";
 import { Router } from "express";
 import { HttpError } from "../middleware/errorHandler";
 import { messages } from "../messages.it";
@@ -84,6 +90,11 @@ adminPagesRouter.put("/:id", async (req, res) => {
     }
   }
 
+  // La página del blog es la portada de /blog: su dirección no puede cambiar.
+  if (current.slug === BLOG_SLUG && input.slug !== BLOG_SLUG) {
+    throw new HttpError(400, messages.blogSlugLocked, { slug: messages.blogSlugLocked });
+  }
+
   await assertSlugIsFree(input.slug, current.id);
   res.json(await updatePage(current.id, input));
 });
@@ -92,6 +103,9 @@ adminPagesRouter.delete("/:id", async (req, res) => {
   const page = await getPageOrThrow(req.params.id);
   if (page.slug === HOME_SLUG) {
     throw new HttpError(400, messages.homeCannotBeDeleted);
+  }
+  if (page.slug === BLOG_SLUG) {
+    throw new HttpError(400, messages.blogCannotBeDeleted);
   }
   await deletePage(page.id);
   res.status(204).end();

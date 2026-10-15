@@ -1,6 +1,8 @@
 import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import type { PageInput, SiteSettings } from "./types";
 
+export { seedCategories, seedPosts } from "./seedBlog";
+
 // Contenido de ejemplo en italiano. TODOS los datos son ficticios (nombre, número
 // de Albo, Partita IVA, recapiti): hay que sustituirlos desde el panel.
 // Registro: forma de cortesía ("Lei") con el paciente.
@@ -15,6 +17,8 @@ export const seedSettings: SiteSettings = {
   address: "Via Esempio 1, 20100 Milano (MI)",
   onlineSessions: true,
   showAboutInMenu: true,
+  photoUrl: "/images/placeholder-portrait.svg",
+  officeHours: "Dal lunedì al venerdì, 9:00–19:00",
   social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [
     "Primo colloquio conoscitivo",
@@ -78,11 +82,29 @@ const privacyPolicyHtml = [
   "<p><em>Ultimo aggiornamento: [DATA].</em></p>",
 ].join("");
 
+// Párrafo sobre los videos de YouTube del blog (bloque «Video»). Borrador: lo tiene
+// que revisar un profesional. Se exporta para poder copiarlo en la Cookie Policy de
+// un sitio ya en marcha (ver docs/cookie-policy-youtube.md).
+export const youtubeCookiePolicyHtml = [
+  "<p><strong>Video di YouTube [DA REVISIONARE]</strong></p>",
+  "<p>Alcune pagine del blog contengono video ospitati su YouTube, servizio di Google " +
+    "Ireland Limited. Per tutelare la Sua riservatezza, il video non viene caricato " +
+    "all'apertura della pagina: al suo posto compare un riquadro con il pulsante di " +
+    "riproduzione, e nessun dato viene inviato a YouTube finché non lo preme.</p>",
+  "<p>Premendo il pulsante, il video viene caricato in modalità «privacy avanzata» " +
+    "(dominio youtube-nocookie.com). Da quel momento YouTube può raccogliere dati come " +
+    "l'indirizzo IP e salvare informazioni sul dispositivo, secondo la propria informativa: " +
+    '<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">' +
+    "policies.google.com/privacy</a>. Se preferisce, può guardare il video direttamente sul " +
+    "sito di YouTube.</p>",
+].join("");
+
 const cookiePolicyHtml = [
   DRAFT_NOTICE,
   "<p>Questo sito non utilizza cookie di profilazione né strumenti di analisi statistica " +
-    "(analytics), e non installa cookie di terze parti. Per questo motivo non viene mostrato " +
-    "alcun banner per la raccolta del consenso.</p>",
+    "(analytics), e durante la navigazione non installa cookie di terze parti. Per questo " +
+    "motivo non viene mostrato alcun banner per la raccolta del consenso. I video di YouTube " +
+    "si caricano solo se il visitatore lo richiede (vedi sotto).</p>",
 
   "<p><strong>Che cosa sono i cookie</strong></p>",
   "<p>I cookie sono piccoli file di testo che i siti visitati salvano sul dispositivo " +
@@ -93,6 +115,8 @@ const cookiePolicyHtml = [
     "funzionamento, per i quali la normativa non richiede il consenso. In particolare, " +
     "l'area riservata alla titolare memorizza nel browser i dati necessari a mantenere " +
     "l'accesso: questo riguarda esclusivamente chi amministra il sito, non i visitatori.</p>",
+
+  youtubeCookiePolicyHtml,
 
   "<p><strong>Come gestire i cookie dal browser</strong></p>",
   "<p>È sempre possibile cancellare o bloccare i cookie dalle impostazioni del proprio " +
@@ -187,7 +211,7 @@ export const seedPages: Record<string, PageInput> = {
   contatti: {
     title: "Contatti",
     slug: "contatti",
-    order: 1,
+    order: 2,
     published: true,
     showInMenu: true,
     seo: {
@@ -225,7 +249,7 @@ export const seedPages: Record<string, PageInput> = {
   "privacy-policy": {
     title: "Privacy Policy",
     slug: "privacy-policy",
-    order: 2,
+    order: 3,
     published: true,
     showInMenu: false,
     seo: {
@@ -238,7 +262,7 @@ export const seedPages: Record<string, PageInput> = {
   "cookie-policy": {
     title: "Cookie Policy",
     slug: "cookie-policy",
-    order: 3,
+    order: 4,
     published: true,
     showInMenu: false,
     seo: {
@@ -248,12 +272,39 @@ export const seedPages: Record<string, PageInput> = {
     blocks: [{ id: "cookie-text", type: "richText", data: { html: cookiePolicyHtml } }],
   },
 
+  // Portada del blog (/blog): el título, el lugar en el menú y el SEO se editan como
+  // los de cualquier página, y sus secciones son el texto introductorio del listado.
+  // Los artículos y las categorías están en seedBlog.ts.
+  blog: {
+    title: "Blog",
+    slug: "blog",
+    order: 1,
+    published: true,
+    showInMenu: true,
+    seo: {
+      title: "",
+      description:
+        "Interviste, articoli e approfondimenti sul benessere psicologico, la vita di coppia e la famiglia.",
+    },
+    blocks: [
+      {
+        id: "blog-intro",
+        type: "richText",
+        data: {
+          html:
+            "<p>Interviste in radio e in video, articoli e riflessioni sul benessere " +
+            "psicologico, le relazioni e la famiglia. <strong>[DA REVISIONARE]</strong></p>",
+        },
+      },
+    ],
+  },
+
   // Presentación completa. No sale en el menú: se llega con el botón "Scopri di più"
   // de la sección "Chi sono" de la home. Textos provisionales, hasta tener los reales.
   "chi-sono": {
     title: "Chi sono",
     slug: "chi-sono",
-    order: 4,
+    order: 5,
     published: true,
     showInMenu: false,
     seo: {

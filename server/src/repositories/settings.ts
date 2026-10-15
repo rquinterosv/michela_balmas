@@ -15,6 +15,8 @@ const EMPTY_SETTINGS: SiteSettings = {
   address: "",
   onlineSessions: false,
   showAboutInMenu: true,
+  photoUrl: "",
+  officeHours: "",
   social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [],
   texts: DEFAULT_SITE_TEXTS,

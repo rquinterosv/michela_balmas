@@ -6,6 +6,7 @@ import { z } from "zod";
 z.config(z.locales.it());
 
 export * from "./blocks";
+export * from "./blog";
 export * from "./fieldErrors";
 export * from "./images";
 export * from "./schemas";
@@ -14,3 +15,4 @@ export * from "./siteTexts.it";
 export * from "./slug";
 export * from "./types";
 export * from "./validationMessages.it";
+export * from "./video";

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { validation } from "./validationMessages.it";
 import { optionalImageUrl, optionalLink, optionalText, requiredText, richTextHtml } from "./fields";
 
 // Un esquema por tipo de bloque: describe la forma de `block.data`.
@@ -57,6 +58,23 @@ export const imageDataSchema = z.object({
   caption: optionalText(300),
 });
 
+// Video o audio: si la dirección es de YouTube se ve en la página (se carga solo al
+// pulsar play); si es de otra plataforma (Spotify, la web de la radio…), se muestra
+// un botón "Ascolta" o "Guarda" que la abre en otra pestaña.
+export const videoDataSchema = z.object({
+  url: z
+    .string(validation.required)
+    .trim()
+    .min(1, validation.required)
+    .max(500, validation.tooLong(500))
+    .refine((value) => /^https?:\/\/\S+$/.test(value), validation.invalidUrl),
+  title: optionalText(160),
+  // Imagen propia que se ve antes de pulsar play (nunca la miniatura de YouTube).
+  posterUrl: optionalImageUrl,
+  // Texto del botón para las plataformas que no son YouTube.
+  linkLabel: z.enum(["ascolta", "guarda"]),
+});
+
 const blockId = z.string().min(1).max(64);
 
 // Filas de imagen y texto que alternan de lado: imagen a la izquierda, luego a la
@@ -85,6 +103,7 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("contactInfo"), data: contactInfoDataSchema }),
   z.object({ id: blockId, type: z.literal("image"), data: imageDataSchema }),
   z.object({ id: blockId, type: z.literal("zigzag"), data: zigzagDataSchema }),
+  z.object({ id: blockId, type: z.literal("video"), data: videoDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;

@@ -17,6 +17,19 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Artículos del blog: lectura pública solo de los publicados.
+    // (Una consulta de lista debe filtrar por published == true para pasar.)
+    match /posts/{postId} {
+      allow read: if resource.data.published == true;
+      allow write: if false;
+    }
+
+    // Categorías del blog: lectura pública (no tienen borradores).
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Imágenes subidas desde el panel: las sirve el backend (GET /api/images/:id).
     match /images/{imageId} {
       allow read, write: if false;

@@ -5,12 +5,16 @@ import { env } from "./env";
 import { createContactRateLimit } from "./middleware/contactRateLimit";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { requireAdmin } from "./middleware/requireAdmin";
+import { adminCategoriesRouter } from "./routes/adminCategories";
 import { adminImagesRouter } from "./routes/adminImages";
 import { adminMessagesRouter } from "./routes/adminMessages";
 import { adminPagesRouter } from "./routes/adminPages";
+import { adminPostsRouter } from "./routes/adminPosts";
 import { adminSettingsRouter } from "./routes/adminSettings";
+import { blogRouter } from "./routes/blog";
 import { contactRouter } from "./routes/contact";
 import { publicRouter } from "./routes/public";
+import { sitemapRouter } from "./routes/sitemap";
 
 // Crea la app sin llamar a listen(), para poder usarla en los tests con supertest.
 export function createApp() {
@@ -36,9 +40,13 @@ export function createApp() {
   app.use("/api/admin/settings", adminSettingsRouter);
   app.use("/api/admin/messages", adminMessagesRouter);
   app.use("/api/admin/images", adminImagesRouter);
+  app.use("/api/admin/posts", adminPostsRouter);
+  app.use("/api/admin/categories", adminCategoriesRouter);
 
   app.use("/api/contact", createContactRateLimit(), contactRouter);
+  app.use("/api/blog", blogRouter);
   app.use("/api", publicRouter);
+  app.use(sitemapRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

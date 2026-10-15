@@ -88,6 +88,28 @@ export const it = {
     defaultButtonLabel: "Scopri di più",
   },
 
+  // Bloque «Video» y copertine con video.
+  video: {
+    play: (title: string) => (title ? `Riproduci il video: ${title}` : "Riproduci il video"),
+    iframeTitle: "Video di YouTube",
+    privacyNotice: "Il video viene caricato da YouTube (Google) solo quando si preme play.",
+    ascolta: "Ascolta",
+    guarda: "Guarda",
+    videoBadge: "Video",
+  },
+
+  blog: {
+    breadcrumbLabel: "Percorso di navigazione",
+    home: "Home",
+    postsLabel: "Articoli",
+    empty: "Non ci sono ancora articoli.",
+    emptyCategory: "Non ci sono ancora articoli in questa categoria.",
+    publishedOn: "Pubblicato il",
+    loadingMore: "Caricamento…",
+    contactCardLabel: "Contatti",
+    postCount: (count: number) => (count === 1 ? "1 articolo" : `${count} articoli`),
+  },
+
   notFound: {
     title: "Pagina non trovata",
     text: "La pagina che cerca non esiste o è stata spostata.",
@@ -103,6 +125,7 @@ export const it = {
     contactInfo: "Recapiti",
     image: "Immagine",
     zigzag: "Immagini e testi alternati",
+    video: "Video o audio",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -114,6 +137,8 @@ export const it = {
     contactInfo: "Email, telefono e indirizzo dello studio.",
     image: "Un'immagine con una didascalia facoltativa.",
     zigzag: "Righe con un'immagine e un testo affiancati; l'immagine cambia lato a ogni riga.",
+    video:
+      "Un video di YouTube, oppure un pulsante per ascoltare o guardare su un altro sito (Spotify, la radio…).",
   } satisfies Record<BlockType, string>,
 
   messageStatus: {
@@ -148,6 +173,7 @@ export const it = {
       label: "Menu dell'area riservata",
       dashboard: "Inizio",
       pages: "Pagine",
+      blog: "Blog",
       messages: "Messaggi",
       settings: "Impostazioni del sito",
       viewSite: "Vai al sito",
@@ -184,6 +210,7 @@ export const it = {
       editHome: "Modifica Home",
       editContacts: "Modifica Contatti",
       viewMessages: "Vedi messaggi",
+      newPost: "Scrivi un articolo",
     },
 
     pages: {
@@ -205,6 +232,7 @@ export const it = {
         `La pagina «${title}» verrà eliminata definitivamente. L'operazione non può essere annullata.`,
       deleted: "Pagina eliminata",
       homeLabel: "Pagina iniziale",
+      blogLabel: "Copertina del blog",
     },
 
     pageEditor: {
@@ -235,6 +263,11 @@ export const it = {
       previewNotice: "Anteprima: le modifiche non sono ancora state salvate.",
       created: "Pagina creata",
       backToPages: "Torna alle pagine",
+      blogPageHelp:
+        "Questa pagina è la copertina del blog (/blog): qui si modificano il titolo, la " +
+        "posizione nel menu, il testo introduttivo (le sezioni qui sotto) e come appare su " +
+        "Google. Gli articoli e le categorie si gestiscono in «Blog».",
+      manageBlog: "Vai agli articoli del blog",
     },
 
     // Etiquetas de los formularios de edición de cada tipo de bloque.
@@ -304,6 +337,18 @@ export const it = {
         intro: "Testo introduttivo",
         help: "I motivi del contatto si modificano in «Impostazioni del sito».",
       },
+      video: {
+        url: "Indirizzo del video o dell'audio",
+        urlHelp:
+          "Un video di YouTube si vede direttamente nella pagina. Per Spotify, la radio o " +
+          "altri siti compare un pulsante che apre il collegamento.",
+        title: "Titolo",
+        titleHelp: "Compare sotto il video o accanto al pulsante.",
+        poster: "Immagine di anteprima",
+        posterHelp:
+          "Solo per YouTube: si vede prima di premere play. Se vuota, compare un riquadro con il simbolo play.",
+        linkLabel: "Testo del pulsante (per i siti diversi da YouTube)",
+      },
       contactInfo: {
         title: "Titolo",
         show: "Cosa mostrare",
@@ -329,6 +374,100 @@ export const it = {
       bulletListShort: "Elenco",
       orderedListShort: "Elenco",
       linkShort: "Collegamento",
+    },
+
+    blog: {
+      title: "Blog",
+      intro: "Gli articoli del blog, dal più recente.",
+      newPost: "Nuovo articolo",
+      categories: "Categorie",
+      editBlogPage: "Titolo e introduzione del blog",
+      noBlogPage:
+        "La pagina «Blog» non esiste ancora: finché non viene creata e pubblicata, il blog non è visibile sul sito.",
+      noCategories:
+        "Prima di scrivere un articolo bisogna creare almeno una categoria in «Categorie».",
+      filtersLabel: "Filtra gli articoli",
+      filterStatus: "Stato",
+      filterCategory: "Categoria",
+      allStatuses: "Tutti",
+      allCategories: "Tutte le categorie",
+      published: "Pubblicato",
+      draft: "Bozza (non visibile sul sito)",
+      onlyPublished: "Pubblicati",
+      onlyDrafts: "Bozze",
+      empty: "Non ci sono ancora articoli.",
+      emptyFiltered: "Nessun articolo con questi filtri.",
+      publish: "Pubblica",
+      unpublish: "Nascondi dal sito",
+      publishedNow: "Articolo pubblicato",
+      unpublishedNow: "L'articolo non è più visibile sul sito",
+      deleteTitle: "Eliminare l'articolo?",
+      deleteText: (title: string) =>
+        `L'articolo «${title}» verrà eliminato definitivamente. L'operazione non può essere annullata.`,
+      deleted: "Articolo eliminato",
+    },
+
+    postEditor: {
+      newTitle: "Nuovo articolo",
+      editTitle: (title: string) => `Modifica «${title}»`,
+      backToPosts: "Torna agli articoli",
+      postTitle: "Titolo dell'articolo",
+      address: "Indirizzo dell'articolo",
+      addressHelp:
+        "Viene creato automaticamente dal titolo. È la parte finale dell'indirizzo web dell'articolo:",
+      category: "Categoria",
+      categoryPlaceholder: "Scegliere una categoria",
+      date: "Data di pubblicazione",
+      dateHelp: "Gli articoli sono mostrati dal più recente.",
+      excerpt: "Estratto",
+      excerptHelp: "Breve riassunto mostrato nell'elenco degli articoli.",
+      coverSection: "Copertina",
+      coverHelp: "Compare in cima all'articolo e nell'elenco degli articoli.",
+      coverType: "Tipo di copertina",
+      coverNone: "Nessuna copertina",
+      coverImage: "Immagine",
+      coverVideo: "Video di YouTube",
+      coverImageField: "Immagine di copertina",
+      coverPosterField: "Immagine di anteprima del video",
+      coverPosterHelp:
+        "Facoltativa: si vede prima di premere play e nell'elenco. Se vuota, compare un riquadro con il simbolo play.",
+      coverVideoUrl: "Indirizzo del video",
+      coverVideoHelp: "Es. https://www.youtube.com/watch?v=…",
+      authorSection: "Autore",
+      authorHelp: "Lasciare vuoti i campi per usare il nome e la foto di «Impostazioni del sito».",
+      authorName: "Nome dell'autore",
+      authorPhoto: "Foto dell'autore",
+      sectionsHelp: "Il contenuto dell'articolo, sezione per sezione.",
+      seoImage: "Immagine per la condivisione sui social",
+      seoImageHelp: "Se vuota, si usa l'immagine di copertina.",
+      created: "Articolo creato",
+    },
+
+    categories: {
+      title: "Categorie del blog",
+      intro:
+        "Le categorie compaiono accanto agli articoli, nell'ordine qui indicato. Quelle senza articoli pubblicati non vengono mostrate sul sito.",
+      backToPosts: "Torna agli articoli",
+      empty: "Non ci sono ancora categorie.",
+      name: "Nome",
+      address: "Indirizzo della categoria",
+      addressHelp: "Viene creato automaticamente dal nome:",
+      parent: "Categoria principale",
+      noParent: "Nessuna (è una categoria principale)",
+      parentHelp:
+        "Una sottocategoria compare sotto la sua categoria principale. È possibile un solo livello.",
+      seoTitle: "Titolo per i motori di ricerca",
+      seoDescription: "Breve descrizione per i motori di ricerca",
+      newCategory: "Nuova categoria",
+      add: "Aggiungi categoria",
+      created: "Categoria creata",
+      orderSaved: "Ordine delle categorie salvato",
+      postCount: (count: number) => (count === 1 ? "1 articolo" : `${count} articoli`),
+      subcategoryOf: (name: string) => `Sottocategoria di «${name}»`,
+      cannotDelete: "Si può eliminare solo una categoria senza articoli né sottocategorie.",
+      deleteTitle: "Eliminare la categoria?",
+      deleteText: (name: string) => `La categoria «${name}» verrà eliminata definitivamente.`,
+      deleted: "Categoria eliminata",
     },
 
     settings: {
@@ -374,6 +513,22 @@ export const it = {
       textEmailLabel: "Etichetta dell'email nei recapiti",
       textPhoneLabel: "Etichetta del telefono nei recapiti",
       textAddressLabel: "Etichetta dell'indirizzo nei recapiti",
+      blogSection: "Blog: scheda contatti e autore",
+      blogHelp:
+        "Nome, titolo professionale, telefono ed email della scheda contatti accanto agli " +
+        "articoli sono quelli inseriti sopra. Nome e foto sono anche l'autore predefinito degli articoli.",
+      photo: "Foto professionale",
+      officeHours: "Orari di ricevimento",
+      officeHoursPlaceholder: "Es. Dal lunedì al venerdì, 9:00–19:00",
+      blogTextsSection: "Testi del blog",
+      textBlogCategories: "Titolo dell'elenco delle categorie",
+      textBlogAllPosts: "Voce per vedere tutti gli articoli",
+      textBlogReadMore: "Collegamento per aprire un articolo",
+      textBlogLoadMore: "Pulsante per caricare altri articoli",
+      textBlogBack: "Collegamento per tornare al blog",
+      textBlogRelated: "Titolo degli articoli correlati",
+      textOfficeHoursLabel: "Etichetta degli orari",
+      textContactCardButton: "Pulsante della scheda contatti",
       reasonsSection: "Motivi del contatto",
       reasonsHelp: "Le opzioni tra cui il visitatore può scegliere nel modulo di contatto.",
       reason: "Motivo",

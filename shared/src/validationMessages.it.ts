@@ -18,4 +18,10 @@ export const validation = {
   invalidSlug: "L'indirizzo della pagina può contenere solo lettere minuscole, numeri e trattini",
   reservedSlug: "Questo indirizzo è riservato: sceglierne un altro",
   atLeastOneReason: "Inserire almeno un motivo del contatto",
+  invalidAddress: "L'indirizzo può contenere solo lettere minuscole, numeri e trattini",
+  invalidDate: "Inserire una data valida",
+  chooseCategory: "Scegliere una categoria",
+  coverImageRequired: "Caricare un'immagine di copertina oppure scegliere «Nessuna copertina»",
+  coverVideoRequired: "Inserire l'indirizzo del video oppure scegliere un altro tipo di copertina",
+  sectionNotAllowed: "Questo tipo di sezione non si può usare negli articoli",
 } as const;

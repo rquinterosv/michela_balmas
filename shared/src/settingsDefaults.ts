@@ -10,6 +10,8 @@ export function withSettingsDefaults(settings: SiteSettings): SiteSettings {
     social: { ...settings.social, facebook: settings.social.facebook ?? "" },
     // Antes de existir la opción, el ítem "Chi sono" ya salía en el menú.
     showAboutInMenu: settings.showAboutInMenu ?? true,
+    photoUrl: settings.photoUrl ?? "",
+    officeHours: settings.officeHours ?? "",
     texts: { ...DEFAULT_SITE_TEXTS, ...settings.texts },
   };
 }

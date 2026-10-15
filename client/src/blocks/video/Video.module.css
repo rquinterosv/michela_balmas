@@ -1,0 +1,8 @@
+.section {
+  padding-block: var(--space-8);
+}
+
+/* El video no se estira más allá del ancho cómodo de lectura. */
+.inner > * {
+  max-width: var(--text-width);
+}

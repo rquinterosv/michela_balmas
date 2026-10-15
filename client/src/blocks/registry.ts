@@ -5,6 +5,7 @@ import {
   heroDataSchema,
   imageDataSchema,
   richTextDataSchema,
+  videoDataSchema,
   zigzagDataSchema,
   type BlockData,
   type BlockType,
@@ -19,6 +20,7 @@ import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
 import { HeroRender } from "./hero/HeroRender";
 import { ImageRender } from "./image/ImageRender";
 import { RichTextRender } from "./richText/RichTextRender";
+import { VideoRender } from "./video/VideoRender";
 import { ZigzagRender } from "./zigzag/ZigzagRender";
 
 // Todo lo que el frontend necesita saber de un tipo de bloque.
@@ -119,5 +121,13 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { rows: [] },
     EditorComponent: lazy(() => import("./zigzag/ZigzagEditor")),
     RenderComponent: ZigzagRender,
+  },
+  video: {
+    label: it.blockNames.video,
+    description: it.blockDescriptions.video,
+    zodSchema: videoDataSchema,
+    defaultData: { url: "", title: "", posterUrl: "", linkLabel: "ascolta" },
+    EditorComponent: lazy(() => import("./video/VideoEditor")),
+    RenderComponent: VideoRender,
   },
 };

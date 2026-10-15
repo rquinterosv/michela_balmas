@@ -22,6 +22,25 @@ export const messages = {
   homeMustStayPublished: "La pagina iniziale deve restare pubblicata.",
   homeCannotBeDeleted: "La pagina iniziale non può essere eliminata.",
   reorderOutdated: "L'elenco delle pagine non è aggiornato. Ricaricare e riprovare.",
+  blogSlugLocked: "L'indirizzo della pagina del blog non può essere modificato.",
+  blogCannotBeDeleted:
+    "La pagina del blog non può essere eliminata. Per nasconderla, toglierne la pubblicazione.",
+
+  postNotFound: "Articolo non trovato.",
+  postSlugTaken: "Esiste già un articolo con questo indirizzo.",
+  categoryNotFound: "Categoria non trovata.",
+  categoryMissing: "La categoria scelta non esiste più. Sceglierne un'altra.",
+  categorySlugTaken: "Esiste già una categoria con questo indirizzo.",
+  categoryParentInvalid: "La categoria principale scelta non è valida.",
+  categoryParentNotTopLevel:
+    "Si può scegliere come categoria principale solo una categoria che non ne ha a sua volta una.",
+  categoryHasChildrenNoParent:
+    "Questa categoria ha delle sottocategorie: non può diventare a sua volta una sottocategoria.",
+  categoryNotEmpty:
+    "La categoria contiene degli articoli: spostarli in un'altra categoria prima di eliminarla.",
+  categoryHasChildren:
+    "La categoria contiene delle sottocategorie: eliminarle o spostarle prima di eliminarla.",
+  categoriesReorderOutdated: "L'elenco delle categorie non è aggiornato. Ricaricare e riprovare.",
 
   // Email de aviso de mensaje nuevo. A propósito NO incluye el texto del mensaje ni
   // los datos de contacto: pueden ser datos sensibles y el email no es un canal
