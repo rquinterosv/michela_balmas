@@ -260,8 +260,11 @@ La psicóloga entra en `https://www.tusitio.it/admin` y puede cambiar la
 contraseña con "Password dimenticata?". Un usuario al que se le acaba de dar el
 permiso tiene que cerrar sesión y volver a entrar.
 
-`seed` solo crea lo que falta: una página se salta si ya hay otra con su id o con
-su dirección, y los datos del sitio si ya existen. Así se puede usar en producción
+`seed` solo crea lo que falta: una página, categoría o artículo se salta si ya hay
+otro con su id o con su dirección, y los datos del sitio si ya existen.
+`npm run seed -- --production` hace lo mismo contra el proyecto real aunque
+`server/.env` apunte a los emuladores (usa sus credenciales de la service account),
+sin tener que tocar el archivo. Así se puede usar en producción
 para agregar una página nueva del contenido inicial (p. ej. "Chi sono") sin tocar
 lo que ya está editado. `npm run seed -- --force` sobrescribe las páginas iniciales
 y los datos del sitio: **no lo uses en producción** después de que se haya editado
@@ -321,6 +324,13 @@ npm run start        # backend en modo producción
   evita con un plan de pago o con un servicio gratuito que llame a `/api/health`
   cada 10 minutos. Diagnóstico y plan sin coste en
   [docs/antes-de-produccion.md](./docs/antes-de-produccion.md#3-tiempo-de-carga).
+- **Blog:** el sitemap (`/sitemap.xml`) lo genera el backend; `vercel.json` lo
+  reenvía con un rewrite a `https://michela-balmas-api.onrender.com` y
+  `client/public/robots.txt` lo anuncia con el dominio de Vercel. Si cambia el
+  dominio del sitio o del backend, hay que actualizar esos dos archivos (y
+  `SITE_URL` del backend). Firebase Hosting no admite ese rewrite a otro dominio.
+  Los videos de YouTube se cargan solo al pulsar play (ver
+  [docs/cookie-policy-youtube.md](./docs/cookie-policy-youtube.md)).
 - **Vista previa de enlaces en redes:** al ser una aplicación de una sola
   página, WhatsApp, Facebook, etc. solo ven el título y la descripción fijos de
   `client/index.html`, no los de cada página. Google sí ejecuta JavaScript.

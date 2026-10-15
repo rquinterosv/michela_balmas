@@ -44,8 +44,12 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 - `client/src/blocks/`: una carpeta por tipo de bloque (`XRender.tsx`, `XEditor.tsx`,
   CSS) y `registry.ts`, que los une. `BlockRenderer` dibuja un bloque en el sitio;
   `admin/BlockListEditor` lo edita en el panel.
-- `client/src/admin/`: el panel (`/admin`, rutas en italiano: `pagine`, `messaggi`,
-  `impostazioni`). `AdminLayout` decide entre login, "no autorizado" y el panel según
+- `client/src/blog/`: el blog público (`/blog`, `/blog/categoria/:slug`, `/blog/:slug`).
+  Lo enmarca la página normal con slug `blog`: su título, su lugar en el menú, su SEO y
+  sus secciones (el texto introductorio) se editan en «Pagine»; si no existe o no está
+  publicada, el blog da 404. `BlogShell` arma el 60/40 con la barra lateral.
+- `client/src/admin/`: el panel (`/admin`, rutas en italiano: `pagine`, `blog`,
+  `blog/categorie`, `messaggi`, `impostazioni`). `AdminLayout` decide entre login, "no autorizado" y el panel según
   `AuthContext`. Las llamadas van por `adminApi.ts`, que añade el token. Todas las
   pantallas comparten `Admin.module.css`.
 - Los formularios validan con el mismo esquema zod que el backend (`safeParse` +
@@ -60,13 +64,14 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 
 ### Dónde viven los textos en italiano
 
-| Qué                                          | Dónde                                 |
-| -------------------------------------------- | ------------------------------------- |
-| Interfaz (sitio público y panel)             | `client/src/i18n/it.ts`               |
-| Validación de formularios (client y server)  | `shared/src/validationMessages.it.ts` |
-| Errores de la API y plantilla de email       | `server/src/messages.it.ts`           |
-| Contenido de ejemplo (seed y modo demo)      | `shared/src/seedContent.ts`           |
-| Rótulos del pie, recapiti y menú (iniciales) | `shared/src/siteTexts.it.ts`          |
+| Qué                                         | Dónde                                 |
+| ------------------------------------------- | ------------------------------------- |
+| Interfaz (sitio público y panel)            | `client/src/i18n/it.ts`               |
+| Validación de formularios (client y server) | `shared/src/validationMessages.it.ts` |
+| Errores de la API y plantilla de email      | `server/src/messages.it.ts`           |
+| Contenido de ejemplo (seed y modo demo)     | `shared/src/seedContent.ts`           |
+| Rótulos del pie, recapiti, menú y blog      | `shared/src/siteTexts.it.ts`          |
+| Contenido de ejemplo del blog               | `shared/src/seedBlog.ts`              |
 
 Los rótulos del pie y de los recapiti no están en `it.ts`: son editables desde el panel
 ("Impostazioni del sito" > "Testi del sito") y se guardan en `siteSettings.texts`.
@@ -80,8 +85,16 @@ pages/{pageId}      title, slug, order, published, showInMenu, seo{title,descrip
                     blocks[{id,type,data}], updatedAt
 siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber, email,
                     phone, address, onlineSessions, social{facebook,instagram,linkedin},
-                    showAboutInMenu, contactReasons[], texts{onlineSessions,alboPrefix,
-                    vatLabel,copyright,emailLabel,phoneLabel,addressLabel,aboutMenu}
+                    showAboutInMenu, photoUrl, officeHours, contactReasons[],
+                    texts{onlineSessions,alboPrefix,vatLabel,copyright,emailLabel,
+                    phoneLabel,addressLabel,aboutMenu,blog…,officeHoursLabel,contactCardButton}
+posts/{id}          title, slug, categoryId, date (Timestamp a medianoche UTC; por la API
+                    "2026-10-15"), excerpt, cover{type:none|image|video,imageUrl,imageAlt,
+                    videoUrl}, author{name,photoUrl} (vacíos = los de siteSettings),
+                    blocks[] (solo richText, image, zigzag, video), published,
+                    seo{title,description,imageUrl}, createdAt, updatedAt
+categories/{id}     name, slug, parentId (null o una categoría sin padre: un nivel),
+                    order, seo{title,description}
 images/{id}         data (bytes del JPEG), createdAt
 messages/{id}       name, email, phone, reason, message, consent, consentAt,
                     status ("nuovo" | "letto" | "risposto"), createdAt
@@ -93,15 +106,25 @@ La página con `slug: "home"` se sirve en `/` y no se puede eliminar. Los slugs 
 ### API
 
 Públicos: `GET /api/pages`, `GET /api/pages/:slug`, `GET /api/settings`,
-`GET /api/images/:id`, `POST /api/contact`.
+`GET /api/images/:id`, `POST /api/contact`, `GET /api/blog/categories` (con artículos
+publicados, contados con los de sus hijas), `GET /api/blog/posts?categoria=&pagina=`
+(de 4 en 4), `GET /api/blog/posts/:slug` (+ relacionados) y `GET /sitemap.xml` (fuera
+de `/api`; Vercel la sirve en el dominio del sitio con un rewrite en `vercel.json`).
 
 Admin (`requireAdmin`): `GET/POST /api/admin/pages`,
 `PATCH /api/admin/pages/reorder`, `GET/PUT/DELETE /api/admin/pages/:id`,
 `GET/PUT /api/admin/settings`, `GET /api/admin/messages`,
-`PATCH/DELETE /api/admin/messages/:id`, `POST /api/admin/images`.
+`PATCH/DELETE /api/admin/messages/:id`, `POST /api/admin/images`,
+`GET/POST /api/admin/posts`, `GET/PUT/DELETE /api/admin/posts/:id`,
+`GET/POST /api/admin/categories`, `PATCH /api/admin/categories/reorder`,
+`PUT/DELETE /api/admin/categories/:id` (estas devuelven la lista entera).
 
 Las rutas lanzan `HttpError` (o dejan que falle `schema.parse`) y `errorHandler` arma la
-respuesta. La página `home` no puede eliminarse, despublicarse ni cambiar de slug. El
+respuesta. La página `home` no puede eliminarse, despublicarse ni cambiar de slug; la
+página `blog`, ni eliminarse ni cambiar de slug. Una categoría con artículos o con
+subcategorías no se puede eliminar. Las consultas del blog (recuentos, paginación,
+relacionados) son funciones puras de `shared/src/blog.ts`: las usan el backend y el
+modo demo. El
 email de aviso (opcional, Resend) no incluye el texto del mensaje, por privacidad.
 
 ### Imágenes
@@ -122,7 +145,8 @@ npm run lint         # eslint
 npm run format       # prettier --write
 npm test             # tests del backend (vitest + supertest)
 npm run build        # build del frontend
-npm run seed         # crea el contenido inicial que falta (-- --force lo sobrescribe)
+npm run seed         # crea el contenido inicial que falta (-- --force lo sobrescribe;
+                     # -- --production va contra el proyecto real aunque .env use emuladores)
 npm run set-admin -- <email> ["password"]   # da el claim admin (crea el usuario si hay password)
 ```
 
