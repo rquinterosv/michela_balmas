@@ -1,6 +1,7 @@
 import {
   aboutDataSchema,
   contactFormDataSchema,
+  ctaDataSchema,
   contactInfoDataSchema,
   heroDataSchema,
   imageDataSchema,
@@ -17,6 +18,7 @@ import { AboutRender } from "./about/AboutRender";
 import type { BlockEditorProps } from "./editorTypes";
 import { ContactFormRender } from "./contactForm/ContactFormRender";
 import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
+import { CtaRender } from "./cta/CtaRender";
 import { HeroRender } from "./hero/HeroRender";
 import { ImageRender } from "./image/ImageRender";
 import { RichTextRender } from "./richText/RichTextRender";
@@ -121,6 +123,14 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { rows: [] },
     EditorComponent: lazy(() => import("./zigzag/ZigzagEditor")),
     RenderComponent: ZigzagRender,
+  },
+  cta: {
+    label: it.blockNames.cta,
+    description: it.blockDescriptions.cta,
+    zodSchema: ctaDataSchema,
+    defaultData: { title: "", text: "", buttonLabel: "", buttonHref: "/contatti" },
+    EditorComponent: lazy(() => import("./cta/CtaEditor")),
+    RenderComponent: CtaRender,
   },
   video: {
     label: it.blockNames.video,

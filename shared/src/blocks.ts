@@ -61,6 +61,15 @@ export const imageDataSchema = z.object({
 // Video o audio: si la dirección es de YouTube se ve en la página (se carga solo al
 // pulsar play); si es de otra plataforma (Spotify, la web de la radio…), se muestra
 // un botón "Ascolta" o "Guarda" que la abre en otra pestaña.
+// Invito all'azione: un riquadro con titolo, testo breve e un pulsante (p. ej.
+// "Prenota un primo colloquio" -> /contatti). El botón es lo único obligatorio.
+export const ctaDataSchema = z.object({
+  title: optionalText(120),
+  text: optionalText(400),
+  buttonLabel: requiredText(60),
+  buttonHref: optionalLink.refine((value) => value !== "", validation.required),
+});
+
 export const videoDataSchema = z.object({
   url: z
     .string(validation.required)
@@ -104,6 +113,7 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("image"), data: imageDataSchema }),
   z.object({ id: blockId, type: z.literal("zigzag"), data: zigzagDataSchema }),
   z.object({ id: blockId, type: z.literal("video"), data: videoDataSchema }),
+  z.object({ id: blockId, type: z.literal("cta"), data: ctaDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;

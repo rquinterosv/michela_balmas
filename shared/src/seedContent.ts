@@ -213,7 +213,7 @@ export const seedPages: Record<string, PageInput> = {
   contatti: {
     title: "Contatti",
     slug: "contatti",
-    order: 2,
+    order: 3,
     published: true,
     showInMenu: true,
     seo: {
@@ -251,7 +251,7 @@ export const seedPages: Record<string, PageInput> = {
   "privacy-policy": {
     title: "Privacy Policy",
     slug: "privacy-policy",
-    order: 3,
+    order: 4,
     published: true,
     showInMenu: false,
     seo: {
@@ -264,7 +264,7 @@ export const seedPages: Record<string, PageInput> = {
   "cookie-policy": {
     title: "Cookie Policy",
     slug: "cookie-policy",
-    order: 4,
+    order: 5,
     published: true,
     showInMenu: false,
     seo: {
@@ -274,13 +274,111 @@ export const seedPages: Record<string, PageInput> = {
     blocks: [{ id: "cookie-text", type: "richText", data: { html: cookiePolicyHtml } }],
   },
 
+  // Cómo trabaja la profesional: el enfoque sistémico-relacional y cómo son las
+  // sesiones. Textos provisionales ("[DA REVISIONARE]") hasta tener los suyos.
+  "come-lavoro": {
+    title: "Come lavoro",
+    slug: "come-lavoro",
+    order: 1,
+    published: true,
+    showInMenu: true,
+    seo: {
+      title: "",
+      description:
+        "L'approccio sistemico-relazionale e come si svolge un percorso di psicoterapia: " +
+        "il primo colloquio, le sedute, in studio e online.",
+    },
+    blocks: [
+      {
+        id: "come-lavoro-intro",
+        type: "richText",
+        data: {
+          html:
+            "<p><strong>[DA REVISIONARE] Testo di esempio.</strong></p>" +
+            "<p>In questa pagina trova qualche informazione sul mio modo di lavorare: " +
+            "l'orientamento che guida il mio sguardo e come si svolge, in pratica, un " +
+            "percorso insieme. Spero possa aiutarLa a farsi un'idea di che cosa aspettarsi.</p>",
+        },
+      },
+      {
+        id: "come-lavoro-sezioni",
+        type: "zigzag",
+        data: {
+          rows: [
+            {
+              id: "come-lavoro-approccio",
+              imageUrl: "",
+              imageAlt: "",
+              title: "L'approccio sistemico-relazionale",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<p>L'approccio sistemico-relazionale guarda alla persona all'interno delle " +
+                "sue relazioni: la famiglia, la coppia, gli amici, il lavoro. Le difficoltà " +
+                "non vengono considerate solo come qualcosa di individuale, ma anche come il " +
+                "segnale di equilibri che, in un certo momento della vita, faticano a funzionare.</p>" +
+                "<p>Per questo, a seconda della richiesta, il lavoro può coinvolgere la singola " +
+                "persona, la coppia oppure la famiglia.</p>",
+            },
+            {
+              id: "come-lavoro-primo-colloquio",
+              imageUrl: "",
+              imageAlt: "",
+              title: "Il primo colloquio",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<p>Il primo colloquio è un momento di conoscenza reciproca. Si parte da ciò " +
+                "che La porta a chiedere un incontro, senza bisogno di arrivare preparati. " +
+                "Al termine valutiamo insieme se e come proseguire.</p>",
+            },
+            {
+              id: "come-lavoro-sedute",
+              imageUrl: "",
+              imageAlt: "",
+              title: "Come si svolgono le sedute",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<ul><li>Le sedute durano circa [DA COMPLETARE] minuti.</li>" +
+                "<li>La frequenza si concorda insieme, in base alla richiesta e ai Suoi tempi " +
+                "(di solito [DA COMPLETARE]).</li>" +
+                "<li>Gli obiettivi vengono definiti insieme e possono cambiare nel corso del percorso.</li>" +
+                "<li>Tutto ciò che emerge durante le sedute è coperto dal segreto professionale.</li></ul>",
+            },
+            {
+              id: "come-lavoro-studio-online",
+              imageUrl: "",
+              imageAlt: "",
+              title: "In studio oppure online",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<p>I colloqui si svolgono in studio oppure online, in videochiamata. La " +
+                "modalità online segue gli stessi principi di quella in presenza: servono " +
+                "soltanto una connessione stabile e un luogo tranquillo e riservato.</p>",
+            },
+          ],
+        },
+      },
+      {
+        id: "come-lavoro-invito",
+        type: "cta",
+        data: {
+          title: "Vuole saperne di più?",
+          text:
+            "Può scrivermi per qualsiasi domanda oppure per fissare un primo colloquio " +
+            "conoscitivo.",
+          buttonLabel: "Prenota un primo colloquio",
+          buttonHref: "/contatti",
+        },
+      },
+    ],
+  },
+
   // Portada del blog (/blog): el título, el lugar en el menú y el SEO se editan como
   // los de cualquier página, y sus secciones son el texto introductorio del listado.
   // Los artículos y las categorías están en seedBlog.ts.
   blog: {
     title: "Blog",
     slug: "blog",
-    order: 1,
+    order: 2,
     published: true,
     showInMenu: true,
     seo: {
@@ -306,7 +404,7 @@ export const seedPages: Record<string, PageInput> = {
   "chi-sono": {
     title: "Chi sono",
     slug: "chi-sono",
-    order: 5,
+    order: 6,
     published: true,
     showInMenu: false,
     seo: {

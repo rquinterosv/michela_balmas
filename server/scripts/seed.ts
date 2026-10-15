@@ -5,6 +5,7 @@ import {
   siteSettingsSchema,
 } from "@studio/shared";
 import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
+import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
 
 // Carga el contenido inicial (datos del sitio, páginas, y categorías y artículos
 // del blog) con textos de ejemplo.
@@ -17,7 +18,8 @@ import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shar
 // Sin --force sirve también en un sitio ya en marcha: si se agrega contenido inicial
 // nuevo (p. ej. el blog), lo crea sin pisar lo de la profesional. Algo se da por
 // existente si ya hay otro documento con su id o con su dirección (slug), aunque se
-// haya editado. Las páginas y categorías nuevas van al final del orden.
+// haya editado. Una página nueva se coloca en su sitio del menú (p. ej. "Blog"
+// delante de "Contatti", ver src/services/seedOrder.ts); una categoría nueva, al final.
 //
 // No toca los mensajes ni lo creado desde el panel.
 
@@ -62,7 +64,9 @@ async function main() {
 
   // --- Páginas ---
   const pages = (await db.collection("pages").get()).docs;
-  let nextPageOrder = nextOrderOf(pages);
+  const seedOrderOf = (slug: unknown) =>
+    Object.values(seedPages).find((page) => page.slug === slug)?.order ?? null;
+  const added: OrderedPage[] = [];
 
   for (const [id, content] of Object.entries(seedPages)) {
     const page = pageInputSchema.parse(content);
@@ -72,13 +76,26 @@ async function main() {
       continue;
     }
 
-    // En un sitio con páginas, una página nueva va detrás de las que ya hay.
-    const order = force || pages.length === 0 ? page.order : nextPageOrder++;
     await db
       .collection("pages")
       .doc(id)
-      .set({ ...page, order, blocks: sanitizeBlocks(page.blocks), updatedAt: Timestamp.now() });
+      .set({ ...page, blocks: sanitizeBlocks(page.blocks), updatedAt: Timestamp.now() });
+    added.push({ id, seedOrder: page.order });
     console.log(`Página guardada: /${page.slug}`);
+  }
+
+  // En un sitio con páginas, las nuevas se colocan en su sitio del menú (ver
+  // seedOrder.ts). De las existentes solo cambia el campo "order", si hace falta.
+  if (!force && pages.length > 0 && added.length > 0) {
+    const current = [...pages]
+      .sort((a, b) => (a.get("order") as number) - (b.get("order") as number))
+      .map((doc) => ({ id: doc.id, seedOrder: seedOrderOf(doc.get("slug")) }));
+    const batch = db.batch();
+    mergePageOrder(current, added).forEach((id, index) => {
+      batch.update(db.collection("pages").doc(id), { order: index });
+    });
+    await batch.commit();
+    console.log("Orden de las páginas actualizado.");
   }
 
   // --- Categorías del blog ---

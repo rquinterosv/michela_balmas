@@ -126,29 +126,30 @@ frontend, que hoy está en Vercel. Alternativa gratuita que permite uso
 comercial: Firebase Hosting (plan Spark), ya configurado en `firebase.json`
 (ver la sección 6 del README).
 
-## 4. Blog: puesta en marcha (15/10/2026)
+## 4. Blog y «Come lavoro»: puesta en marcha (15/10/2026)
 
-El código del blog ya está en producción, pero el blog no se ve hasta que exista la
-página `blog`. Pasos, en orden:
+El código ya está en producción, pero el blog y la página «Come lavoro» no se ven
+hasta que existan en la base de datos. Pasos, en orden:
 
-- [ ] Crear el contenido inicial del blog en la base real (página `blog`, categorías
-      «Interviste», «Radio» y «Articoli», y 6 artículos «[DA REVISIONARE]»). No toca
-      nada de lo que ya existe. Desde la carpeta `server/`:
+- [ ] Crear el contenido inicial en la base real: la página «Come lavoro», la página
+      `blog`, las categorías «Interviste», «Radio» y «Articoli», y 6 artículos, todo
+      con textos «[DA REVISIONARE]». No toca nada de lo que ya existe y coloca las
+      páginas nuevas en su sitio del menú (Home · Chi sono · Come lavoro · Blog ·
+      Contatti). Desde la carpeta `server/`:
 
       npm run seed -- --production
 
 - [ ] Publicar las reglas de Firestore actualizadas (lectura pública solo de los
       artículos publicados): `firebase deploy --only firestore:rules`. El sitio no
       depende de ellas (todo pasa por el backend), pero así quedan coherentes.
-- [ ] En «Pagine», subir «Blog» para que quede justo antes de «Contatti» (el seed la
-      añade al final).
 - [ ] En «Impostazioni del sito» › «Blog: scheda contatti e autore»: subir la foto
       profesional y escribir el horario de atención.
 - [ ] En el artículo «Intervista: prendersi cura della propria salute psicologica»:
       sustituir el enlace provisional de YouTube (`DA_INSERIRE`) por el real. En
       «In radio: ansia e stress…», sustituir el enlace provisional de la puntata.
-- [ ] Revisar los textos «[DA REVISIONARE]» de los 6 artículos y del texto
-      introductorio del blog (o despublicar los que no sirvan).
+- [ ] Revisar los textos «[DA REVISIONARE]» de «Come lavoro» (completar duración y
+      frecuencia de las sedute), de los 6 artículos y del texto introductorio del
+      blog (o despublicar lo que no sirva).
 - [ ] Cookie Policy: aplicar el borrador de
       [cookie-policy-youtube.md](./cookie-policy-youtube.md), después de revisarlo
       con un profesional.

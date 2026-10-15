@@ -7,6 +7,7 @@ import {
 import { describe, expect, it } from "vitest";
 import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
 import { sanitizeBlocks, sanitizeRichText } from "../src/services/sanitizeHtml";
+import { mergePageOrder } from "../src/services/seedOrder";
 
 // El seed no se puede probar sin emuladores, pero sí su contenido.
 describe("contenido del seed", () => {
@@ -80,5 +81,35 @@ describe("sanitizeBlocks", () => {
       type: "zigzag",
       data: { rows: [{ ...row, html: "<p>Testo</p>" }] },
     });
+  });
+});
+
+describe("mergePageOrder", () => {
+  it("coloca cada página nueva delante de la primera que va después en el contenido inicial", () => {
+    const current = [
+      { id: "home", seedOrder: 0 },
+      { id: "contatti", seedOrder: 3 },
+      { id: "creata-dal-pannello", seedOrder: null },
+      { id: "privacy-policy", seedOrder: 4 },
+    ];
+    const added = [
+      { id: "blog", seedOrder: 2 },
+      { id: "come-lavoro", seedOrder: 1 },
+    ];
+
+    expect(mergePageOrder(current, added)).toEqual([
+      "home",
+      "come-lavoro",
+      "blog",
+      "contatti",
+      "creata-dal-pannello",
+      "privacy-policy",
+    ]);
+  });
+
+  it("si ninguna va después, la nueva queda al final", () => {
+    expect(
+      mergePageOrder([{ id: "home", seedOrder: 0 }], [{ id: "chi-sono", seedOrder: 6 }]),
+    ).toEqual(["home", "chi-sono"]);
   });
 });

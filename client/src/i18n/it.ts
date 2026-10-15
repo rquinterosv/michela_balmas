@@ -126,6 +126,7 @@ export const it = {
     image: "Immagine",
     zigzag: "Immagini e testi alternati",
     video: "Video o audio",
+    cta: "Invito all'azione",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -137,6 +138,7 @@ export const it = {
     contactInfo: "Email, telefono e indirizzo dello studio.",
     image: "Un'immagine con una didascalia facoltativa.",
     zigzag: "Righe con un'immagine e un testo affiancati; l'immagine cambia lato a ogni riga.",
+    cta: "Un riquadro con titolo, testo breve e un pulsante (es. «Prenota un primo colloquio»).",
     video:
       "Un video di YouTube, oppure un pulsante per ascoltare o guardare su un altro sito (Spotify, la radio…).",
   } satisfies Record<BlockType, string>,
@@ -336,6 +338,13 @@ export const it = {
         title: "Titolo",
         intro: "Testo introduttivo",
         help: "I motivi del contatto si modificano in «Impostazioni del sito».",
+      },
+      cta: {
+        title: "Titolo",
+        text: "Testo",
+        buttonLabel: "Testo del pulsante",
+        buttonHref: "Collegamento del pulsante",
+        buttonHrefHelp: "Es. /contatti per portare alla pagina dei contatti.",
       },
       video: {
         url: "Indirizzo del video o dell'audio",
