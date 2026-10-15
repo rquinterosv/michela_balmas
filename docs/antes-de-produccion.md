@@ -30,8 +30,10 @@ Fecha del análisis: 15/10/2026.
 - [ ] Ejecutar `npm run seed` **sin `--force`** con `server/.env` apuntando al
       proyecto real: crea la página `/chi-sono` (con textos «DA REVISIONARE») sin
       tocar el contenido existente. Con `--force` se pisaría todo lo editado.
-- [ ] En el panel, bloque «Chi sono» de la Home: rellenar el botón
-      («Scopri di più» → `/chi-sono`). El seed no lo añade a una Home que ya existe.
+- [ ] Botón «Scopri di più» de la Home: no hace falta rellenarlo. Un bloque «Chi sono»
+      guardado antes de existir el botón muestra «Scopri di più» → `/chi-sono` en cuanto
+      esa página está publicada (antes no, para no llevar a un 404). Se cambia o se
+      quita (campos vacíos) desde el panel.
 - [ ] Revisar en móvil (375 px) y en escritorio: menú, voce «Chi sono», botón
       «Scopri di più» y página `/chi-sono`.
 

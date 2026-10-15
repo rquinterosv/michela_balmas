@@ -83,6 +83,11 @@ export const it = {
       "in caso di urgenza contatti il 112 (Numero Unico di Emergenza).",
   },
 
+  about: {
+    // Botón por defecto de la sección "Chi sono" (ver AboutRender).
+    defaultButtonLabel: "Scopri di più",
+  },
+
   notFound: {
     title: "Pagina non trovata",
     text: "La pagina che cerca non esiste o è stata spostata.",

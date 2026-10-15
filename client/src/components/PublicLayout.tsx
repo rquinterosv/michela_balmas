@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { it } from "../i18n/it";
 import { api } from "../lib/api";
+import { PublishedPagesContext } from "../lib/PublishedPagesContext";
 import { SiteSettingsContext } from "../lib/SiteSettingsContext";
 import { useLoad } from "../lib/useLoad";
 import { Footer } from "./Footer";
@@ -45,17 +46,19 @@ export function PublicLayout() {
 
   return (
     <SiteSettingsContext.Provider value={settings}>
-      <div className={styles.layout}>
-        {/* Primer elemento al tabular: salta el menú y va directo al contenido. */}
-        <a href={`#${MAIN_ID}`} className={styles.skipLink}>
-          {it.common.skipToContent}
-        </a>
-        <Header settings={settings} pages={pages} />
-        <main id={MAIN_ID} tabIndex={-1} className={styles.main}>
-          <Outlet />
-        </main>
-        <Footer settings={settings} pages={pages} />
-      </div>
+      <PublishedPagesContext.Provider value={pages}>
+        <div className={styles.layout}>
+          {/* Primer elemento al tabular: salta el menú y va directo al contenido. */}
+          <a href={`#${MAIN_ID}`} className={styles.skipLink}>
+            {it.common.skipToContent}
+          </a>
+          <Header settings={settings} pages={pages} />
+          <main id={MAIN_ID} tabIndex={-1} className={styles.main}>
+            <Outlet />
+          </main>
+          <Footer settings={settings} pages={pages} />
+        </div>
+      </PublishedPagesContext.Provider>
     </SiteSettingsContext.Provider>
   );
 }

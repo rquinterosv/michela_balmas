@@ -4,6 +4,7 @@ import { ImageField } from "../../admin/ImageField";
 import { RichTextEditor } from "../../admin/RichTextEditor";
 import { TextField } from "../../components/TextField";
 import { it } from "../../i18n/it";
+import { ABOUT_PAGE_PATH } from "../../lib/paths";
 import type { BlockEditorProps } from "../editorTypes";
 
 type AboutList = BlockData<"about">["lists"][number];
@@ -129,14 +130,15 @@ export default function AboutEditor({
         </button>
       </fieldset>
 
-      {/* Los bloques guardados antes de existir el botón no traen estos campos: de ahí el ?? "". */}
+      {/* Los bloques guardados antes de existir el botón no traen estos campos: se
+          muestran los valores por defecto, que son los que usa el sitio (AboutRender). */}
       <fieldset className={adminStyles.fieldset}>
         <legend>{labels.button}</legend>
         <TextField
           id={`${idPrefix}-buttonLabel`}
           label={labels.buttonLabel}
           placeholder={labels.buttonLabelPlaceholder}
-          value={data.buttonLabel ?? ""}
+          value={data.buttonLabel ?? it.about.defaultButtonLabel}
           onChange={(buttonLabel) => onChange({ ...data, buttonLabel })}
           error={errors.buttonLabel}
           optional
@@ -145,7 +147,7 @@ export default function AboutEditor({
           id={`${idPrefix}-buttonHref`}
           label={labels.buttonHref}
           hint={labels.buttonHrefHelp}
-          value={data.buttonHref ?? ""}
+          value={data.buttonHref ?? ABOUT_PAGE_PATH}
           onChange={(buttonHref) => onChange({ ...data, buttonHref })}
           error={errors.buttonHref}
           optional
