@@ -7,6 +7,7 @@ import { ApiRequestError } from "../lib/api";
 import { useLoad } from "../lib/useLoad";
 import styles from "./Admin.module.css";
 import { adminApi } from "./adminApi";
+import { ImageField } from "./ImageField";
 import { useToast } from "./Toast";
 import { useUnsavedChangesWarning } from "./useUnsavedChangesWarning";
 
@@ -250,6 +251,54 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
           onChange={(addressLabel) => update({ texts: { ...draft.texts, addressLabel } })}
           error={errors["texts.addressLabel"]}
         />
+      </section>
+
+      <section className={styles.card}>
+        <h2>{labels.blogSection}</h2>
+        <p className={styles.help}>{labels.blogHelp}</p>
+        <ImageField
+          id="settings-photo"
+          label={labels.photo}
+          value={draft.photoUrl}
+          onChange={(photoUrl) => update({ photoUrl })}
+          error={errors.photoUrl}
+        />
+        <TextField
+          id="settings-officeHours"
+          label={labels.officeHours}
+          placeholder={labels.officeHoursPlaceholder}
+          value={draft.officeHours}
+          onChange={(officeHours) => update({ officeHours })}
+          error={errors.officeHours}
+          multiline
+          rows={2}
+          optional
+        />
+      </section>
+
+      <section className={styles.card}>
+        <h2>{labels.blogTextsSection}</h2>
+        {(
+          [
+            ["blogCategories", labels.textBlogCategories],
+            ["blogAllPosts", labels.textBlogAllPosts],
+            ["blogReadMore", labels.textBlogReadMore],
+            ["blogLoadMore", labels.textBlogLoadMore],
+            ["blogBack", labels.textBlogBack],
+            ["blogRelated", labels.textBlogRelated],
+            ["officeHoursLabel", labels.textOfficeHoursLabel],
+            ["contactCardButton", labels.textContactCardButton],
+          ] as const
+        ).map(([key, label]) => (
+          <TextField
+            key={key}
+            id={`settings-text-${key}`}
+            label={label}
+            value={draft.texts[key]}
+            onChange={(value) => update({ texts: { ...draft.texts, [key]: value } })}
+            error={errors[`texts.${key}`]}
+          />
+        ))}
       </section>
 
       <section className={styles.card}>

@@ -47,6 +47,9 @@ export function Dashboard() {
         <Link to="/admin/messaggi" className="button button-secondary">
           {it.admin.dashboard.viewMessages}
         </Link>
+        <Link to="/admin/blog/nuovo" className="button button-secondary">
+          {it.admin.dashboard.newPost}
+        </Link>
       </div>
     </>
   );

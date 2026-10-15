@@ -11,6 +11,11 @@ interface BlockListEditorProps {
   onChange: (blocks: Block[]) => void;
   // Errores de toda la página; los de los bloques empiezan por "blocks.<n>.data.".
   errors: Record<string, string>;
+  // Tipos de sección que se pueden agregar (por defecto, todos). Los artículos del
+  // blog solo admiten algunos.
+  allowedTypes?: readonly BlockType[];
+  // Explicación bajo el título "Sezioni".
+  help?: string;
 }
 
 // Los errores de un bloque, con la clave relativa a sus datos:
@@ -25,7 +30,13 @@ function errorsOfBlock(errors: Record<string, string>, index: number): Record<st
 }
 
 // Editor de las "Sezioni" de una página: agregar, editar, subir/bajar y eliminar.
-export function BlockListEditor({ blocks, onChange, errors }: BlockListEditorProps) {
+export function BlockListEditor({
+  blocks,
+  onChange,
+  errors,
+  allowedTypes,
+  help,
+}: BlockListEditorProps) {
   // ids de los bloques cuyo formulario está desplegado.
   const [openIds, setOpenIds] = useState<string[]>([]);
   const [choosingType, setChoosingType] = useState(false);
@@ -66,7 +77,7 @@ export function BlockListEditor({ blocks, onChange, errors }: BlockListEditorPro
   return (
     <section className={styles.blockSection}>
       <h2>{labels.sections}</h2>
-      <p className={styles.help}>{labels.sectionsHelp}</p>
+      <p className={styles.help}>{help ?? labels.sectionsHelp}</p>
 
       {blocks.length === 0 && <p>{labels.noSections}</p>}
 
@@ -160,7 +171,7 @@ export function BlockListEditor({ blocks, onChange, errors }: BlockListEditorPro
         <div className={styles.card}>
           <h3 className={styles.cardTitle}>{labels.chooseSection}</h3>
           <ul className={styles.typeChooser}>
-            {(Object.keys(blockRegistry) as BlockType[]).map((type) => (
+            {(allowedTypes ?? (Object.keys(blockRegistry) as BlockType[])).map((type) => (
               <li key={type}>
                 <button type="button" className={styles.typeButton} onClick={() => addBlock(type)}>
                   <strong>{blockRegistry[type].label}</strong>

@@ -1,4 +1,4 @@
-import { HOME_SLUG, type Page, type PageInput } from "@studio/shared";
+import { BLOG_SLUG, HOME_SLUG, type Page, type PageInput } from "@studio/shared";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageError, PageLoading } from "../components/PageStatus";
@@ -101,6 +101,7 @@ export function PagesList() {
       <ul className={styles.list}>
         {pages.map((page, index) => {
           const isHome = page.slug === HOME_SLUG;
+          const isBlog = page.slug === BLOG_SLUG;
           return (
             <li key={page.id} className={styles.card}>
               <div className={styles.cardMain}>
@@ -113,6 +114,7 @@ export function PagesList() {
                     {page.showInMenu ? it.admin.pages.inMenu : it.admin.pages.notInMenu}
                   </span>
                   {isHome && <span className={styles.badgeOff}>{it.admin.pages.homeLabel}</span>}
+                  {isBlog && <span className={styles.badgeOff}>{it.admin.pages.blogLabel}</span>}
                 </p>
               </div>
 
@@ -163,14 +165,17 @@ export function PagesList() {
                     >
                       {page.published ? it.admin.pages.unpublish : it.admin.pages.publish}
                     </button>
-                    <button
-                      type="button"
-                      className={styles.textButtonDanger}
-                      disabled={busy}
-                      onClick={() => setPageToDelete(page)}
-                    >
-                      {it.admin.common.delete}
-                    </button>
+                    {/* La portada del blog se puede ocultar, pero no eliminar. */}
+                    {!isBlog && (
+                      <button
+                        type="button"
+                        className={styles.textButtonDanger}
+                        disabled={busy}
+                        onClick={() => setPageToDelete(page)}
+                      >
+                        {it.admin.common.delete}
+                      </button>
+                    )}
                   </>
                 )}
               </div>

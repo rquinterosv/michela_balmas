@@ -53,6 +53,7 @@ function AdminGate() {
   const links = [
     { to: "/admin", label: it.admin.nav.dashboard, end: true },
     { to: "/admin/pagine", label: it.admin.nav.pages, end: false },
+    { to: "/admin/blog", label: it.admin.nav.blog, end: false },
     { to: "/admin/messaggi", label: it.admin.nav.messages, end: false },
     { to: "/admin/impostazioni", label: it.admin.nav.settings, end: false },
   ];

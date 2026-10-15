@@ -1,4 +1,5 @@
 import {
+  BLOG_SLUG,
   HOME_SLUG,
   pageInputSchema,
   slugify,
@@ -63,6 +64,8 @@ interface PageEditorFormProps {
 function PageEditorForm({ page, settings }: PageEditorFormProps) {
   const isNew = page === null;
   const isHome = page?.slug === HOME_SLUG;
+  // La portada del blog: su dirección es fija (la usan /blog y sus artículos).
+  const isBlog = page?.slug === BLOG_SLUG;
   const labels = it.admin.pageEditor;
 
   // `saved` es lo último guardado; `draft`, lo que hay en pantalla.
@@ -146,6 +149,11 @@ function PageEditorForm({ page, settings }: PageEditorFormProps) {
 
       {/* Durante la vista previa el formulario se oculta, no se desmonta: así no se pierde nada. */}
       <div hidden={previewing}>
+        {isBlog && (
+          <p className={styles.notice}>
+            {labels.blogPageHelp} <Link to="/admin/blog">{labels.manageBlog}</Link>
+          </p>
+        )}
         <section className={styles.card}>
           <TextField
             id="page-title"
@@ -155,7 +163,7 @@ function PageEditorForm({ page, settings }: PageEditorFormProps) {
             error={errors.title}
           />
           {/* La página inicial vive siempre en "/": su dirección no se muestra ni se cambia. */}
-          {!isHome && (
+          {!isHome && !isBlog && (
             <TextField
               id="page-slug"
               label={labels.address}

@@ -1,9 +1,13 @@
 import {
   withSettingsDefaults,
+  type AdminCategory,
+  type CategoryInput,
   type Message,
   type MessageStatus,
   type Page,
   type PageInput,
+  type Post,
+  type PostInput,
   type SiteSettings,
 } from "@studio/shared";
 import { auth } from "../firebase";
@@ -40,6 +44,23 @@ export const adminApi = {
   updateMessageStatus: (id: string, status: MessageStatus) =>
     adminRequest<Message>(`/messages/${id}`, "PATCH", { status }),
   deleteMessage: (id: string) => adminRequest<void>(`/messages/${id}`, "DELETE"),
+
+  // Blog: artículos (del más reciente) y categorías (en orden de lectura).
+  listPosts: () => adminRequest<Post[]>("/posts"),
+  getPost: (id: string) => adminRequest<Post>(`/posts/${id}`),
+  createPost: (input: PostInput) => adminRequest<Post>("/posts", "POST", input),
+  updatePost: (id: string, input: PostInput) => adminRequest<Post>(`/posts/${id}`, "PUT", input),
+  deletePost: (id: string) => adminRequest<void>(`/posts/${id}`, "DELETE"),
+
+  // Todas devuelven la lista de categorías ya actualizada.
+  listCategories: () => adminRequest<AdminCategory[]>("/categories"),
+  createCategory: (input: CategoryInput) =>
+    adminRequest<AdminCategory[]>("/categories", "POST", input),
+  updateCategory: (id: string, input: CategoryInput) =>
+    adminRequest<AdminCategory[]>(`/categories/${id}`, "PUT", input),
+  deleteCategory: (id: string) => adminRequest<AdminCategory[]>(`/categories/${id}`, "DELETE"),
+  reorderCategories: (ids: string[]) =>
+    adminRequest<AdminCategory[]>("/categories/reorder", "PATCH", { ids }),
 
   // Sube un JPEG en base64; devuelve la dirección que se guarda en la página.
   uploadImage: (data: string) => adminRequest<{ url: string }>("/images", "POST", { data }),

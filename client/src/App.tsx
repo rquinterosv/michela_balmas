@@ -35,6 +35,10 @@ const router = createBrowserRouter(
         <Route path="pagine" lazy={adminScreen("PagesList")} />
         <Route path="pagine/nuova" lazy={adminScreen("PageEditor")} />
         <Route path="pagine/:id" lazy={adminScreen("PageEditor")} />
+        <Route path="blog" lazy={adminScreen("PostsList")} />
+        <Route path="blog/nuovo" lazy={adminScreen("PostEditor")} />
+        <Route path="blog/categorie" lazy={adminScreen("CategoriesPage")} />
+        <Route path="blog/:id" lazy={adminScreen("PostEditor")} />
         <Route path="messaggi" lazy={adminScreen("MessagesPage")} />
         <Route path="impostazioni" lazy={adminScreen("SettingsPage")} />
       </Route>

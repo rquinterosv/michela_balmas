@@ -8,7 +8,7 @@ interface TextFieldProps {
   error?: string;
   hint?: string;
   optional?: boolean;
-  type?: "text" | "email" | "tel" | "url" | "password";
+  type?: "text" | "email" | "tel" | "url" | "password" | "date";
   // true = <textarea> en lugar de <input>.
   multiline?: boolean;
   rows?: number;
