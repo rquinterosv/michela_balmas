@@ -97,6 +97,7 @@ export const it = {
     contactForm: "Modulo di contatto",
     contactInfo: "Recapiti",
     image: "Immagine",
+    zigzag: "Immagini e testi alternati",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -107,6 +108,7 @@ export const it = {
     contactForm: "Il modulo con cui i visitatori possono scrivere un messaggio.",
     contactInfo: "Email, telefono e indirizzo dello studio.",
     image: "Un'immagine con una didascalia facoltativa.",
+    zigzag: "Righe con un'immagine e un testo affiancati; l'immagine cambia lato a ogni riga.",
   } satisfies Record<BlockType, string>,
 
   messageStatus: {
@@ -268,6 +270,26 @@ export const it = {
         addItem: "Aggiungi voce",
         removeList: "Rimuovi elenco",
         removeItem: "Rimuovi voce",
+        button: "Pulsante sotto il testo di presentazione",
+        buttonLabel: "Testo del pulsante",
+        buttonLabelPlaceholder: "Es. Scopri di più",
+        buttonHref: "Collegamento del pulsante",
+        buttonHrefHelp:
+          "Es. /chi-sono per portare alla pagina «Chi sono». Il pulsante compare solo se " +
+          "entrambi i campi sono compilati.",
+      },
+      zigzag: {
+        rows: "Righe",
+        help:
+          "Su computer l'immagine si alterna a sinistra e a destra del testo; su telefono " +
+          "compare sempre sotto il testo.",
+        row: (number: number) => `Riga ${number}`,
+        image: "Immagine",
+        title: "Titolo della riga",
+        text: "Testo",
+        addRow: "Aggiungi riga",
+        removeRow: "Rimuovi riga",
+        noRows: "Nessuna riga. Aggiungerne una con il pulsante qui sotto.",
       },
       richText: {
         text: "Testo",
@@ -331,6 +353,12 @@ export const it = {
       facebook: "Facebook (indirizzo della pagina)",
       instagram: "Instagram (indirizzo del profilo)",
       linkedin: "LinkedIn (indirizzo del profilo)",
+      menuSection: "Menu del sito",
+      menuHelp:
+        "Le pagine del menu si scelgono in «Pagine». Qui si gestisce la voce che porta alla " +
+        "sezione «Chi sono» della pagina iniziale; compare subito dopo «Home».",
+      showAboutInMenu: "Mostra nel menu la voce che porta alla sezione «Chi sono»",
+      aboutMenu: "Testo della voce",
       textsSection: "Testi del sito",
       textsHelp: "Le diciture fisse che compaiono in fondo a ogni pagina e nei recapiti.",
       textOnlineSessions: "Dicitura sui colloqui online",

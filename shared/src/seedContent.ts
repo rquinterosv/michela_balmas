@@ -14,6 +14,7 @@ export const seedSettings: SiteSettings = {
   phone: "+39 000 000 0000",
   address: "Via Esempio 1, 20100 Milano (MI)",
   onlineSessions: true,
+  showAboutInMenu: true,
   social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [
     "Primo colloquio conoscitivo",
@@ -176,6 +177,8 @@ export const seedPages: Record<string, PageInput> = {
               ],
             },
           ],
+          buttonLabel: "Scopri di più",
+          buttonHref: "/chi-sono",
         },
       },
     ],
@@ -243,5 +246,66 @@ export const seedPages: Record<string, PageInput> = {
       description: "Informazioni sull'uso dei cookie in questo sito.",
     },
     blocks: [{ id: "cookie-text", type: "richText", data: { html: cookiePolicyHtml } }],
+  },
+
+  // Presentación completa. No sale en el menú: se llega con el botón "Scopri di più"
+  // de la sección "Chi sono" de la home. Textos provisionales, hasta tener los reales.
+  "chi-sono": {
+    title: "Chi sono",
+    slug: "chi-sono",
+    order: 4,
+    published: true,
+    showInMenu: false,
+    seo: {
+      title: "Chi sono | Dott.ssa Anna Rossi, Psicologa",
+      description:
+        "Formazione, esperienza professionale e approccio della Dott.ssa Anna Rossi, psicologa a Milano.",
+    },
+    blocks: [
+      {
+        id: "chi-sono-zigzag",
+        type: "zigzag",
+        data: {
+          rows: [
+            {
+              id: "chi-sono-formazione",
+              imageUrl: "/images/placeholder-portrait.svg",
+              imageAlt: "",
+              title: "Formazione",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<p>Mi sono laureata in Psicologia clinica e ho conseguito l'abilitazione " +
+                "all'esercizio della professione di psicologo. Sono iscritta all'Albo degli " +
+                "Psicologi della Lombardia.</p>" +
+                "<ul><li>Laurea magistrale in Psicologia clinica</li>" +
+                "<li>Tirocinio professionalizzante in ambito clinico</li>" +
+                "<li>Esame di Stato e iscrizione all'Albo</li></ul>",
+            },
+            {
+              id: "chi-sono-esperienza",
+              imageUrl: "/images/placeholder-hero.svg",
+              imageAlt: "",
+              title: "Esperienza professionale",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<p>Negli anni ho lavorato con persone adulte in momenti diversi della loro " +
+                "vita: periodi di cambiamento, difficoltà nelle relazioni, stress e ansia. " +
+                "Ricevo in studio a Milano e online.</p>",
+            },
+            {
+              id: "chi-sono-approccio",
+              imageUrl: "/images/placeholder-portrait.svg",
+              imageAlt: "",
+              title: "Il mio approccio",
+              html:
+                "<p><strong>[DA REVISIONARE]</strong></p>" +
+                "<p>Ogni percorso parte dall'ascolto della Sua richiesta. Nel primo colloquio " +
+                "ci conosciamo e valutiamo insieme se e come proseguire, nel rispetto dei " +
+                "Suoi tempi e del Codice Deontologico degli Psicologi Italiani.</p>",
+            },
+          ],
+        },
+      },
+    ],
   },
 };

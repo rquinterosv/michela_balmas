@@ -153,6 +153,16 @@
   border-radius: var(--radius-sm);
 }
 
+/* Título de un subCard con sus botones (subir, bajar, eliminar) a la derecha. */
+.subCardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
 .fieldset {
   margin: 0 0 var(--space-6);
   padding: 0;

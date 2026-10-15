@@ -180,6 +180,24 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className={styles.card}>
+        <h2>{labels.menuSection}</h2>
+        <p className={styles.help}>{labels.menuHelp}</p>
+        <CheckboxField
+          id="settings-showAboutInMenu"
+          label={labels.showAboutInMenu}
+          checked={draft.showAboutInMenu}
+          onChange={(showAboutInMenu) => update({ showAboutInMenu })}
+        />
+        <TextField
+          id="settings-text-aboutMenu"
+          label={labels.aboutMenu}
+          value={draft.texts.aboutMenu}
+          onChange={(aboutMenu) => update({ texts: { ...draft.texts, aboutMenu } })}
+          error={errors["texts.aboutMenu"]}
+        />
+      </section>
+
+      <section className={styles.card}>
         <h2>{labels.textsSection}</h2>
         <p className={styles.help}>{labels.textsHelp}</p>
         <TextField

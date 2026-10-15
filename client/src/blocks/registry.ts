@@ -5,6 +5,7 @@ import {
   heroDataSchema,
   imageDataSchema,
   richTextDataSchema,
+  zigzagDataSchema,
   type BlockData,
   type BlockType,
 } from "@studio/shared";
@@ -18,6 +19,7 @@ import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
 import { HeroRender } from "./hero/HeroRender";
 import { ImageRender } from "./image/ImageRender";
 import { RichTextRender } from "./richText/RichTextRender";
+import { ZigzagRender } from "./zigzag/ZigzagRender";
 
 // Todo lo que el frontend necesita saber de un tipo de bloque.
 
@@ -60,7 +62,15 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     label: it.blockNames.about,
     description: it.blockDescriptions.about,
     zodSchema: aboutDataSchema,
-    defaultData: { title: "", photoUrl: "", photoAlt: "", html: "", lists: [] },
+    defaultData: {
+      title: "",
+      photoUrl: "",
+      photoAlt: "",
+      html: "",
+      lists: [],
+      buttonLabel: "",
+      buttonHref: "",
+    },
     EditorComponent: lazy(() => import("./about/AboutEditor")),
     RenderComponent: AboutRender,
   },
@@ -101,5 +111,13 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { url: "", alt: "", caption: "" },
     EditorComponent: lazy(() => import("./image/ImageEditor")),
     RenderComponent: ImageRender,
+  },
+  zigzag: {
+    label: it.blockNames.zigzag,
+    description: it.blockDescriptions.zigzag,
+    zodSchema: zigzagDataSchema,
+    defaultData: { rows: [] },
+    EditorComponent: lazy(() => import("./zigzag/ZigzagEditor")),
+    RenderComponent: ZigzagRender,
   },
 };

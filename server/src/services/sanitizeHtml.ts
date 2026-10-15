@@ -29,6 +29,10 @@ export function sanitizeBlocks(blocks: Block[]): Block[] {
     if (block.type === "about") {
       return { ...block, data: { ...block.data, html: sanitizeRichText(block.data.html) } };
     }
+    if (block.type === "zigzag") {
+      const rows = block.data.rows.map((row) => ({ ...row, html: sanitizeRichText(row.html) }));
+      return { ...block, data: { ...block.data, rows } };
+    }
     return block;
   });
 }

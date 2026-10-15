@@ -5,6 +5,14 @@ export function pagePath(slug: string): string {
   return slug === HOME_SLUG ? "/" : `/${slug}`;
 }
 
+// Sección "Chi sono" de la home: el ítem del menú baja hasta ella con un ancla.
+// El id lo pone el bloque "about" (AboutRender).
+export const ABOUT_ANCHOR = "chi-sono";
+export const ABOUT_HREF = `/#${ABOUT_ANCHOR}`;
+// Página con la presentación completa, a la que lleva el botón "Scopri di più".
+// No sale en el menú: mientras se ve, el ítem "Chi sono" queda marcado.
+export const ABOUT_PAGE_PATH = "/chi-sono";
+
 // Un enlace es interno si es una ruta del propio sitio ("/contatti").
 export function isInternalLink(href: string): boolean {
   return href.startsWith("/") && !href.startsWith("//");

@@ -60,13 +60,13 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 
 ### Dónde viven los textos en italiano
 
-| Qué                                           | Dónde                                 |
-| --------------------------------------------- | ------------------------------------- |
-| Interfaz (sitio público y panel)              | `client/src/i18n/it.ts`               |
-| Validación de formularios (client y server)   | `shared/src/validationMessages.it.ts` |
-| Errores de la API y plantilla de email        | `server/src/messages.it.ts`           |
-| Contenido de ejemplo (seed y modo demo)       | `shared/src/seedContent.ts`           |
-| Rótulos del pie y de los recapiti (iniciales) | `shared/src/siteTexts.it.ts`          |
+| Qué                                          | Dónde                                 |
+| -------------------------------------------- | ------------------------------------- |
+| Interfaz (sitio público y panel)             | `client/src/i18n/it.ts`               |
+| Validación de formularios (client y server)  | `shared/src/validationMessages.it.ts` |
+| Errores de la API y plantilla de email       | `server/src/messages.it.ts`           |
+| Contenido de ejemplo (seed y modo demo)      | `shared/src/seedContent.ts`           |
+| Rótulos del pie, recapiti y menú (iniciales) | `shared/src/siteTexts.it.ts`          |
 
 Los rótulos del pie y de los recapiti no están en `it.ts`: son editables desde el panel
 ("Impostazioni del sito" > "Testi del sito") y se guardan en `siteSettings.texts`.
@@ -80,8 +80,8 @@ pages/{pageId}      title, slug, order, published, showInMenu, seo{title,descrip
                     blocks[{id,type,data}], updatedAt
 siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber, email,
                     phone, address, onlineSessions, social{facebook,instagram,linkedin},
-                    contactReasons[], texts{onlineSessions,alboPrefix,vatLabel,copyright,
-                    emailLabel,phoneLabel,addressLabel}
+                    showAboutInMenu, contactReasons[], texts{onlineSessions,alboPrefix,
+                    vatLabel,copyright,emailLabel,phoneLabel,addressLabel,aboutMenu}
 images/{id}         data (bytes del JPEG), createdAt
 messages/{id}       name, email, phone, reason, message, consent, consentAt,
                     status ("nuovo" | "letto" | "risposto"), createdAt
@@ -122,7 +122,7 @@ npm run lint         # eslint
 npm run format       # prettier --write
 npm test             # tests del backend (vitest + supertest)
 npm run build        # build del frontend
-npm run seed         # contenido inicial (-- --force para sobrescribirlo)
+npm run seed         # crea el contenido inicial que falta (-- --force lo sobrescribe)
 npm run set-admin -- <email> ["password"]   # da el claim admin (crea el usuario si hay password)
 ```
 

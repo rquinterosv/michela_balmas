@@ -128,6 +128,29 @@ export default function AboutEditor({
           {labels.addList}
         </button>
       </fieldset>
+
+      {/* Los bloques guardados antes de existir el botón no traen estos campos: de ahí el ?? "". */}
+      <fieldset className={adminStyles.fieldset}>
+        <legend>{labels.button}</legend>
+        <TextField
+          id={`${idPrefix}-buttonLabel`}
+          label={labels.buttonLabel}
+          placeholder={labels.buttonLabelPlaceholder}
+          value={data.buttonLabel ?? ""}
+          onChange={(buttonLabel) => onChange({ ...data, buttonLabel })}
+          error={errors.buttonLabel}
+          optional
+        />
+        <TextField
+          id={`${idPrefix}-buttonHref`}
+          label={labels.buttonHref}
+          hint={labels.buttonHrefHelp}
+          value={data.buttonHref ?? ""}
+          onChange={(buttonHref) => onChange({ ...data, buttonHref })}
+          error={errors.buttonHref}
+          optional
+        />
+      </fieldset>
     </>
   );
 }

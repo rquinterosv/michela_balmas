@@ -26,6 +26,10 @@ export const aboutDataSchema = z.object({
       items: z.array(requiredText(200)),
     }),
   ),
+  // Botón "Scopri di più" (p. ej. a /chi-sono). Opcionales: los bloques guardados
+  // antes de que existieran no los tienen. El botón solo sale con los dos rellenos.
+  buttonLabel: optionalText(60).optional(),
+  buttonHref: optionalLink.optional(),
 });
 
 export const richTextDataSchema = z.object({
@@ -55,6 +59,23 @@ export const imageDataSchema = z.object({
 
 const blockId = z.string().min(1).max(64);
 
+// Filas de imagen y texto que alternan de lado: imagen a la izquierda, luego a la
+// derecha, y así. Cada fila lleva su id porque el editor de texto del panel lo
+// necesita como `key` para no mezclar contenidos al reordenar.
+export const zigzagDataSchema = z.object({
+  rows: z
+    .array(
+      z.object({
+        id: blockId,
+        imageUrl: optionalImageUrl,
+        imageAlt: optionalText(200),
+        title: optionalText(120),
+        html: richTextHtml,
+      }),
+    )
+    .max(20),
+});
+
 // Un bloque = { id, type, data }. `type` decide qué esquema valida `data`.
 export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("hero"), data: heroDataSchema }),
@@ -63,6 +84,7 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("contactForm"), data: contactFormDataSchema }),
   z.object({ id: blockId, type: z.literal("contactInfo"), data: contactInfoDataSchema }),
   z.object({ id: blockId, type: z.literal("image"), data: imageDataSchema }),
+  z.object({ id: blockId, type: z.literal("zigzag"), data: zigzagDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;

@@ -67,8 +67,8 @@ npm run seed
 npm run set-admin -- admin@esempio.it "una-password"
 ```
 
-- `seed` crea las páginas Home, Contatti, Privacy Policy y Cookie Policy y los
-  datos del sitio, con textos de ejemplo en italiano y datos ficticios.
+- `seed` crea las páginas Home, Contatti, Privacy Policy, Cookie Policy y Chi sono
+  y los datos del sitio, con textos de ejemplo en italiano y datos ficticios.
 - `set-admin` crea el usuario (porque se le pasa contraseña) y le da permisos
   de administrador.
 
@@ -260,11 +260,17 @@ La psicóloga entra en `https://www.tusitio.it/admin` y puede cambiar la
 contraseña con "Password dimenticata?". Un usuario al que se le acaba de dar el
 permiso tiene que cerrar sesión y volver a entrar.
 
-`seed` no hace nada si ya hay páginas. `npm run seed -- --force` sobrescribe las
-cuatro páginas iniciales y los datos del sitio: **no lo uses en producción**
-después de que se haya editado el contenido.
+`seed` solo crea lo que falta: una página se salta si ya hay otra con su id o con
+su dirección, y los datos del sitio si ya existen. Así se puede usar en producción
+para agregar una página nueva del contenido inicial (p. ej. "Chi sono") sin tocar
+lo que ya está editado. `npm run seed -- --force` sobrescribe las páginas iniciales
+y los datos del sitio: **no lo uses en producción** después de que se haya editado
+el contenido.
 
 ## 8. Antes de publicar
+
+La lista de comprobaciones de los últimos cambios (antes y después del deploy) está en
+[docs/antes-de-produccion.md](./docs/antes-de-produccion.md).
 
 - [ ] En el panel, **Impostazioni del sito**: sustituir los datos ficticios
       (nombre, número de iscrizione all'Albo, Partita IVA, recapiti).
@@ -285,7 +291,7 @@ Desde la raíz:
 ```
 npm run dev          # emuladores + backend + frontend
 npm run emulators    # solo los emuladores
-npm run seed         # contenido inicial (-- --force para sobrescribir)
+npm run seed         # crea el contenido inicial que falta (-- --force lo sobrescribe)
 npm run set-admin -- <email> ["password"]
 npm run typecheck    # tipos en los tres workspaces
 npm run lint         # eslint
@@ -311,9 +317,10 @@ npm run start        # backend en modo producción
   consentimiento conforme a las directrices del Garante Privacy (hay un `TODO`
   en `client/index.html`) y actualizar la Cookie Policy.
 - **Arranque en frío del backend:** en los planes gratuitos el servidor se
-  duerme tras un rato sin visitas y la primera carga tarda 30-50 segundos. Se
-  evita con un plan de pago o con un servicio que llame a `/api/health` cada
-  pocos minutos.
+  duerme tras un rato sin visitas y la primera carga tarda 30-60 segundos. Se
+  evita con un plan de pago o con un servicio gratuito que llame a `/api/health`
+  cada 10 minutos. Diagnóstico y plan sin coste en
+  [docs/antes-de-produccion.md](./docs/antes-de-produccion.md#3-tiempo-de-carga).
 - **Vista previa de enlaces en redes:** al ser una aplicación de una sola
   página, WhatsApp, Facebook, etc. solo ven el título y la descripción fijos de
   `client/index.html`, no los de cada página. Google sí ejecuta JavaScript.

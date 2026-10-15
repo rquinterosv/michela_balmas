@@ -9,6 +9,7 @@ import { pagePath } from "../lib/paths";
 import { setPageMeta } from "../lib/seo";
 import { useSiteSettings } from "../lib/SiteSettingsContext";
 import { useLoad } from "../lib/useLoad";
+import { useScrollToHash } from "../lib/useScrollToHash";
 import { NotFound } from "./NotFound";
 import styles from "./PublicPage.module.css";
 
@@ -18,6 +19,8 @@ export function PublicPage() {
   const params = useParams();
   const slug = params.slug ?? HOME_SLUG;
   const { state, reload } = useLoad(() => api.getPage(slug), [slug]);
+  // Con ancla (/#chi-sono), baja hasta la sección cuando la página ya se ha dibujado.
+  useScrollToHash(state.status === "ready");
 
   // "/home" es la misma página que "/": se redirige para no tener dos direcciones.
   if (params.slug === HOME_SLUG) return <Navigate to="/" replace />;

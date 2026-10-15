@@ -1,4 +1,4 @@
-// Textos fijos del sitio público (rótulos del pie de página y de los recapiti).
+// Textos fijos del sitio público (rótulos del pie, de los recapiti y del menú).
 // Son el valor inicial: se editan desde el panel, en "Impostazioni del sito", y se
 // guardan en siteSettings.texts. También se usan si el documento guardado es
 // anterior a que existieran.
@@ -15,4 +15,6 @@ export const DEFAULT_SITE_TEXTS = {
   emailLabel: "Email",
   phoneLabel: "Telefono",
   addressLabel: "Studio",
+  // Ítem del menú que baja a la sección "Chi sono" de la home (/#chi-sono).
+  aboutMenu: "Chi sono",
 };

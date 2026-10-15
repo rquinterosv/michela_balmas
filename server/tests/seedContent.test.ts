@@ -40,3 +40,22 @@ describe("sanitizeRichText", () => {
     expect(sanitizeRichText(html)).toBe(html);
   });
 });
+
+describe("sanitizeBlocks", () => {
+  it("limpia el HTML de cada fila del bloque zigzag", () => {
+    const row = { id: "r1", imageUrl: "", imageAlt: "", title: "Titolo", html: "" };
+    const [block] = sanitizeBlocks([
+      {
+        id: "z",
+        type: "zigzag",
+        data: { rows: [{ ...row, html: "<p>Testo</p><script>alert(1)</script>" }] },
+      },
+    ]);
+
+    expect(block).toEqual({
+      id: "z",
+      type: "zigzag",
+      data: { rows: [{ ...row, html: "<p>Testo</p>" }] },
+    });
+  });
+});

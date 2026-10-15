@@ -15,19 +15,26 @@ const MAIN_ID = "contenuto";
 // Carga una sola vez los datos del sitio y la lista de páginas publicadas.
 export function PublicLayout() {
   const { state, reload } = useLoad(() => Promise.all([api.getSettings(), api.getMenuPages()]), []);
-  const { pathname } = useLocation();
+  const { pathname, hash, key } = useLocation();
 
   // Cada página nueva empieza arriba, y el foco pasa al contenido para que el lector
   // de pantalla anuncie el cambio. En la primera carga no se toca el foco.
-  const isFirstRender = useRef(true);
+  // Con ancla (/#chi-sono) la bajada hasta la sección la hace la página cuando su
+  // contenido está listo (useScrollToHash). Aquí solo se sube arriba si además se
+  // cambia de página, para que no se quede la posición de la página anterior.
+  const previousPathname = useRef<string | null>(null);
   useEffect(() => {
+    const isFirstRender = previousPathname.current === null;
+    const pageChanged = previousPathname.current !== pathname;
+    previousPathname.current = pathname;
+
+    if (hash && !pageChanged) return;
     window.scrollTo(0, 0);
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    // Con ancla, el foco lo recibe la sección de destino.
+    if (isFirstRender || hash) return;
     document.getElementById(MAIN_ID)?.focus({ preventScroll: true });
-  }, [pathname]);
+    // `key` cambia en cada navegación: así "Home" sube arriba aunque ya se esté en "/#chi-sono".
+  }, [pathname, hash, key]);
 
   if (state.status === "loading") return <PageLoading />;
   if (state.status === "error") {

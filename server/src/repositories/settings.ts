@@ -14,6 +14,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   phone: "",
   address: "",
   onlineSessions: false,
+  showAboutInMenu: true,
   social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [],
   texts: DEFAULT_SITE_TEXTS,

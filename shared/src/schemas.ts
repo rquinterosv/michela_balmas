@@ -81,6 +81,8 @@ export const siteSettingsSchema = z.object({
     instagram: optionalUrl,
     linkedin: optionalUrl,
   }),
+  // Ítem del menú que baja a la sección "Chi sono" de la home. Su texto va en texts.aboutMenu.
+  showAboutInMenu: z.boolean().default(true),
   contactReasons: z.array(requiredText(120)).min(1, validation.atLeastOneReason).max(20),
   // Rótulos fijos del sitio, editables desde el panel (ver siteTexts.it.ts).
   texts: z
@@ -92,6 +94,7 @@ export const siteSettingsSchema = z.object({
       emailLabel: requiredText(40),
       phoneLabel: requiredText(40),
       addressLabel: requiredText(40),
+      aboutMenu: requiredText(40),
     })
     .default(DEFAULT_SITE_TEXTS),
 });
