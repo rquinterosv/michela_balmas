@@ -5,7 +5,16 @@ import {
   siteSettingsSchema,
 } from "@studio/shared";
 import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
+import { contentFingerprint } from "../src/services/contentFingerprint";
 import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
+
+// Huellas de las secciones de versiones anteriores del contenido inicial, por
+// dirección de página. Una página que sigue idéntica a una de ellas no la ha
+// editado nadie, y el seed puede ponerle la versión nueva sin pisar nada.
+const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
+  // «Come lavoro» solo con texto (commit a4aa7ba), antes de las tarjetas y el percorso.
+  "come-lavoro": ["f2b5a28428e7910d496c8499baa1d7eb093d98cfb351a7525d8094ce7ccc0b2c"],
+};
 
 // Carga el contenido inicial (datos del sitio, páginas, y categorías y artículos
 // del blog) con textos de ejemplo.
@@ -18,7 +27,8 @@ import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
 // Sin --force sirve también en un sitio ya en marcha: si se agrega contenido inicial
 // nuevo (p. ej. el blog), lo crea sin pisar lo de la profesional. Algo se da por
 // existente si ya hay otro documento con su id o con su dirección (slug), aunque se
-// haya editado. Una página nueva se coloca en su sitio del menú (p. ej. "Blog"
+// haya editado (salvo una página que siga idéntica a una versión anterior del
+// contenido inicial: esa se actualiza, ver OUTDATED_SEED_BLOCKS). Una página nueva se coloca en su sitio del menú (p. ej. "Blog"
 // delante de "Contatti", ver src/services/seedOrder.ts); una categoría nueva, al final.
 //
 // No toca los mensajes ni lo creado desde el panel.
@@ -70,9 +80,25 @@ async function main() {
 
   for (const [id, content] of Object.entries(seedPages)) {
     const page = pageInputSchema.parse(content);
-    const exists = pages.some((doc) => doc.id === id || doc.get("slug") === page.slug);
-    if (exists && !force) {
-      console.log(`Página /${page.slug}: ya existe, sin cambios.`);
+    const existing = pages.find((doc) => doc.id === id || doc.get("slug") === page.slug);
+    if (existing && !force) {
+      // Si sigue exactamente como una versión anterior del contenido inicial (nadie
+      // la ha editado), se le ponen las secciones nuevas. Si no, no se toca.
+      const untouched = (OUTDATED_SEED_BLOCKS[page.slug] ?? []).includes(
+        contentFingerprint(existing.get("blocks")),
+      );
+      if (untouched) {
+        await existing.ref.update({
+          blocks: sanitizeBlocks(page.blocks),
+          seo: page.seo,
+          updatedAt: Timestamp.now(),
+        });
+        console.log(
+          `Página /${page.slug}: actualizada al nuevo contenido inicial (no se había editado).`,
+        );
+      } else {
+        console.log(`Página /${page.slug}: ya existe, sin cambios.`);
+      }
       continue;
     }
 

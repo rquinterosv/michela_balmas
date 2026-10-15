@@ -7,6 +7,7 @@ import {
 import { describe, expect, it } from "vitest";
 import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
 import { sanitizeBlocks, sanitizeRichText } from "../src/services/sanitizeHtml";
+import { contentFingerprint } from "../src/services/contentFingerprint";
 import { mergePageOrder } from "../src/services/seedOrder";
 
 // El seed no se puede probar sin emuladores, pero sí su contenido.
@@ -111,5 +112,16 @@ describe("mergePageOrder", () => {
     expect(
       mergePageOrder([{ id: "home", seedOrder: 0 }], [{ id: "chi-sono", seedOrder: 6 }]),
     ).toEqual(["home", "chi-sono"]);
+  });
+});
+
+describe("contentFingerprint", () => {
+  it("no depende del orden de las claves, sí de los valores", () => {
+    const a = [{ id: "x", type: "cta", data: { title: "T", text: "" } }];
+    const reordered = [{ data: { text: "", title: "T" }, type: "cta", id: "x" }];
+    const edited = [{ id: "x", type: "cta", data: { title: "T.", text: "" } }];
+
+    expect(contentFingerprint(reordered)).toBe(contentFingerprint(a));
+    expect(contentFingerprint(edited)).not.toBe(contentFingerprint(a));
   });
 });

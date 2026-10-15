@@ -274,8 +274,9 @@ export const seedPages: Record<string, PageInput> = {
     blocks: [{ id: "cookie-text", type: "richText", data: { html: cookiePolicyHtml } }],
   },
 
-  // Cómo trabaja la profesional: el enfoque sistémico-relacional y cómo son las
-  // sesiones. Textos provisionales ("[DA REVISIONARE]") hasta tener los suyos.
+  // Cómo trabaja la profesional, en formato visual: introducción breve, tarjetas
+  // con icono ("Il mio approccio"), el percorso a tappe y una invitación final.
+  // Textos provisionales, marcados "DA REVISIONARE" hasta tener los suyos.
   "come-lavoro": {
     title: "Come lavoro",
     slug: "come-lavoro",
@@ -285,8 +286,8 @@ export const seedPages: Record<string, PageInput> = {
     seo: {
       title: "",
       description:
-        "L'approccio sistemico-relazionale e come si svolge un percorso di psicoterapia: " +
-        "il primo colloquio, le sedute, in studio e online.",
+        "L'approccio sistemico-relazionale e le tappe di un percorso di psicoterapia, " +
+        "dal primo contatto alla conclusione. In studio e online.",
     },
     blocks: [
       {
@@ -294,65 +295,74 @@ export const seedPages: Record<string, PageInput> = {
         type: "richText",
         data: {
           html:
-            "<p><strong>[DA REVISIONARE] Testo di esempio.</strong></p>" +
-            "<p>In questa pagina trova qualche informazione sul mio modo di lavorare: " +
-            "l'orientamento che guida il mio sguardo e come si svolge, in pratica, un " +
-            "percorso insieme. Spero possa aiutarLa a farsi un'idea di che cosa aspettarsi.</p>",
+            "<p>Il mio lavoro si basa sull'approccio <strong>sistemico-relazionale</strong>: " +
+            "guardo alla persona insieme alle sue relazioni, perché è spesso lì che " +
+            "nascono le difficoltà e lì si trovano le risorse per affrontarle. " +
+            "<strong>[DA REVISIONARE]</strong></p>",
         },
       },
       {
-        id: "come-lavoro-sezioni",
-        type: "zigzag",
+        id: "come-lavoro-approccio",
+        type: "features",
         data: {
-          rows: [
+          title: "Il mio approccio",
+          items: [
             {
-              id: "come-lavoro-approccio",
-              imageUrl: "",
-              imageAlt: "",
-              title: "L'approccio sistemico-relazionale",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<p>L'approccio sistemico-relazionale guarda alla persona all'interno delle " +
-                "sue relazioni: la famiglia, la coppia, gli amici, il lavoro. Le difficoltà " +
-                "non vengono considerate solo come qualcosa di individuale, ma anche come il " +
-                "segnale di equilibri che, in un certo momento della vita, faticano a funzionare.</p>" +
-                "<p>Per questo, a seconda della richiesta, il lavoro può coinvolgere la singola " +
-                "persona, la coppia oppure la famiglia.</p>",
+              id: "approccio-sistemico",
+              icon: "network",
+              title: "Approccio sistemico-relazionale",
+              text: "La persona osservata insieme alle sue relazioni: coppia, famiglia, lavoro. (DA REVISIONARE)",
             },
             {
-              id: "come-lavoro-primo-colloquio",
-              imageUrl: "",
-              imageAlt: "",
-              title: "Il primo colloquio",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<p>Il primo colloquio è un momento di conoscenza reciproca. Si parte da ciò " +
-                "che La porta a chiedere un incontro, senza bisogno di arrivare preparati. " +
-                "Al termine valutiamo insieme se e come proseguire.</p>",
+              id: "approccio-ascolto",
+              icon: "hand-heart",
+              title: "Ascolto senza giudizio",
+              text: "Uno spazio riservato in cui sentirsi accolti e rispettati nei propri tempi. (DA REVISIONARE)",
             },
             {
-              id: "come-lavoro-sedute",
-              imageUrl: "",
-              imageAlt: "",
-              title: "Come si svolgono le sedute",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<ul><li>Le sedute durano circa [DA COMPLETARE] minuti.</li>" +
-                "<li>La frequenza si concorda insieme, in base alla richiesta e ai Suoi tempi " +
-                "(di solito [DA COMPLETARE]).</li>" +
-                "<li>Gli obiettivi vengono definiti insieme e possono cambiare nel corso del percorso.</li>" +
-                "<li>Tutto ciò che emerge durante le sedute è coperto dal segreto professionale.</li></ul>",
+              id: "approccio-modalita",
+              icon: "video",
+              title: "Online e in presenza",
+              text: "Colloqui in studio oppure in videochiamata, con la stessa cura. (DA REVISIONARE)",
+            },
+          ],
+        },
+      },
+      {
+        id: "come-lavoro-percorso",
+        type: "timeline",
+        data: {
+          title: "Il percorso",
+          items: [
+            {
+              id: "tappa-contatto",
+              icon: "message-circle",
+              title: "Primo contatto",
+              text: "Mi scrive o mi telefona per fissare un primo incontro. (DA REVISIONARE)",
             },
             {
-              id: "come-lavoro-studio-online",
-              imageUrl: "",
-              imageAlt: "",
-              title: "In studio oppure online",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<p>I colloqui si svolgono in studio oppure online, in videochiamata. La " +
-                "modalità online segue gli stessi principi di quella in presenza: servono " +
-                "soltanto una connessione stabile e un luogo tranquillo e riservato.</p>",
+              id: "tappa-colloquio",
+              icon: "users",
+              title: "Primo colloquio",
+              text: "Ci conosciamo e ascolto la Sua richiesta, senza impegno a proseguire. (DA REVISIONARE)",
+            },
+            {
+              id: "tappa-obiettivi",
+              icon: "target",
+              title: "Definizione degli obiettivi",
+              text: "Stabiliamo insieme obiettivi, frequenza e modalità degli incontri. (DA REVISIONARE)",
+            },
+            {
+              id: "tappa-percorso",
+              icon: "route",
+              title: "Il percorso terapeutico",
+              text: "Le sedute, al ritmo concordato, con momenti di confronto lungo il cammino. (DA REVISIONARE)",
+            },
+            {
+              id: "tappa-conclusione",
+              icon: "flag",
+              title: "Verifica e conclusione",
+              text: "Valutiamo insieme i cambiamenti e decidiamo come concludere. (DA REVISIONARE)",
             },
           ],
         },
@@ -361,10 +371,8 @@ export const seedPages: Record<string, PageInput> = {
         id: "come-lavoro-invito",
         type: "cta",
         data: {
-          title: "Vuole saperne di più?",
-          text:
-            "Può scrivermi per qualsiasi domanda oppure per fissare un primo colloquio " +
-            "conoscitivo.",
+          title: "",
+          text: "Se desidera iniziare un percorso o ha qualche domanda, può scrivermi. (DA REVISIONARE)",
           buttonLabel: "Prenota un primo colloquio",
           buttonHref: "/contatti",
         },

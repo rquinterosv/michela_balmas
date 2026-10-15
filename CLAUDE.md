@@ -58,6 +58,11 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
   componente del sitio público, dentro de un contenedor `inert`.
 - El router es `createBrowserRouter` porque el aviso de cambios sin guardar
   (`useUnsavedChangesWarning`) necesita `useBlocker`.
+- Iconos: `lucide-react` (SVG, se importan uno a uno). Solo los de la lista cerrada
+  `ICON_NAMES` (`shared/src/blocks.ts`), cada uno con su componente en
+  `client/src/lib/icons.tsx` y su nombre en `it.admin.icons`. Los usan los bloques
+  `features` (tarjetas) y `timeline` (percorso a tappe); en el panel se eligen con
+  `admin/IconPicker`. Siempre decorativos (`aria-hidden`).
 - El editor de texto (TipTap) solo ofrece negrita, cursiva, listas y enlaces. Si se
   activa un formato nuevo, hay que permitir su etiqueta en
   `server/src/services/sanitizeHtml.ts` o el backend la borrará al guardar.

@@ -1,0 +1,59 @@
+.section {
+  padding-block: var(--space-12);
+}
+
+.title {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-2xl);
+}
+
+/* Una columna en móvil; en pantallas anchas, tantas como quepan (3 en escritorio). */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  padding: var(--space-6);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+/* Icono dentro de un círculo rosa. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: var(--space-4);
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-primary-strong);
+}
+
+.icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.cardTitle {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.cardText {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 56rem) {
+  .section {
+    padding-block: var(--space-16);
+  }
+}

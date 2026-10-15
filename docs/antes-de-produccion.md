@@ -155,3 +155,7 @@ hasta que existan en la base de datos. Pasos, en orden:
       con un profesional.
 - [ ] Comprobar `https://michelabalmas.vercel.app/sitemap.xml` y darlo de alta en
       Google Search Console.
+- [ ] Nuevo diseño de «Come lavoro» (tarjetas con iconos y percorso a tappe): volver
+      a ejecutar `npm run seed -- --production` desde `server/`. Como la página sigue
+      exactamente igual que la versión anterior del contenido inicial, el seed le pone
+      las secciones nuevas; si alguien la hubiera editado, no la tocaría.

@@ -2,10 +2,12 @@ import {
   aboutDataSchema,
   contactFormDataSchema,
   ctaDataSchema,
+  featuresDataSchema,
   contactInfoDataSchema,
   heroDataSchema,
   imageDataSchema,
   richTextDataSchema,
+  timelineDataSchema,
   videoDataSchema,
   zigzagDataSchema,
   type BlockData,
@@ -19,9 +21,11 @@ import type { BlockEditorProps } from "./editorTypes";
 import { ContactFormRender } from "./contactForm/ContactFormRender";
 import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
 import { CtaRender } from "./cta/CtaRender";
+import { FeaturesRender } from "./features/FeaturesRender";
 import { HeroRender } from "./hero/HeroRender";
 import { ImageRender } from "./image/ImageRender";
 import { RichTextRender } from "./richText/RichTextRender";
+import { TimelineRender } from "./timeline/TimelineRender";
 import { VideoRender } from "./video/VideoRender";
 import { ZigzagRender } from "./zigzag/ZigzagRender";
 
@@ -131,6 +135,22 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { title: "", text: "", buttonLabel: "", buttonHref: "/contatti" },
     EditorComponent: lazy(() => import("./cta/CtaEditor")),
     RenderComponent: CtaRender,
+  },
+  features: {
+    label: it.blockNames.features,
+    description: it.blockDescriptions.features,
+    zodSchema: featuresDataSchema,
+    defaultData: { title: "", items: [] },
+    EditorComponent: lazy(() => import("./features/FeaturesEditor")),
+    RenderComponent: FeaturesRender,
+  },
+  timeline: {
+    label: it.blockNames.timeline,
+    description: it.blockDescriptions.timeline,
+    zodSchema: timelineDataSchema,
+    defaultData: { title: "", items: [] },
+    EditorComponent: lazy(() => import("./timeline/TimelineEditor")),
+    RenderComponent: TimelineRender,
   },
   video: {
     label: it.blockNames.video,

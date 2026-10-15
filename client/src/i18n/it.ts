@@ -1,4 +1,4 @@
-import type { BlockType, MessageStatus } from "@studio/shared";
+import type { BlockType, IconName, MessageStatus } from "@studio/shared";
 
 // Todos los textos de la interfaz, en italiano. Ningún componente debe llevar
 // texto visible escrito a mano: se agrega aquí una clave y se usa `it.algo.clave`.
@@ -127,6 +127,8 @@ export const it = {
     zigzag: "Immagini e testi alternati",
     video: "Video o audio",
     cta: "Invito all'azione",
+    features: "Schede con icone",
+    timeline: "Percorso a tappe",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -139,6 +141,8 @@ export const it = {
     image: "Un'immagine con una didascalia facoltativa.",
     zigzag: "Righe con un'immagine e un testo affiancati; l'immagine cambia lato a ogni riga.",
     cta: "Un riquadro con titolo, testo breve e un pulsante (es. «Prenota un primo colloquio»).",
+    features: "Schede affiancate, ognuna con un'icona, un titolo e un testo breve.",
+    timeline: "Tappe numerate unite da una linea, ognuna con un'icona, un titolo e un testo breve.",
     video:
       "Un video di YouTube, oppure un pulsante per ascoltare o guardare su un altro sito (Spotify, la radio…).",
   } satisfies Record<BlockType, string>,
@@ -339,6 +343,21 @@ export const it = {
         intro: "Testo introduttivo",
         help: "I motivi del contatto si modificano in «Impostazioni del sito».",
       },
+      iconItems: {
+        sectionTitle: "Titolo della sezione",
+        items: "Schede",
+        steps: "Tappe",
+        stepsHelp: "Le tappe vengono numerate nell'ordine qui indicato.",
+        item: (number: number) => `Scheda ${number}`,
+        step: (number: number) => `Tappa ${number}`,
+        icon: "Icona",
+        title: "Titolo",
+        text: "Testo breve",
+        addItem: "Aggiungi scheda",
+        addStep: "Aggiungi tappa",
+        remove: "Rimuovi",
+        noItems: "Nessun elemento. Aggiungerne uno con il pulsante qui sotto.",
+      },
       cta: {
         title: "Titolo",
         text: "Testo",
@@ -368,6 +387,33 @@ export const it = {
         help: "I recapiti si modificano in «Impostazioni del sito».",
       },
     },
+
+    // Nombre de cada icono en el selector del panel (lo lee el lector de pantalla).
+    icons: {
+      network: "Rete di relazioni",
+      heart: "Cuore",
+      "hand-heart": "Mano con cuore",
+      video: "Videocamera",
+      "monitor-smartphone": "Computer e telefono",
+      "map-pin": "Luogo",
+      "message-circle": "Messaggio",
+      users: "Persone",
+      target: "Obiettivo",
+      route: "Percorso",
+      flag: "Bandiera",
+      brain: "Mente",
+      house: "Casa",
+      leaf: "Foglia",
+      sprout: "Germoglio",
+      sun: "Sole",
+      "calendar-days": "Calendario",
+      clock: "Orologio",
+      "shield-check": "Riservatezza",
+      sparkles: "Scintille",
+      compass: "Bussola",
+      smile: "Sorriso",
+      puzzle: "Puzzle",
+    } satisfies Record<IconName, string>,
 
     richTextEditor: {
       toolbar: "Formattazione del testo",

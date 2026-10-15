@@ -86,6 +86,61 @@ export const videoDataSchema = z.object({
 
 const blockId = z.string().min(1).max(64);
 
+// Iconos que se pueden elegir en el panel (bloques "features" y "timeline"). Es una
+// lista cerrada: el frontend tiene un componente de lucide-react por cada nombre
+// (client/src/lib/icons.tsx). Para agregar uno, añadirlo aquí y allí.
+export const ICON_NAMES = [
+  "network",
+  "heart",
+  "hand-heart",
+  "video",
+  "monitor-smartphone",
+  "map-pin",
+  "message-circle",
+  "users",
+  "target",
+  "route",
+  "flag",
+  "brain",
+  "house",
+  "leaf",
+  "sprout",
+  "sun",
+  "calendar-days",
+  "clock",
+  "shield-check",
+  "sparkles",
+  "compass",
+  "smile",
+  "puzzle",
+] as const;
+
+export type IconName = (typeof ICON_NAMES)[number];
+
+// Un elemento con icono, título y texto breve: una tarjeta de "features" o una
+// etapa de "timeline". Lleva id para reordenar sin mezclar campos.
+const iconItemSchema = z.object({
+  id: blockId,
+  icon: z.enum(ICON_NAMES),
+  title: requiredText(80),
+  text: optionalText(240),
+});
+
+export type IconItem = z.infer<typeof iconItemSchema>;
+
+// Tarjetas con icono en fila (p. ej. "Il mio approccio"). En móvil, apiladas.
+export const featuresDataSchema = z.object({
+  title: optionalText(120),
+  items: z.array(iconItemSchema).max(12),
+});
+
+// Percorso a tappe: línea de tiempo numerada (horizontal en escritorio,
+// vertical en móvil), p. ej. "Il percorso".
+export const timelineDataSchema = z.object({
+  title: optionalText(120),
+  items: z.array(iconItemSchema).max(10),
+});
+
 // Filas de imagen y texto que alternan de lado: imagen a la izquierda, luego a la
 // derecha, y así. Cada fila lleva su id porque el editor de texto del panel lo
 // necesita como `key` para no mezclar contenidos al reordenar.
@@ -114,6 +169,8 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("zigzag"), data: zigzagDataSchema }),
   z.object({ id: blockId, type: z.literal("video"), data: videoDataSchema }),
   z.object({ id: blockId, type: z.literal("cta"), data: ctaDataSchema }),
+  z.object({ id: blockId, type: z.literal("features"), data: featuresDataSchema }),
+  z.object({ id: blockId, type: z.literal("timeline"), data: timelineDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;
