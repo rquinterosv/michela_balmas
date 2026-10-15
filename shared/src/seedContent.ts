@@ -17,7 +17,8 @@ export const seedSettings: SiteSettings = {
   address: "Via Esempio 1, 20100 Milano (MI)",
   onlineSessions: true,
   showAboutInMenu: true,
-  photoUrl: "/images/placeholder-portrait.svg",
+  // Vacía: se ve el icono genérico hasta que se suba la foto desde el panel.
+  photoUrl: "",
   officeHours: "Dal lunedì al venerdì, 9:00–19:00",
   social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [
@@ -165,7 +166,8 @@ export const seedPages: Record<string, PageInput> = {
         type: "about",
         data: {
           title: "Chi sono",
-          photoUrl: "/images/placeholder-portrait.svg",
+          // Vacía: se ve el icono genérico hasta que se suba la foto desde el panel.
+          photoUrl: "",
           photoAlt: "Ritratto della Dott.ssa Anna Rossi",
           html:
             "<p>Mi chiamo Anna Rossi e sono una psicologa iscritta all'Albo degli Psicologi " +

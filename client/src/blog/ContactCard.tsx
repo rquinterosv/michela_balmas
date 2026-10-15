@@ -18,13 +18,19 @@ export function ContactCard() {
       aria-labelledby="blog-contact-name"
       className={`${styles.sideCard} ${styles.contactCard}`}
     >
-      {settings.photoUrl && (
+      {/* Foto redonda. Hasta que se suba una en «Impostazioni del sito», un icono
+          genérico de persona. Decorativa: el nombre va justo debajo. */}
+      {settings.photoUrl ? (
         <img
           className={styles.contactPhoto}
           src={imageSrc(settings.photoUrl)}
           alt=""
           loading="lazy"
         />
+      ) : (
+        <span className={`${styles.contactPhoto} ${styles.contactPhotoPlaceholder}`}>
+          <UserIcon />
+        </span>
       )}
       <p className={styles.contactRole}>{settings.professionalTitle}</p>
       <h2 id="blog-contact-name" className={styles.contactName}>
@@ -61,5 +67,15 @@ export function ContactCard() {
         <span className="visually-hidden"> ({it.blog.contactCardLabel})</span>
       </SmartLink>
     </section>
+  );
+}
+
+// Silueta genérica de persona (cabeza y hombros), recortada por el círculo.
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <circle cx="32" cy="24" r="12" fill="currentColor" />
+      <path d="M8 64c0-14 10.7-22 24-22s24 8 24 22z" fill="currentColor" />
+    </svg>
   );
 }

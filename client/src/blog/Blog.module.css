@@ -319,20 +319,36 @@
   color: var(--color-on-primary);
 }
 
-/* Tarjeta de contacto */
+/* Tarjeta de contacto: todo alineado a la izquierda. */
 .contactCard {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .contactPhoto {
-  width: 7rem;
-  height: 7rem;
+  flex-shrink: 0;
+  width: 6rem;
+  height: 6rem;
   margin-bottom: var(--space-4);
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* Sin foto subida: icono genérico de persona dentro del mismo círculo. */
+.contactPhotoPlaceholder {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+.contactPhotoPlaceholder svg {
+  width: 80%;
+  height: 80%;
 }
 
 .contactRole {
@@ -369,7 +385,7 @@
 }
 
 .contactButton {
-  width: 100%;
+  align-self: flex-start;
 }
 
 /* --- Artículo --- */
