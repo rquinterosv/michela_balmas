@@ -1,16 +1,32 @@
 import {
+  type Block,
   categoryInputSchema,
   pageInputSchema,
   postInputSchema,
   siteSettingsSchema,
 } from "@studio/shared";
-import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
+import {
+  homeFaqBlock,
+  seedCategories,
+  seedPages,
+  seedPosts,
+  seedSettings,
+} from "@studio/shared/seedContent";
 import { contentFingerprint } from "../src/services/contentFingerprint";
+import { appendBlockIfMissing } from "../src/services/seedAdditions";
 import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
 
 // Huellas de las secciones de versiones anteriores del contenido inicial, por
 // dirección de página. Una página que sigue idéntica a una de ellas no la ha
 // editado nadie, y el seed puede ponerle la versión nueva sin pisar nada.
+// Secciones nuevas del contenido inicial para páginas que ya existen. Cada añadido
+// se aplica una sola vez: queda anotado en seedState/main y no se repite aunque
+// después se borre la sección desde el panel.
+const PAGE_ADDITIONS = [
+  // Preguntas frecuentes al final de la Home.
+  { id: "home-faq", slug: "home", block: homeFaqBlock },
+];
+
 const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
   // «Come lavoro» solo con texto (commit a4aa7ba), antes de las tarjetas y el percorso.
   "come-lavoro": ["f2b5a28428e7910d496c8499baa1d7eb093d98cfb351a7525d8094ce7ccc0b2c"],
@@ -123,6 +139,30 @@ async function main() {
     await batch.commit();
     console.log("Orden de las páginas actualizado.");
   }
+
+  // --- Añadidos de una sola vez ---
+  const stateRef = db.collection("seedState").doc("main");
+  const applied = ((await stateRef.get()).get("appliedAdditions") as string[] | undefined) ?? [];
+
+  for (const addition of PAGE_ADDITIONS) {
+    if (applied.includes(addition.id)) {
+      console.log(`Añadido "${addition.id}": ya aplicado, sin cambios.`);
+      continue;
+    }
+    const pageDoc = (await db.collection("pages").where("slug", "==", addition.slug).limit(1).get())
+      .docs[0];
+    const blocks = pageDoc
+      ? appendBlockIfMissing(pageDoc.get("blocks") as Block[], sanitizeBlocks([addition.block])[0]!)
+      : null;
+    if (pageDoc && blocks) {
+      await pageDoc.ref.update({ blocks, updatedAt: Timestamp.now() });
+      console.log(`Añadido "${addition.id}": sección añadida al final de /${addition.slug}.`);
+    } else {
+      console.log(`Añadido "${addition.id}": no hace falta (la página ya la tiene o no existe).`);
+    }
+    applied.push(addition.id);
+  }
+  await stateRef.set({ appliedAdditions: applied }, { merge: true });
 
   // --- Categorías del blog ---
   // Clave del contenido inicial -> id real (otro, si la categoría ya existía con esa dirección).

@@ -33,6 +33,13 @@ export function sanitizeBlocks(blocks: Block[]): Block[] {
       const rows = block.data.rows.map((row) => ({ ...row, html: sanitizeRichText(row.html) }));
       return { ...block, data: { ...block.data, rows } };
     }
+    if (block.type === "faq") {
+      const items = block.data.items.map((item) => ({
+        ...item,
+        answer: sanitizeRichText(item.answer),
+      }));
+      return { ...block, data: { ...block.data, items } };
+    }
     return block;
   });
 }

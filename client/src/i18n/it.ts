@@ -129,6 +129,7 @@ export const it = {
     cta: "Invito all'azione",
     features: "Schede con icone",
     timeline: "Percorso a tappe",
+    faq: "Domande frequenti",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -143,6 +144,7 @@ export const it = {
     cta: "Un riquadro con titolo, testo breve e un pulsante (es. «Prenota un primo colloquio»).",
     features: "Schede affiancate, ognuna con un'icona, un titolo e un testo breve.",
     timeline: "Tappe numerate unite da una linea, ognuna con un'icona, un titolo e un testo breve.",
+    faq: "Domande e risposte che si aprono con un clic (a fisarmonica).",
     video:
       "Un video di YouTube, oppure un pulsante per ascoltare o guardare su un altro sito (Spotify, la radio…).",
   } satisfies Record<BlockType, string>,
@@ -342,6 +344,16 @@ export const it = {
         title: "Titolo",
         intro: "Testo introduttivo",
         help: "I motivi del contatto si modificano in «Impostazioni del sito».",
+      },
+      faq: {
+        title: "Titolo della sezione",
+        items: "Domande",
+        item: (number: number) => `Domanda ${number}`,
+        question: "Domanda",
+        answer: "Risposta",
+        add: "Aggiungi domanda",
+        remove: "Rimuovi",
+        noItems: "Nessuna domanda. Aggiungerne una con il pulsante qui sotto.",
       },
       iconItems: {
         sectionTitle: "Titolo della sezione",

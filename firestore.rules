@@ -35,6 +35,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Estado del seed (añadidos ya aplicados): solo lo usa el script del servidor.
+    match /seedState/{docId} {
+      allow read, write: if false;
+    }
+
     // Mensajes del formulario: sin acceso desde el cliente.
     match /messages/{messageId} {
       allow read, write: if false;

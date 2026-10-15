@@ -2,6 +2,7 @@ import {
   aboutDataSchema,
   contactFormDataSchema,
   ctaDataSchema,
+  faqDataSchema,
   featuresDataSchema,
   contactInfoDataSchema,
   heroDataSchema,
@@ -21,6 +22,7 @@ import type { BlockEditorProps } from "./editorTypes";
 import { ContactFormRender } from "./contactForm/ContactFormRender";
 import { ContactInfoRender } from "./contactInfo/ContactInfoRender";
 import { CtaRender } from "./cta/CtaRender";
+import { FaqRender } from "./faq/FaqRender";
 import { FeaturesRender } from "./features/FeaturesRender";
 import { HeroRender } from "./hero/HeroRender";
 import { ImageRender } from "./image/ImageRender";
@@ -151,6 +153,14 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { title: "", items: [] },
     EditorComponent: lazy(() => import("./timeline/TimelineEditor")),
     RenderComponent: TimelineRender,
+  },
+  faq: {
+    label: it.blockNames.faq,
+    description: it.blockDescriptions.faq,
+    zodSchema: faqDataSchema,
+    defaultData: { title: "Domande frequenti", items: [] },
+    EditorComponent: lazy(() => import("./faq/FaqEditor")),
+    RenderComponent: FaqRender,
   },
   video: {
     label: it.blockNames.video,

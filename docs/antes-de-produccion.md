@@ -159,3 +159,7 @@ hasta que existan en la base de datos. Pasos, en orden:
       a ejecutar `npm run seed -- --production` desde `server/`. Como la página sigue
       exactamente igual que la versión anterior del contenido inicial, el seed le pone
       las secciones nuevas; si alguien la hubiera editado, no la tocaría.
+- [ ] Preguntas frecuentes al final de la Home: la misma ejecución de
+      `npm run seed -- --production` añade la sección «Domande frequenti» (5 preguntas
+      «[DA REVISIONARE]») al final de la Home. Es un añadido de una sola vez: si después
+      se borra desde el panel, el seed no la vuelve a poner.

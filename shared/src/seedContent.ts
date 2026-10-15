@@ -1,4 +1,5 @@
 import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
+import type { Block } from "./blocks";
 import type { PageInput, SiteSettings } from "./types";
 
 export { seedCategories, seedPosts } from "./seedBlog";
@@ -133,6 +134,74 @@ const cookiePolicyHtml = [
   "<p><em>Ultimo aggiornamento: [DATA].</em></p>",
 ].join("");
 
+// Preguntas frecuentes, al final de la Home. Se exporta aparte porque el seed la
+// añade una sola vez a una Home que ya existe (ver server/scripts/seed.ts).
+// Tono informativo y neutro, sin promesas de resultados. "[DA REVISIONARE]".
+export const homeFaqBlock: Block = {
+  id: "home-faq",
+  type: "faq",
+  data: {
+    title: "Domande frequenti",
+    items: [
+      {
+        id: "faq-bisogno",
+        question: "Come capisco se ho bisogno di uno psicologo?",
+        answer:
+          "<p><strong>[DA REVISIONARE]</strong></p>" +
+          "<p>Non serve aspettare una crisi. Può essere utile rivolgersi a uno psicologo " +
+          "quando un malessere dura nel tempo, quando pensieri o emozioni rendono difficile " +
+          "la vita di tutti i giorni, nei momenti di cambiamento o quando le relazioni " +
+          "diventano fonte di sofferenza. Anche il desiderio di conoscersi meglio è un " +
+          "buon motivo. Il primo colloquio serve proprio a capirlo insieme.</p>",
+      },
+      {
+        id: "faq-differenze",
+        question: "Qual è la differenza tra psicologo, psicoterapeuta e psichiatra?",
+        answer:
+          "<p><strong>[DA REVISIONARE]</strong></p>" +
+          "<ul>" +
+          "<li><strong>Psicologo</strong>: laureato in psicologia, abilitato con l'esame di " +
+          "Stato e iscritto all'Albo. Si occupa di sostegno, consulenza e valutazione " +
+          "psicologica.</li>" +
+          "<li><strong>Psicoterapeuta</strong>: psicologo o medico che ha completato una " +
+          "scuola di specializzazione in psicoterapia di almeno quattro anni. Può condurre " +
+          "percorsi di psicoterapia.</li>" +
+          "<li><strong>Psichiatra</strong>: medico specializzato in psichiatria. Può " +
+          "prescrivere farmaci e, se ha la formazione, fare anche psicoterapia.</li>" +
+          "</ul>",
+      },
+      {
+        id: "faq-primo-colloquio",
+        question: "Che cosa succede durante il primo colloquio?",
+        answer:
+          "<p><strong>[DA REVISIONARE]</strong></p>" +
+          "<p>Il primo colloquio è un momento di conoscenza reciproca. Si parla di ciò che " +
+          "La porta a chiedere un incontro, senza bisogno di arrivare preparati. Al termine " +
+          "si valuta insieme se e come proseguire. Non comporta alcun impegno a continuare.</p>",
+      },
+      {
+        id: "faq-online",
+        question: "Come funziona la terapia online?",
+        answer:
+          "<p><strong>[DA REVISIONARE]</strong></p>" +
+          "<p>I colloqui online si svolgono in videochiamata e seguono gli stessi principi " +
+          "di quelli in studio. Servono una connessione stabile, un dispositivo con " +
+          "videocamera e un luogo tranquillo e riservato, in cui non essere interrotti.</p>",
+      },
+      {
+        id: "faq-fa-per-me",
+        question: "Come capisco se la terapia fa per me?",
+        answer:
+          "<p><strong>[DA REVISIONARE]</strong></p>" +
+          "<p>Non esiste una risposta valida per tutti. Un buon punto di partenza è chiedersi " +
+          "se si desidera uno spazio per capire meglio ciò che si sta vivendo. Anche sentirsi " +
+          "a proprio agio con il professionista è importante: nei primi incontri si può " +
+          "valutare insieme se il percorso risponde alle proprie esigenze.</p>",
+      },
+    ],
+  },
+};
+
 // La clave es el id del documento en Firestore.
 export const seedPages: Record<string, PageInput> = {
   home: {
@@ -207,6 +276,7 @@ export const seedPages: Record<string, PageInput> = {
           buttonHref: "/chi-sono",
         },
       },
+      homeFaqBlock,
     ],
   },
 

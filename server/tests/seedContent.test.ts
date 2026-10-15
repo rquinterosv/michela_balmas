@@ -5,9 +5,16 @@ import {
   siteSettingsSchema,
 } from "@studio/shared";
 import { describe, expect, it } from "vitest";
-import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
+import {
+  homeFaqBlock,
+  seedCategories,
+  seedPages,
+  seedPosts,
+  seedSettings,
+} from "@studio/shared/seedContent";
 import { sanitizeBlocks, sanitizeRichText } from "../src/services/sanitizeHtml";
 import { contentFingerprint } from "../src/services/contentFingerprint";
+import { appendBlockIfMissing } from "../src/services/seedAdditions";
 import { mergePageOrder } from "../src/services/seedOrder";
 
 // El seed no se puede probar sin emuladores, pero sí su contenido.
@@ -123,5 +130,45 @@ describe("contentFingerprint", () => {
 
     expect(contentFingerprint(reordered)).toBe(contentFingerprint(a));
     expect(contentFingerprint(edited)).not.toBe(contentFingerprint(a));
+  });
+});
+
+describe("appendBlockIfMissing", () => {
+  const faq = homeFaqBlock;
+  const text = { id: "t", type: "richText" as const, data: { html: "<p>Ciao</p>" } };
+
+  it("añade la sección al final si la página no tiene una del mismo tipo", () => {
+    expect(appendBlockIfMissing([text], faq)).toEqual([text, faq]);
+  });
+
+  it("no hace nada si ya hay una sección del mismo tipo", () => {
+    const otherFaq = { ...faq, id: "otra" };
+    expect(appendBlockIfMissing([text, otherFaq], faq)).toBeNull();
+  });
+});
+
+describe("preguntas frecuentes de ejemplo", () => {
+  it("son las 5 previstas, marcadas para revisar, y la Home de ejemplo las incluye", () => {
+    expect(homeFaqBlock.type).toBe("faq");
+    const items = homeFaqBlock.type === "faq" ? homeFaqBlock.data.items : [];
+    expect(items).toHaveLength(5);
+    for (const item of items) expect(item.answer).toContain("DA REVISIONARE");
+    expect(seedPages.home?.blocks.at(-1)).toEqual(homeFaqBlock);
+  });
+
+  it("la respuesta se limpia como el resto del HTML", () => {
+    const dirty = {
+      id: "f",
+      type: "faq" as const,
+      data: {
+        title: "",
+        items: [{ id: "a", question: "D?", answer: "<p>R</p><script>x()</script>" }],
+      },
+    };
+    const [clean] = sanitizeBlocks([dirty]);
+    expect(clean).toEqual({
+      ...dirty,
+      data: { ...dirty.data, items: [{ id: "a", question: "D?", answer: "<p>R</p>" }] },
+    });
   });
 });

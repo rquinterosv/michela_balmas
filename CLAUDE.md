@@ -98,6 +98,7 @@ posts/{id}          title, slug, categoryId, date (Timestamp a medianoche UTC; p
                     videoUrl}, author{name,photoUrl} (vacíos = los de siteSettings),
                     blocks[] (solo richText, image, zigzag, video), published,
                     seo{title,description,imageUrl}, createdAt, updatedAt
+seedState/main      appliedAdditions[] (añadidos de una sola vez del seed, p. ej. "home-faq")
 categories/{id}     name, slug, parentId (null o una categoría sin padre: un nivel),
                     order, seo{title,description}
 images/{id}         data (bytes del JPEG), createdAt

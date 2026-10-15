@@ -1,0 +1,71 @@
+.section {
+  padding-block: var(--space-12);
+}
+
+/* Ancho cómodo de lectura: las preguntas no se estiran a todo el ancho. */
+.inner > * {
+  max-width: 48rem;
+}
+
+.title {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-2xl);
+}
+
+.list {
+  border-top: 1px solid var(--color-border);
+}
+
+.item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.question {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+/* Toda la fila es el botón: zona táctil amplia. */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-4) 0;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--color-primary-strong);
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-primary-strong);
+  transition: transform 0.2s ease;
+}
+
+.button[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+.answer {
+  padding-bottom: var(--space-4);
+}
+
+@media (min-width: 56rem) {
+  .section {
+    padding-block: var(--space-16);
+  }
+}

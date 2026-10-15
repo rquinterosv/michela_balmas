@@ -128,6 +128,21 @@ const iconItemSchema = z.object({
 
 export type IconItem = z.infer<typeof iconItemSchema>;
 
+// Preguntas frecuentes: acordeón. La respuesta es texto del editor (HTML), y el
+// backend la limpia como el resto (sanitizeBlocks).
+export const faqDataSchema = z.object({
+  title: optionalText(120),
+  items: z
+    .array(
+      z.object({
+        id: blockId,
+        question: requiredText(200),
+        answer: richTextHtml,
+      }),
+    )
+    .max(30),
+});
+
 // Tarjetas con icono en fila (p. ej. "Il mio approccio"). En móvil, apiladas.
 export const featuresDataSchema = z.object({
   title: optionalText(120),
@@ -171,6 +186,7 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("cta"), data: ctaDataSchema }),
   z.object({ id: blockId, type: z.literal("features"), data: featuresDataSchema }),
   z.object({ id: blockId, type: z.literal("timeline"), data: timelineDataSchema }),
+  z.object({ id: blockId, type: z.literal("faq"), data: faqDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;
