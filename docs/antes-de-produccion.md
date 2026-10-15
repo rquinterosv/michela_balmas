@@ -51,12 +51,17 @@ Medido en producción con el backend despierto:
 Con el backend despierto la página completa carga en torno a 1 segundo: el peso
 del JavaScript, las fuentes y las imágenes no es el problema.
 
-**La causa es el arranque en frío del backend.** Está en Render con
+**Causa probable (sin confirmar): el arranque en frío del backend.** Está en Render con
 `plan: free` (`render.yaml`): tras 15 minutos sin visitas el servidor se apaga y
 la siguiente petición espera a que arranque de nuevo (30–60 segundos). Mientras
 tanto el sitio no puede mostrar nada, porque todo el contenido (textos e
 imágenes) sale del API: el visitante solo ve «Caricamento…». Con pocas visitas,
 el servidor está dormido casi siempre.
+
+Para confirmarlo: no abrir el sitio durante 20–30 minutos, abrirlo y cronometrar
+(30 s o más en «Caricamento…» = arranque en frío), o mirar los «Logs» de Render.
+Una medición del 15/10/2026 tras 18 minutos no sirvió: alguien visitó el sitio
+mientras tanto y el servidor seguía despierto (0,2–0,4 s).
 
 Detalle menor: el contenido de la página se pide después de recibir los datos
 del sitio y el menú, no a la vez (dos viajes al API seguidos, ~0,2 s de más).
