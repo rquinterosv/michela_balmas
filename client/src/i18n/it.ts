@@ -282,11 +282,21 @@ export const it = {
     // Etiquetas de los formularios de edición de cada tipo de bloque.
     blockEditors: {
       image: {
-        url: "Indirizzo dell'immagine",
+        field: "Immagine",
+        empty: "Nessuna immagine.",
+        external: "Usare un'immagine da un altro sito",
+        url: "Indirizzo web dell'immagine",
         urlHelp:
-          "Si compila da solo quando si carica un'immagine. In alternativa, incollare " +
-          "l'indirizzo web di un'immagine (es. https://…).",
+          "Incollare l'indirizzo di un'immagine pubblicata su un altro sito (es. https://…).",
         upload: "Carica un'immagine dal computer",
+        choose: "Scegli tra le immagini caricate",
+        pickerTitle: "Immagini caricate",
+        pickerHelp:
+          "Scegliere l'immagine da usare in questo punto. Le altre sezioni non cambiano, " +
+          "anche se usano la stessa immagine.",
+        pickerEmpty: "Non ci sono ancora immagini caricate.",
+        pickOption: (number: number, date: string) => `Immagine ${number}, caricata il ${date}`,
+        inUse: "In uso qui",
         replace: "Sostituisci l'immagine",
         uploading: "Caricamento dell'immagine…",
         uploaded: "Immagine caricata. Ricordarsi di salvare la pagina.",
@@ -328,8 +338,9 @@ export const it = {
       zigzag: {
         rows: "Righe",
         help:
+          "Ogni riga ha la sua immagine, indipendente dalle altre e dal resto della pagina. " +
           "Su computer l'immagine si alterna a sinistra e a destra del testo; su telefono " +
-          "compare sempre sotto il testo.",
+          "compare sempre sotto il testo. Una riga senza immagine mostra solo il testo.",
         row: (number: number) => `Riga ${number}`,
         image: "Immagine",
         title: "Titolo della riga",

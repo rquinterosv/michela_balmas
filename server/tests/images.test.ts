@@ -5,11 +5,15 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Los tests no tocan Firebase: verifyIdToken y el repositorio son simulados.
 vi.mock("../src/firebase", () => ({ db: {}, auth: { verifyIdToken: vi.fn() } }));
-vi.mock("../src/repositories/images", () => ({ saveImage: vi.fn(), getImage: vi.fn() }));
+vi.mock("../src/repositories/images", () => ({
+  saveImage: vi.fn(),
+  getImage: vi.fn(),
+  listImages: vi.fn(),
+}));
 
 import { createApp } from "../src/app";
 import { auth } from "../src/firebase";
-import { getImage, saveImage } from "../src/repositories/images";
+import { getImage, listImages, saveImage } from "../src/repositories/images";
 
 // Un "JPEG" mínimo: los tres bytes con los que empieza todo JPEG y relleno.
 const jpeg = (size: number) => Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(size)]);
@@ -26,6 +30,33 @@ beforeEach(() => {
   vi.mocked(saveImage).mockReset();
   vi.mocked(saveImage).mockResolvedValue("img1");
   vi.mocked(getImage).mockReset();
+  vi.mocked(listImages).mockReset();
+});
+
+describe("GET /api/admin/images", () => {
+  it("devuelve las imágenes subidas con su dirección, sin los bytes", async () => {
+    vi.mocked(listImages).mockResolvedValue([
+      { id: "img2", createdAt: "2026-10-23T09:00:00.000Z" },
+      { id: "img1", createdAt: "2026-10-20T09:00:00.000Z" },
+    ]);
+
+    const response = await request(createApp())
+      .get("/api/admin/images")
+      .set("Authorization", "Bearer token-valido");
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      { url: "/api/images/img2", createdAt: "2026-10-23T09:00:00.000Z" },
+      { url: "/api/images/img1", createdAt: "2026-10-20T09:00:00.000Z" },
+    ]);
+  });
+
+  it("exige un usuario administrador", async () => {
+    const response = await request(createApp()).get("/api/admin/images");
+
+    expect(response.status).toBe(401);
+    expect(listImages).not.toHaveBeenCalled();
+  });
 });
 
 describe("POST /api/admin/images", () => {

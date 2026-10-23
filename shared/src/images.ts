@@ -22,3 +22,11 @@ export const imageUploadSchema = z.object({
 });
 
 export type ImageUpload = z.infer<typeof imageUploadSchema>;
+
+// Una imagen ya subida, para elegirla de nuevo en el panel (GET /api/admin/images).
+// Cada bloque guarda su propia dirección: elegir la misma imagen en dos sitios no
+// los une, cambiar una no cambia la otra.
+export interface UploadedImage {
+  url: string;
+  createdAt: string;
+}

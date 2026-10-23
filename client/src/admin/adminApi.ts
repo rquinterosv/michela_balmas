@@ -9,6 +9,7 @@ import {
   type Post,
   type PostInput,
   type SiteSettings,
+  type UploadedImage,
 } from "@studio/shared";
 import { auth } from "../firebase";
 import { it } from "../i18n/it";
@@ -63,5 +64,6 @@ export const adminApi = {
     adminRequest<AdminCategory[]>("/categories/reorder", "PATCH", { ids }),
 
   // Sube un JPEG en base64; devuelve la dirección que se guarda en la página.
+  listImages: () => adminRequest<UploadedImage[]>("/images"),
   uploadImage: (data: string) => adminRequest<{ url: string }>("/images", "POST", { data }),
 };

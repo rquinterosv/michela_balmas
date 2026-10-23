@@ -15,7 +15,7 @@ export default function ImageEditor({
     <>
       <ImageField
         id={`${idPrefix}-url`}
-        label={labels.url}
+        label={labels.field}
         value={data.url}
         onChange={(url) => onChange({ ...data, url })}
         error={errors.url}

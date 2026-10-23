@@ -17,6 +17,16 @@ export async function saveImage(data: Buffer): Promise<string> {
   return ref.id;
 }
 
+// Las imágenes subidas, de la más reciente a la más antigua. Solo se lee la fecha:
+// los bytes no hacen falta para la lista y pesan hasta 600 kB cada una.
+export async function listImages(): Promise<{ id: string; createdAt: string }[]> {
+  const snapshot = await imagesCollection().orderBy("createdAt", "desc").select("createdAt").get();
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    createdAt: (doc.get("createdAt") as Timestamp).toDate().toISOString(),
+  }));
+}
+
 export async function getImage(id: string): Promise<Buffer | null> {
   const doc = await imagesCollection().doc(id).get();
   if (!doc.exists) return null;

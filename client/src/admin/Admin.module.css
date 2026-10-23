@@ -649,3 +649,93 @@
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
+
+/* Campo de imagen completo: miniatura, botones y, plegada, la dirección externa. */
+.imageField {
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.imageField legend {
+  margin-bottom: var(--space-3);
+  padding: 0;
+  font-weight: 600;
+}
+
+.imageField .imagePreview {
+  display: block;
+  max-width: min(12rem, 100%);
+  margin: 0 0 var(--space-4);
+}
+
+.imageField .imageActions {
+  margin: 0 0 var(--space-4);
+}
+
+.imageExternal summary {
+  cursor: pointer;
+  color: var(--color-link);
+  font-size: var(--text-sm);
+}
+
+.imageExternal[open] summary {
+  margin-bottom: var(--space-3);
+}
+
+/* Ventana para elegir una imagen ya subida. */
+.pickerDialog {
+  max-width: 48rem;
+  max-height: calc(100vh - 2 * var(--space-4));
+}
+
+.pickerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.pickerOption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pickerOption:hover {
+  border-color: var(--color-border-strong);
+}
+
+.pickerOption:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.pickerOption[aria-pressed="true"] {
+  border-color: var(--color-primary);
+}
+
+.pickerOption img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.pickerInUse {
+  display: block;
+  color: var(--color-primary-strong);
+}

@@ -129,7 +129,7 @@ de `/api`; Vercel la sirve en el dominio del sitio con un rewrite en `vercel.jso
 Admin (`requireAdmin`): `GET/POST /api/admin/pages`,
 `PATCH /api/admin/pages/reorder`, `GET/PUT/DELETE /api/admin/pages/:id`,
 `GET/PUT /api/admin/settings`, `GET /api/admin/messages`,
-`PATCH/DELETE /api/admin/messages/:id`, `POST /api/admin/images`,
+`PATCH/DELETE /api/admin/messages/:id`, `GET/POST /api/admin/images` (GET: lista sin bytes),
 `GET/POST /api/admin/posts`, `GET/PUT/DELETE /api/admin/posts/:id`,
 `GET/POST /api/admin/categories`, `PATCH /api/admin/categories/reorder`,
 `PUT/DELETE /api/admin/categories/:id` (estas devuelven la lista entera).
@@ -144,7 +144,11 @@ email de aviso (opcional, Resend) no incluye el texto del mensaje, por privacida
 
 ### Imágenes
 
-Se suben desde el panel (`admin/ImageField`): el navegador las reduce y las pasa a JPEG
+Se suben desde el panel (`admin/ImageField`), que también deja elegir una ya subida
+(`admin/ImagePicker`) y no muestra su dirección interna. Cada campo guarda su propia
+dirección: elegir la misma imagen en dos sitios no los une. Al subir, `ImageField` usa
+el `onChange` más reciente (no el de cuando empezó la subida), para no deshacer lo
+cambiado mientras tanto. El navegador las reduce y las pasa a JPEG
 (`admin/resizeImage.ts`), y el backend las guarda en Firestore, no en Storage (plan de
 pago). En la página se guarda la dirección `/api/images/<id>`, relativa al backend: todo
 `<img>` de contenido tiene que pasar su dirección por `imageSrc()` (`lib/images.ts`), o

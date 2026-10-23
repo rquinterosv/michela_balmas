@@ -27,7 +27,7 @@ export default function HeroEditor({ data, onChange, errors, idPrefix }: BlockEd
       />
       <ImageField
         id={`${idPrefix}-imageUrl`}
-        label={imageLabels.url}
+        label={imageLabels.field}
         value={data.imageUrl}
         onChange={(imageUrl) => onChange({ ...data, imageUrl })}
         error={errors.imageUrl}
