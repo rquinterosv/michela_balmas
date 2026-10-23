@@ -159,6 +159,7 @@ Variables de entorno (todas explicadas en `server/.env.example`):
 | `FIREBASE_CLIENT_EMAIL`  | del JSON                                                                                        |
 | `FIREBASE_PRIVATE_KEY`   | del JSON                                                                                        |
 | `CONTACT_RATE_LIMIT_MAX` | opcional, por defecto 5 envíos cada 15 minutos por IP                                           |
+| `DEPLOY_HOOK_URL`        | Deploy Hook de Vercel: publica los cambios del panel (ver «Contenido en el build», punto 6)     |
 
 **No definas** `FIRESTORE_EMULATOR_HOST` ni `FIREBASE_AUTH_EMULATOR_HOST` en
 producción. `PORT` lo pone el hosting.
@@ -223,8 +224,27 @@ El repo incluye `vercel.json`, así que basta importar el repositorio:
 - Añade las variables `VITE_*` en **Settings > Environment Variables** y vuelve
   a desplegar: si cambian, hace falta un build nuevo.
 
-Sin backend desplegado y sin `VITE_API_URL`, el sitio carga pero muestra un
-mensaje de error en lugar del contenido: las páginas salen de la API.
+### Contenido en el build
+
+Con `VITE_API_URL`, el build descarga todo el contenido publicado del backend
+(`GET /api/content`) y lo deja en el sitio como archivos estáticos: textos dentro de
+`index.html`, el blog en `/content/blog.json` y las imágenes en
+`/images/uploads/`. Los visitantes no esperan nunca al backend, que en el plan
+gratuito de Render se duerme y tarda casi un minuto en despertarse. Solo el
+formulario de contacto y el panel usan la API.
+
+Consecuencias:
+
+- **El build necesita el backend.** Si no responde (tras tres intentos de 90 s), el
+  build falla y Vercel deja publicada la versión anterior.
+- **Los cambios del panel tardan 1-2 minutos en verse.** Tras cada cambio el backend
+  llama a un Deploy Hook de Vercel, que repite el build. Para configurarlo:
+  1. Vercel > el proyecto > **Settings > Git > Deploy Hooks**: nombre «panel»,
+     rama `main`. Copia la URL.
+  2. Render > el servicio > **Environment**: `DEPLOY_HOOK_URL` = esa URL.
+
+  Sin `DEPLOY_HOOK_URL`, los cambios del panel solo se publican con el siguiente
+  deploy (un push o «Redeploy» en Vercel).
 
 ### Firebase Hosting (alternativa)
 
@@ -309,9 +329,9 @@ npm run start        # backend en modo producción
 - **Imágenes:** se suben desde el panel. El navegador las reduce (lado mayor de
   1600 px como mucho) y las convierte a JPEG de menos de 600 kB, y el backend las
   guarda en Firestore (colección `images`), no en Firebase Storage, que exige el
-  plan Blaze. Consecuencias: un PNG con transparencia queda con fondo blanco; las
-  imágenes las sirve el backend, así que la primera tarda si el hosting gratuito
-  estaba dormido; y una imagen que se deja de usar no se borra sola (ocupa sitio
+  plan Blaze. El build copia las que usa el contenido a `/images/uploads/`, así que
+  el sitio público no las pide al backend. Consecuencias: un PNG con transparencia
+  queda con fondo blanco; y una imagen que se deja de usar no se borra sola (ocupa sitio
   en el 1 GB gratuito de Firestore, que da para unas 2.000). También se puede
   pegar la dirección de una imagen externa.
 - **Cookies y analytics:** el sitio no usa analytics ni cookies de terceros, y
@@ -320,9 +340,10 @@ npm run start        # backend en modo producción
   consentimiento conforme a las directrices del Garante Privacy (hay un `TODO`
   en `client/index.html`) y actualizar la Cookie Policy.
 - **Arranque en frío del backend:** en los planes gratuitos el servidor se
-  duerme tras un rato sin visitas y la primera carga tarda 30-60 segundos. Se
-  evita con un plan de pago o con un servicio gratuito que llame a `/api/health`
-  cada 10 minutos. Diagnóstico y plan sin coste en
+  duerme tras 15 minutos sin uso y tarda unos 50 segundos en despertarse. El sitio
+  público no lo nota (el contenido va en el build); sí el envío del formulario de
+  contacto y el panel, que lo despiertan al abrirse. Se evita del todo con un
+  servicio gratuito que llame a `/api/health` cada 10 minutos. Detalles en
   [docs/antes-de-produccion.md](./docs/antes-de-produccion.md#3-tiempo-de-carga).
 - **Blog:** el sitemap (`/sitemap.xml`) lo genera el backend; `vercel.json` lo
   reenvía con un rewrite a `https://michela-balmas-api.onrender.com` y

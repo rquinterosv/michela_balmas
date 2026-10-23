@@ -159,7 +159,8 @@ export const it = {
     common: {
       save: "Salva modifiche",
       saving: "Salvataggio…",
-      saved: "Modifiche salvate",
+      // El sitio público se vuelve a generar tras cada cambio (ver siteRebuild.ts).
+      saved: "Modifiche salvate. Saranno visibili sul sito entro un paio di minuti.",
       cancel: "Annulla",
       confirm: "Conferma",
       delete: "Elimina",

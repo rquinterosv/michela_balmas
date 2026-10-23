@@ -1,20 +1,6 @@
-import {
-  categoriesWithCounts,
-  paginatePosts,
-  relatedPosts,
-  type Category,
-  type CategoryWithCount,
-  type ContactInput,
-  type MenuPage,
-  type Page,
-  type Post,
-  type PostsPage,
-  type PostWithRelated,
-  type SiteSettings,
-} from "@studio/shared";
+import type { Category, ContactInput, Page, Post } from "@studio/shared";
 import { seedCategories, seedPages, seedPosts, seedSettings } from "@studio/shared/seedContent";
-import { it } from "../i18n/it";
-import { ApiRequestError } from "./api";
+import { createStaticApi } from "./staticApi";
 
 // Modo demo: el sitio público se ve sin backend ni Firebase. Responde a las mismas
 // llamadas que `api` (ver api.ts) con el contenido de ejemplo del seed, que va
@@ -39,35 +25,7 @@ const posts: Post[] = Object.entries(seedPosts)
   .filter((post) => post.published);
 
 export const demoApi = {
-  async getMenuPages(): Promise<MenuPage[]> {
-    return pages.map(({ title, slug, order, showInMenu }) => ({ title, slug, order, showInMenu }));
-  },
-
-  async getPage(slug: string): Promise<Page> {
-    const page = pages.find((candidate) => candidate.slug === slug);
-    if (!page) throw new ApiRequestError(404, it.notFound.title);
-    return page;
-  },
-
-  async getSettings(): Promise<SiteSettings> {
-    return seedSettings;
-  },
-
-  async getBlogCategories(): Promise<CategoryWithCount[]> {
-    return categoriesWithCounts(categories, posts);
-  },
-
-  async getPosts(categorySlug: string | undefined, page: number): Promise<PostsPage> {
-    const category = categories.find((candidate) => candidate.slug === categorySlug);
-    if (categorySlug && !category) throw new ApiRequestError(404, it.notFound.title);
-    return paginatePosts(posts, categories, { categoryId: category?.id, page });
-  },
-
-  async getPost(slug: string): Promise<PostWithRelated> {
-    const post = posts.find((candidate) => candidate.slug === slug);
-    if (!post) throw new ApiRequestError(404, it.notFound.title);
-    return { post, related: relatedPosts(post, posts, categories) };
-  },
+  ...createStaticApi({ settings: seedSettings, pages }, async () => ({ categories, posts })),
 
   async sendContact(_input: ContactInput): Promise<{ ok: true }> {
     // Pequeña espera para que se vea el estado "Invio in corso…".

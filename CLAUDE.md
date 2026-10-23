@@ -33,6 +33,14 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 - **El frontend no habla con Firestore.** Lee y escribe todo por la API. Usa el SDK de
   Firebase solo para el login del panel (Auth) y envía el ID token en
   `Authorization: Bearer`. El backend lo verifica en `requireAdmin` (claim `admin: true`).
+- **El sitio público en producción no llama a la API para leer.** El build descarga
+  todo el contenido publicado (`GET /api/content`) con `client/siteContentPlugin.ts`:
+  datos del sitio y páginas dentro de `index.html`, el blog en `/content/blog.json` y
+  las imágenes en `/images/uploads/<id>.jpg`. `lib/api.ts` lo lee con
+  `lib/staticApi.ts` (lo mismo que usa el modo demo). Tras cada cambio del panel el
+  backend llama al Deploy Hook de Vercel (`DEPLOY_HOOK_URL`, `services/siteRebuild.ts`)
+  y el cambio se ve en 1-2 minutos. En desarrollo no hay copia: se lee de la API.
+  El formulario de contacto y el panel sí van a la API (`wakeUpBackend` la despierta).
 - **Fechas:** en Firestore son `Timestamp`; por la API viajan como texto ISO 8601. La
   conversión se hace en `server/src/repositories/`. En pantalla se formatean con
   `Intl.DateTimeFormat("it-IT")`.
@@ -111,7 +119,8 @@ La página con `slug: "home"` se sirve en `/` y no se puede eliminar. Los slugs 
 
 ### API
 
-Públicos: `GET /api/pages`, `GET /api/pages/:slug`, `GET /api/settings`,
+Públicos: `GET /api/content` (todo lo publicado, para el build), `GET /api/pages`,
+`GET /api/pages/:slug`, `GET /api/settings`,
 `GET /api/images/:id`, `POST /api/contact`, `GET /api/blog/categories` (con artículos
 publicados, contados con los de sus hijas), `GET /api/blog/posts?categoria=&pagina=`
 (de 4 en 4), `GET /api/blog/posts/:slug` (+ relacionados) y `GET /sitemap.xml` (fuera
@@ -140,6 +149,8 @@ Se suben desde el panel (`admin/ImageField`): el navegador las reduce y las pasa
 pago). En la página se guarda la dirección `/api/images/<id>`, relativa al backend: todo
 `<img>` de contenido tiene que pasar su dirección por `imageSrc()` (`lib/images.ts`), o
 la imagen no se verá en producción, donde frontend y backend están en dominios distintos.
+En el sitio público de producción esas direcciones ya llegan cambiadas por las de la
+copia del build (`/images/uploads/<id>.jpg`), servida por Vercel con caché de un año.
 
 ## Comandos (desde la raíz)
 
@@ -203,7 +214,9 @@ No hay que tocar rutas, repositorios ni reglas de Firestore.
 
 - Frontend: sitio estático (`client/dist`). `vercel.json` lo configura para Vercel;
   `firebase.json` para Firebase Hosting. Backend: `npm run start` en cualquier hosting
-  de Node. Los pasos completos están en el README.
+  de Node. Los pasos completos están en el README. El build del frontend necesita el
+  backend en marcha (descarga el contenido) y falla si no responde: Vercel deja
+  publicada la versión anterior.
 - El código del panel va en trozos aparte (`lazy` en `App.tsx` y en el registro de
   bloques): el sitio público no carga Firebase Auth ni TipTap, y funciona aunque
   falten las variables `VITE_FIREBASE_*` (el panel no).

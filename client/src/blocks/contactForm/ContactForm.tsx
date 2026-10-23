@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Field, describedBy } from "../../components/Field";
 import { it } from "../../i18n/it";
-import { api, ApiRequestError, DEMO_MODE } from "../../lib/api";
+import { api, ApiRequestError, DEMO_MODE, wakeUpBackend } from "../../lib/api";
 import { pagePath } from "../../lib/paths";
 import { useSiteSettings } from "../../lib/SiteSettingsContext";
 import styles from "./ContactForm.module.css";
@@ -39,6 +39,11 @@ export function ContactForm() {
   useEffect(() => {
     if (status === "success") successRef.current?.focus();
   }, [status]);
+
+  // Mientras se rellena el formulario, el backend se despierta (ver wakeUpBackend).
+  useEffect(() => {
+    wakeUpBackend();
+  }, []);
 
   function setValue<K extends keyof FormValues>(name: K, value: FormValues[K]) {
     setValues((current) => ({ ...current, [name]: value }));

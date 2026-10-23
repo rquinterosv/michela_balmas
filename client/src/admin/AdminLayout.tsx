@@ -4,6 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { PageLoading } from "../components/PageStatus";
 import { auth } from "../firebase";
 import { it } from "../i18n/it";
+import { wakeUpBackend } from "../lib/api";
 import { setPageMeta } from "../lib/seo";
 import styles from "./Admin.module.css";
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -12,6 +13,11 @@ import { ToastProvider } from "./Toast";
 
 // Marco del panel (/admin): sesión, avisos y, si el usuario es admin, el menú.
 export function AdminLayout() {
+  // Mientras se inicia sesión, el backend se despierta (ver wakeUpBackend).
+  useEffect(() => {
+    wakeUpBackend();
+  }, []);
+
   // El panel no debe salir en buscadores.
   useEffect(() => {
     setPageMeta({

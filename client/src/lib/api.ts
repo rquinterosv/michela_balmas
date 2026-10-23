@@ -10,6 +10,11 @@ import {
   type SiteSettings,
 } from "@studio/shared";
 import { it } from "../i18n/it";
+import { ApiRequestError } from "./apiError";
+import { BUILT_BLOG_PATH, BUILT_CONTENT_ELEMENT_ID } from "./builtContent";
+import { createStaticApi, type StaticBlog, type StaticSite } from "./staticApi";
+
+export { ApiRequestError };
 
 // Vacío en desarrollo: las peticiones a /api las redirige Vite al backend local.
 export const API_URL = import.meta.env.VITE_API_URL ?? "";
@@ -19,19 +24,6 @@ export const API_URL = import.meta.env.VITE_API_URL ?? "";
 // Se apaga solo al definir VITE_API_URL. VITE_DEMO_MODE=true lo fuerza en desarrollo.
 export const DEMO_MODE =
   import.meta.env.VITE_DEMO_MODE === "true" || (import.meta.env.PROD && API_URL === "");
-
-// Error de una llamada a la API. `message` está en italiano y se puede mostrar;
-// `fields` trae los errores por campo cuando falla la validación.
-// `status` es 0 si ni siquiera hubo respuesta (sin conexión, backend caído).
-export class ApiRequestError extends Error {
-  constructor(
-    public status: number,
-    message: string,
-    public fields: Record<string, string> = {},
-  ) {
-    super(message);
-  }
-}
 
 interface RequestOptions {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -98,7 +90,37 @@ async function loadDemoApi() {
   return demoApi;
 }
 
-// Llamadas del sitio público.
+// Copia del contenido publicado hecha en el build (ver client/siteContentPlugin.ts):
+// los datos del sitio y las páginas van dentro de index.html, y el blog en
+// /content/blog.json. Así el sitio público no espera a la API, que en el hosting
+// gratuito tarda casi un minuto en despertarse. No existe en desarrollo ni en un
+// build sin VITE_API_URL: entonces se usa la API (o el modo demo).
+function readBuiltSite(): StaticSite | null {
+  const json = document.getElementById(BUILT_CONTENT_ELEMENT_ID)?.textContent;
+  return json ? (JSON.parse(json) as StaticSite) : null;
+}
+
+// El blog se descarga una sola vez, al entrar en él. Si falla, se reintenta en la
+// próxima llamada.
+let builtBlog: Promise<StaticBlog> | null = null;
+
+function loadBuiltBlog(): Promise<StaticBlog> {
+  builtBlog ??= fetch(BUILT_BLOG_PATH)
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json() as Promise<StaticBlog>;
+    })
+    .catch(() => {
+      builtBlog = null;
+      throw new ApiRequestError(0, it.common.error);
+    });
+  return builtBlog;
+}
+
+const builtSite = DEMO_MODE ? null : readBuiltSite();
+
+// Llamadas del sitio público. Las lecturas salen de la copia del build si la hay;
+// el formulario de contacto siempre va a la API.
 export const api: PublicApi = DEMO_MODE
   ? {
       getMenuPages: async () => (await loadDemoApi()).getMenuPages(),
@@ -109,4 +131,16 @@ export const api: PublicApi = DEMO_MODE
       getPosts: async (categorySlug, page) => (await loadDemoApi()).getPosts(categorySlug, page),
       getPost: async (slug) => (await loadDemoApi()).getPost(slug),
     }
-  : liveApi;
+  : builtSite
+    ? { ...createStaticApi(builtSite, loadBuiltBlog), sendContact: liveApi.sendContact }
+    : liveApi;
+
+// Despierta el backend sin esperar respuesta. Se llama al abrir el formulario de
+// contacto y el panel: el hosting gratuito lo duerme tras 15 minutos sin uso y
+// tarda casi un minuto en arrancar; así, al pulsar "Invia" o "Accedi" ya está listo.
+export function wakeUpBackend(): void {
+  if (DEMO_MODE) return;
+  fetch(`${API_URL}/api/health`).catch(() => {
+    // Si no responde, el error se verá en la petición de verdad.
+  });
+}

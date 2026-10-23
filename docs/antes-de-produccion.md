@@ -39,43 +39,46 @@ Fecha del análisis: 15/10/2026.
 
 ## 3. Tiempo de carga
 
-### Diagnóstico
+### Diagnóstico (confirmado el 23/10/2026)
 
-Medido en producción con el backend despierto:
+| Qué                                              | Tiempo |
+| ------------------------------------------------ | ------ |
+| Primera petición al API tras un rato sin visitas | 52,5 s |
+| La misma, justo después                          | 0,3 s  |
+| Primera lectura de Firestore tras despertar      | 2,4 s  |
+| Página de la Home, API despierto                 | 0,38 s |
 
-| Qué                                   | Tiempo      | Tamaño            |
-| ------------------------------------- | ----------- | ----------------- |
-| HTML (Vercel)                         | 0,16 s      | 1 kB              |
-| JavaScript principal                  | 0,18 s      | 101 kB comprimido |
-| API `settings`, `pages`, `pages/home` | 0,14–0,24 s | < 2 kB cada una   |
-| Imágenes de la Home (desde el API)    | 0,23–0,25 s | 181 kB y 84 kB    |
+La causa es el **arranque en frío del backend**: Render (`plan: free`) lo apaga tras
+15 minutos sin uso y tarda unos 50 s en arrancar. Como todo el contenido (textos e
+imágenes) salía del API, el visitante veía «Caricamento…» todo ese tiempo. El peso
+del JavaScript (~120 kB comprimido), las fuentes, las imágenes (43–181 kB, ya con
+caché de un año) y las regiones (Render, Vercel y Firestore en Europa) no son el
+problema. Además, el contenido de la página se pedía después de los datos del sitio
+y el menú, no a la vez.
 
-Con el backend despierto la página completa carga en torno a 1 segundo: el peso
-del JavaScript, las fuentes y las imágenes no es el problema.
+Firebase Storage se descartó: no resuelve la espera (los textos seguirían saliendo
+del backend dormido) y los buckets nuevos exigen el plan Blaze, con tarjeta.
 
-**Causa probable (sin confirmar): el arranque en frío del backend.** Está en Render con
-`plan: free` (`render.yaml`): tras 15 minutos sin visitas el servidor se apaga y
-la siguiente petición espera a que arranque de nuevo (30–60 segundos). Mientras
-tanto el sitio no puede mostrar nada, porque todo el contenido (textos e
-imágenes) sale del API: el visitante solo ve «Caricamento…». Con pocas visitas,
-el servidor está dormido casi siempre.
+### Qué se hizo (sin coste)
 
-Para confirmarlo: no abrir el sitio durante 20–30 minutos, abrirlo y cronometrar
-(30 s o más en «Caricamento…» = arranque en frío), o mirar los «Logs» de Render.
-Una medición del 15/10/2026 tras 18 minutos no sirvió: alguien visitó el sitio
-mientras tanto y el servidor seguía despierto (0,2–0,4 s).
+1. **Contenido en el build** (ver «Contenido en el build» en el README, punto 6):
+   el build de Vercel descarga todo lo publicado (`GET /api/content`) y las
+   imágenes, y el sitio público se sirve sin pedir nada al API. Desaparecen la
+   espera y la doble petición. Tras cada cambio del panel el backend llama al Deploy
+   Hook de Vercel (`DEPLOY_HOOK_URL`) y el cambio se ve en 1-2 minutos.
+2. **Despertar el backend antes de usarlo:** el formulario de contacto y el panel
+   llaman a `/api/health` al abrirse, para que al pulsar «Invia» o «Accedi» ya esté
+   despierto.
+3. **Caché de un año** en `vercel.json` para `/assets/*` (archivos con hash) y
+   `/images/uploads/*`.
 
-Detalle menor: el contenido de la página se pide después de recibir los datos
-del sitio y el menú, no a la vez (dos viajes al API seguidos, ~0,2 s de más).
+### Recomendado además: ping externo
 
-### Plan sin coste
-
-**1. Mantener despierto el backend con un «ping» externo (lo más importante).**
-
-Un servicio gratuito llama a `/api/health` cada 10 minutos y el servidor no se
-duerme nunca. Elimina la espera para todos los visitantes, imágenes incluidas,
-sin tocar código. El plan gratuito de Render da 750 horas al mes y un servicio
-encendido todo el mes usa ~744: alcanza para este único servicio (no para dos).
+Con lo anterior los visitantes ya no esperan, pero el formulario de contacto (si
+se envía en menos de un minuto) y el panel sí pueden esperar al backend. Se evita
+con un servicio gratuito que llame a `/api/health` cada 10 minutos. El plan
+gratuito de Render da 750 horas al mes y un servicio encendido todo el mes usa
+~744: alcanza para este único servicio (no para dos).
 
 Con [cron-job.org](https://cron-job.org) (gratuito):
 
@@ -86,32 +89,6 @@ Con [cron-job.org](https://cron-job.org) (gratuito):
 
 Alternativa equivalente: [UptimeRobot](https://uptimerobot.com), monitor HTTP
 cada 5 minutos (además avisa por email si el backend se cae).
-
-**2. Mejoras en el código (pendientes de implementar).**
-
-- **Despertar el backend antes y pedir todo a la vez.** Una llamada a
-  `/api/health` desde `client/index.html` en cuanto se abre la página, antes de
-  descargar el JavaScript, y pedir la página a la vez que los datos del sitio y
-  el menú (hoy `PublicPage` espera a `PublicLayout`). Ahorro: 0,3–0,5 s.
-- **Guardar el contenido en el navegador del visitante.** Guardar en
-  `localStorage` los datos del sitio, el menú y las páginas visitadas, mostrarlos
-  al instante en la siguiente visita y actualizarlos cuando responda el API. Solo
-  ayuda a quien ya visitó el sitio. Es una comodidad: si falla o está vacío, el
-  sitio funciona igual que ahora.
-
-Con el ping y estas dos mejoras, la carga debería quedar en torno a 1 segundo
-siempre, sin coste.
-
-### Descartado por ahora
-
-- **Leer los textos directamente de Firestore (API REST).** Las reglas ya lo
-  permiten para las páginas publicadas y los datos del sitio, y evitaría el
-  arranque en frío para los textos. Pero las imágenes seguirían saliendo del
-  backend y va contra la regla «el frontend no habla con Firestore» de CLAUDE.md.
-  Solo tendría sentido si no se usa el ping.
-- **Incluir una copia del contenido en el build.** Mismo problema con las
-  imágenes y, tras un cambio en el panel, se vería la versión anterior unos
-  segundos.
 
 ### Opciones de pago (como referencia)
 
