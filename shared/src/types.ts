@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import type { Category, Post } from "./blog";
 import type {
   MESSAGE_STATUSES,
   contactSchema,
@@ -24,6 +25,16 @@ export type Page = PageInput & {
 export type MenuPage = Pick<Page, "title" | "slug" | "order" | "showInMenu">;
 
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
+
+// Todo lo que se ve en el sitio público, de una vez (GET /api/content): solo
+// páginas y artículos publicados. El build del frontend lo descarga para servir el
+// sitio sin esperar a la API (ver client/siteContentPlugin.ts).
+export interface SiteContent {
+  settings: SiteSettings;
+  pages: Page[];
+  categories: Category[];
+  posts: Post[];
+}
 
 // Lo que envía el formulario de contacto.
 export type ContactInput = z.infer<typeof contactSchema>;

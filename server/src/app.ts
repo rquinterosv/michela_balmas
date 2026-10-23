@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { env } from "./env";
 import { createContactRateLimit } from "./middleware/contactRateLimit";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
+import { rebuildSiteAfterChange } from "./middleware/rebuildSite";
 import { requireAdmin } from "./middleware/requireAdmin";
 import { adminCategoriesRouter } from "./routes/adminCategories";
 import { adminImagesRouter } from "./routes/adminImages";
@@ -36,6 +37,12 @@ export function createApp() {
 
   // Todo lo que cuelga de /api/admin exige un usuario con el claim admin.
   app.use("/api/admin", requireAdmin);
+  // Lo que cambia el sitio público obliga a rehacer su build (los mensajes y la
+  // subida de una imagen sola, no).
+  app.use(
+    ["/api/admin/pages", "/api/admin/settings", "/api/admin/posts", "/api/admin/categories"],
+    rebuildSiteAfterChange,
+  );
   app.use("/api/admin/pages", adminPagesRouter);
   app.use("/api/admin/settings", adminSettingsRouter);
   app.use("/api/admin/messages", adminMessagesRouter);

@@ -27,6 +27,10 @@ const envSchema = z.object({
   // Máximo de envíos del formulario de contacto por IP cada 15 minutos.
   CONTACT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(5),
 
+  // Deploy Hook de Vercel: se llama tras cada cambio del panel para rehacer el build
+  // del sitio público (services/siteRebuild.ts). Sin él, los cambios no se publican.
+  DEPLOY_HOOK_URL: z.string().optional(),
+
   EMAIL_NOTIFICATIONS_ENABLED: flag,
   RESEND_API_KEY: z.string().optional(),
   NOTIFY_EMAIL_TO: z.string().optional(),

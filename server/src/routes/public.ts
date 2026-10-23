@@ -1,9 +1,11 @@
-import type { MenuPage } from "@studio/shared";
+import type { MenuPage, SiteContent } from "@studio/shared";
 import { Router } from "express";
 import { HttpError } from "../middleware/errorHandler";
 import { messages } from "../messages.it";
+import { listCategories } from "../repositories/categories";
 import { getImage } from "../repositories/images";
 import { getPageBySlug, listPublishedPages } from "../repositories/pages";
+import { listPublishedPosts } from "../repositories/posts";
 import { getSettings } from "../repositories/settings";
 
 // Rutas de lectura del sitio público. Solo exponen páginas publicadas.
@@ -32,6 +34,19 @@ publicRouter.get("/pages/:slug", async (req, res) => {
 
 publicRouter.get("/settings", async (_req, res) => {
   res.json(await getSettings());
+});
+
+// Todo el contenido publicado de una vez. Lo descarga el build del frontend, que
+// sirve el sitio público como archivos estáticos (client/siteContentPlugin.ts).
+publicRouter.get("/content", async (_req, res) => {
+  const [settings, pages, categories, posts] = await Promise.all([
+    getSettings(),
+    listPublishedPages(),
+    listCategories(),
+    listPublishedPosts(),
+  ]);
+  const content: SiteContent = { settings, pages, categories, posts };
+  res.json(content);
 });
 
 // Imágenes subidas desde el panel (siempre JPEG, ver adminImages.ts).

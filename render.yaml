@@ -21,3 +21,6 @@ services:
         sync: false
       - key: FIREBASE_PRIVATE_KEY
         sync: false
+      # Deploy Hook de Vercel: publica los cambios del panel en el sitio.
+      - key: DEPLOY_HOOK_URL
+        sync: false
