@@ -129,7 +129,8 @@ de `/api`; Vercel la sirve en el dominio del sitio con un rewrite en `vercel.jso
 Admin (`requireAdmin`): `GET/POST /api/admin/pages`,
 `PATCH /api/admin/pages/reorder`, `GET/PUT/DELETE /api/admin/pages/:id`,
 `GET/PUT /api/admin/settings`, `GET /api/admin/messages`,
-`PATCH/DELETE /api/admin/messages/:id`, `GET/POST /api/admin/images` (GET: lista sin bytes),
+`PATCH/DELETE /api/admin/messages/:id`, `GET/POST /api/admin/images` (GET: lista sin bytes), `GET /api/admin/status`
+(`autoPublish`: si hay Deploy Hook; sin él, el Dashboard avisa),
 `GET/POST /api/admin/posts`, `GET/PUT/DELETE /api/admin/posts/:id`,
 `GET/POST /api/admin/categories`, `PATCH /api/admin/categories/reorder`,
 `PUT/DELETE /api/admin/categories/:id` (estas devuelven la lista entera).

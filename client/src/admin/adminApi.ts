@@ -1,6 +1,7 @@
 import {
   withSettingsDefaults,
   type AdminCategory,
+  type AdminStatus,
   type CategoryInput,
   type Message,
   type MessageStatus,
@@ -64,6 +65,7 @@ export const adminApi = {
     adminRequest<AdminCategory[]>("/categories/reorder", "PATCH", { ids }),
 
   // Sube un JPEG en base64; devuelve la dirección que se guarda en la página.
+  getStatus: () => adminRequest<AdminStatus>("/status"),
   listImages: () => adminRequest<UploadedImage[]>("/images"),
   uploadImage: (data: string) => adminRequest<{ url: string }>("/images", "POST", { data }),
 };

@@ -11,7 +11,7 @@ const CONTACTS_SLUG = "contatti";
 // Inicio del panel: mensajes nuevos y accesos rápidos a lo más habitual.
 export function Dashboard() {
   const { state, reload } = useLoad(
-    () => Promise.all([adminApi.listMessages("nuovo"), adminApi.listPages()]),
+    () => Promise.all([adminApi.listMessages("nuovo"), adminApi.listPages(), adminApi.getStatus()]),
     [],
   );
 
@@ -20,13 +20,20 @@ export function Dashboard() {
     return <PageError message={state.error.message} onRetry={reload} />;
   }
 
-  const [newMessages, pages] = state.data;
+  const [newMessages, pages, status] = state.data;
   const homePage = pages.find((page) => page.slug === HOME_SLUG);
   const contactsPage = pages.find((page) => page.slug === CONTACTS_SLUG);
 
   return (
     <>
       <h1>{it.admin.dashboard.title}</h1>
+
+      {/* Sin publicación automática, lo guardado no llega al sitio: mejor saberlo. */}
+      {!status.autoPublish && (
+        <p className={styles.notice} role="alert">
+          {it.admin.dashboard.autoPublishOff}
+        </p>
+      )}
 
       <Link to="/admin/messaggi" className={styles.highlightCard}>
         <span>{it.admin.dashboard.newMessages(newMessages.length)}</span>

@@ -80,3 +80,20 @@ describe("build del sitio tras un cambio en el panel", () => {
     expect(scheduleSiteRebuild).not.toHaveBeenCalled();
   });
 });
+
+describe("GET /api/admin/status", () => {
+  it("avisa si los cambios no se publican solos (sin DEPLOY_HOOK_URL)", async () => {
+    const response = await request(createApp())
+      .get("/api/admin/status")
+      .set("Authorization", "Bearer token-valido");
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ autoPublish: false });
+  });
+
+  it("exige un usuario administrador", async () => {
+    const response = await request(createApp()).get("/api/admin/status");
+
+    expect(response.status).toBe(401);
+  });
+});

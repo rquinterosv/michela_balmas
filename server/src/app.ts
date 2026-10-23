@@ -12,6 +12,7 @@ import { adminMessagesRouter } from "./routes/adminMessages";
 import { adminPagesRouter } from "./routes/adminPages";
 import { adminPostsRouter } from "./routes/adminPosts";
 import { adminSettingsRouter } from "./routes/adminSettings";
+import { adminStatusRouter } from "./routes/adminStatus";
 import { blogRouter } from "./routes/blog";
 import { contactRouter } from "./routes/contact";
 import { publicRouter } from "./routes/public";
@@ -49,6 +50,7 @@ export function createApp() {
   app.use("/api/admin/images", adminImagesRouter);
   app.use("/api/admin/posts", adminPostsRouter);
   app.use("/api/admin/categories", adminCategoriesRouter);
+  app.use("/api/admin/status", adminStatusRouter);
 
   app.use("/api/contact", createContactRateLimit(), contactRouter);
   app.use("/api/blog", blogRouter);

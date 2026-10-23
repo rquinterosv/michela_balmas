@@ -220,6 +220,9 @@ export const it = {
       editContacts: "Modifica Contatti",
       viewMessages: "Vedi messaggi",
       newPost: "Scrivi un articolo",
+      autoPublishOff:
+        "Attenzione: le modifiche salvate non vengono pubblicate automaticamente sul sito. " +
+        "Contattare l'assistenza tecnica.",
     },
 
     pages: {

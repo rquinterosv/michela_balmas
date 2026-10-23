@@ -54,6 +54,12 @@ export interface Message {
   createdAt: string;
 }
 
+// Configuración del servidor que el panel necesita conocer (GET /api/admin/status).
+export interface AdminStatus {
+  // Si lo guardado en el panel se publica solo en el sitio (Deploy Hook configurado).
+  autoPublish: boolean;
+}
+
 // Forma de todos los errores de la API. `error` está en italiano y se puede
 // mostrar tal cual; `fields` trae los errores por campo (clave = nombre del campo).
 export interface ApiError {
