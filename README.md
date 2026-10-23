@@ -290,6 +290,12 @@ lo que ya está editado. `npm run seed -- --force` sobrescribe las páginas inic
 y los datos del sitio: **no lo uses en producción** después de que se haya editado
 el contenido.
 
+Ojo: sin `--force` también vuelve a crear lo que la profesional haya **borrado**
+(una página, categoría o artículo de ejemplo que ya no está). Para añadir solo las
+secciones nuevas a páginas existentes (p. ej. el formulario al final de «Contatti»):
+`npm run seed -- --production --only-additions`. Cada añadido se aplica una sola
+vez y nunca duplica una sección que la página ya tenga.
+
 ## 8. Antes de publicar
 
 La lista de comprobaciones de los últimos cambios (antes y después del deploy) está en

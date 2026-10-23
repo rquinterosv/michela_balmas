@@ -6,6 +6,7 @@ import {
   siteSettingsSchema,
 } from "@studio/shared";
 import {
+  contattiFormBlock,
   homeFaqBlock,
   seedCategories,
   seedPages,
@@ -25,6 +26,8 @@ import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
 const PAGE_ADDITIONS = [
   // Preguntas frecuentes al final de la Home.
   { id: "home-faq", slug: "home", block: homeFaqBlock },
+  // Formulario de contacto al final de «Contatti».
+  { id: "contatti-form", slug: "contatti", block: contattiFormBlock },
 ];
 
 const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
@@ -39,6 +42,10 @@ const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
 //   npm run seed -- --force       sobrescribe el contenido inicial
 //   npm run seed -- --production  igual que sin opciones, pero contra el proyecto real
 //                                 aunque server/.env apunte a los emuladores
+//   npm run seed -- --only-additions  solo los añadidos de una sola vez (PAGE_ADDITIONS):
+//                                 no recrea páginas, categorías ni artículos de ejemplo
+//                                 que la profesional haya borrado. Es lo seguro en
+//                                 producción (con --production).
 //
 // Sin --force sirve también en un sitio ya en marcha: si se agrega contenido inicial
 // nuevo (p. ej. el blog), lo crea sin pisar lo de la profesional. Algo se da por
@@ -51,6 +58,7 @@ const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
 
 const force = process.argv.includes("--force");
 const production = process.argv.includes("--production");
+const onlyAdditions = process.argv.includes("--only-additions");
 
 // Las variables vacías tienen prioridad sobre server/.env (process.loadEnvFile no
 // pisa las que ya existen): así firebase-admin no usa los emuladores.
@@ -72,6 +80,46 @@ async function main() {
   );
   if (production && (force || env.FIREBASE_PROJECT_ID.startsWith("demo-"))) {
     throw new Error("--production no se combina con --force ni con un proyecto demo-.");
+  }
+  if (onlyAdditions && force) {
+    throw new Error("--only-additions no se combina con --force.");
+  }
+
+  // Añadidos de una sola vez: secciones nuevas para páginas que ya existen (ver
+  // PAGE_ADDITIONS). Es lo único que hace --only-additions.
+  async function applyPageAdditions() {
+    const stateRef = db.collection("seedState").doc("main");
+    const applied = ((await stateRef.get()).get("appliedAdditions") as string[] | undefined) ?? [];
+
+    for (const addition of PAGE_ADDITIONS) {
+      if (applied.includes(addition.id)) {
+        console.log(`Añadido "${addition.id}": ya aplicado, sin cambios.`);
+        continue;
+      }
+      const pageDoc = (
+        await db.collection("pages").where("slug", "==", addition.slug).limit(1).get()
+      ).docs[0];
+      const blocks = pageDoc
+        ? appendBlockIfMissing(
+            pageDoc.get("blocks") as Block[],
+            sanitizeBlocks([addition.block])[0]!,
+          )
+        : null;
+      if (pageDoc && blocks) {
+        await pageDoc.ref.update({ blocks, updatedAt: Timestamp.now() });
+        console.log(`Añadido "${addition.id}": sección añadida al final de /${addition.slug}.`);
+      } else {
+        console.log(`Añadido "${addition.id}": no hace falta (la página ya la tiene o no existe).`);
+      }
+      applied.push(addition.id);
+    }
+    await stateRef.set({ appliedAdditions: applied }, { merge: true });
+  }
+
+  if (onlyAdditions) {
+    await applyPageAdditions();
+    console.log("Seed terminado (solo añadidos).");
+    return;
   }
 
   // Se valida con los mismos esquemas que usa la API, así el seed no puede
@@ -141,28 +189,7 @@ async function main() {
   }
 
   // --- Añadidos de una sola vez ---
-  const stateRef = db.collection("seedState").doc("main");
-  const applied = ((await stateRef.get()).get("appliedAdditions") as string[] | undefined) ?? [];
-
-  for (const addition of PAGE_ADDITIONS) {
-    if (applied.includes(addition.id)) {
-      console.log(`Añadido "${addition.id}": ya aplicado, sin cambios.`);
-      continue;
-    }
-    const pageDoc = (await db.collection("pages").where("slug", "==", addition.slug).limit(1).get())
-      .docs[0];
-    const blocks = pageDoc
-      ? appendBlockIfMissing(pageDoc.get("blocks") as Block[], sanitizeBlocks([addition.block])[0]!)
-      : null;
-    if (pageDoc && blocks) {
-      await pageDoc.ref.update({ blocks, updatedAt: Timestamp.now() });
-      console.log(`Añadido "${addition.id}": sección añadida al final de /${addition.slug}.`);
-    } else {
-      console.log(`Añadido "${addition.id}": no hace falta (la página ya la tiene o no existe).`);
-    }
-    applied.push(addition.id);
-  }
-  await stateRef.set({ appliedAdditions: applied }, { merge: true });
+  await applyPageAdditions();
 
   // --- Categorías del blog ---
   // Clave del contenido inicial -> id real (otro, si la categoría ya existía con esa dirección).

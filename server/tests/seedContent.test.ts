@@ -1,4 +1,5 @@
 import {
+  blockSchema,
   categoryInputSchema,
   pageInputSchema,
   postInputSchema,
@@ -6,6 +7,7 @@ import {
 } from "@studio/shared";
 import { describe, expect, it } from "vitest";
 import {
+  contattiFormBlock,
   homeFaqBlock,
   seedCategories,
   seedPages,
@@ -144,6 +146,13 @@ describe("appendBlockIfMissing", () => {
   it("no hace nada si ya hay una sección del mismo tipo", () => {
     const otherFaq = { ...faq, id: "otra" };
     expect(appendBlockIfMissing([text, otherFaq], faq)).toBeNull();
+  });
+});
+
+describe("formulario de contacto de ejemplo", () => {
+  it("cumple el esquema y cierra la página «Contatti»", () => {
+    expect(blockSchema.safeParse(contattiFormBlock).success).toBe(true);
+    expect(seedPages.contatti?.blocks.at(-1)).toEqual(contattiFormBlock);
   });
 });
 

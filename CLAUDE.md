@@ -163,7 +163,8 @@ npm run format       # prettier --write
 npm test             # tests del backend (vitest + supertest)
 npm run build        # build del frontend
 npm run seed         # crea el contenido inicial que falta (-- --force lo sobrescribe;
-                     # -- --production va contra el proyecto real aunque .env use emuladores)
+                     # -- --production va contra el proyecto real aunque .env use emuladores;
+                     # -- --only-additions solo añade secciones a páginas existentes)
 npm run set-admin -- <email> ["password"]   # da el claim admin (crea el usuario si hay password)
 ```
 

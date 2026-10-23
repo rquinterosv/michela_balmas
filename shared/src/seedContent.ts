@@ -134,6 +134,17 @@ const cookiePolicyHtml = [
   "<p><em>Ultimo aggiornamento: [DATA].</em></p>",
 ].join("");
 
+// Formulario de contacto, al final de «Contatti». Se exporta aparte por lo mismo
+// que homeFaqBlock: el seed lo añade una sola vez a una página que ya existe.
+export const contattiFormBlock: Block = {
+  id: "contatti-form",
+  type: "contactForm",
+  data: {
+    title: "Scriva un messaggio",
+    intro: "Compili il modulo: Le risponderò personalmente all'indirizzo email indicato.",
+  },
+};
+
 // Preguntas frecuentes, al final de la Home. Se exporta aparte porque el seed la
 // añade una sola vez a una Home que ya existe (ver server/scripts/seed.ts).
 // Tono informativo y neutro, sin promesas de resultados. "[DA REVISIONARE]".
@@ -302,8 +313,6 @@ export const seedPages: Record<string, PageInput> = {
             "giorni lavorativi.</p>",
         },
       },
-      // El formulario ("Modulo di contatto") no va en el contenido inicial por ahora:
-      // se añade desde el panel como una sección más cuando haga falta.
       {
         id: "contatti-info",
         type: "contactInfo",
@@ -315,6 +324,7 @@ export const seedPages: Record<string, PageInput> = {
           showOnlineSessions: true,
         },
       },
+      contattiFormBlock,
     ],
   },
 
