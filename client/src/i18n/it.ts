@@ -32,6 +32,12 @@ export const it = {
     label: "Navigazione principale",
     openMenu: "Apri il menu",
     closeMenu: "Chiudi il menu",
+    // Botón de la cabecera y de la barra fija del móvil: lleva a "Contatti".
+    bookCta: "Prenota il primo colloquio",
+    // Barra fija del móvil: el botón y el redondo de WhatsApp (mensaje ya escrito).
+    bookingBarLabel: "Prenotazione",
+    whatsapp: "Scriva su WhatsApp",
+    whatsappMessage: "Buongiorno dottoressa, vorrei avere informazioni per un primo colloquio.",
   },
 
   // Iconos redondos de la cabecera (nombre accesible de cada enlace).
@@ -51,6 +57,10 @@ export const it = {
     legalLabel: "Informazioni legali",
     socialLabel: "Profili social",
     reservedArea: "Area riservata",
+    contactsTitle: "Contatti",
+    socialTitle: "Mi trova anche qui",
+    infoTitle: "Informazioni",
+    emergency: "Questo sito non offre un servizio di emergenza. In caso di urgenza chiami il 112.",
     copyright: (year: number, name: string, text: string) => `© ${year} ${name}. ${text}`,
   },
 

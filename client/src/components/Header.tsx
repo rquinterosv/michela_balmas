@@ -1,8 +1,8 @@
 import { HOME_SLUG, type MenuPage, type SiteSettings } from "@studio/shared";
-import { useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { it } from "../i18n/it";
-import { ABOUT_ANCHOR, ABOUT_HREF, ABOUT_PAGE_PATH, pagePath } from "../lib/paths";
+import { ABOUT_ANCHOR, ABOUT_HREF, ABOUT_PAGE_PATH, CONTACTS_PATH, pagePath } from "../lib/paths";
 import { ContactIcons } from "./ContactIcons";
 import styles from "./Header.module.css";
 
@@ -24,20 +24,52 @@ function withoutTrailingSlash(path: string): string {
   return path.length > 1 ? path.replace(/\/+$/, "") : path;
 }
 
-// Cabecera del sitio: nombre, iconos de contacto y menú. El menú son las páginas
+// Cabecera del sitio: logo, menú y botón "Prenota". El menú son las páginas
 // publicadas que tienen "Mostra nel menu", más el ítem "Chi sono", que va justo
 // después de la Home y baja a su sección (/#chi-sono). Si sale y con qué texto se
-// decide en el panel ("Impostazioni del sito" > "Menu del sito"). En móvil el menú
-// se abre con un botón.
+// decide en el panel ("Impostazioni del sito" > "Menu del sito"). Hasta 900 px el
+// menú es un panel que baja al pulsar el botón, con los iconos de contacto.
 export function Header({ settings, pages }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname, hash } = useLocation();
   const currentPath = withoutTrailingSlash(pathname);
 
+  const headerRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   // Al cambiar de página (también con atrás/adelante), el menú móvil se cierra.
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  // Con el menú abierto: Esc lo cierra y devuelve el foco al botón; tocar fuera de
+  // la cabecera lo cierra (pointerdown y no click: ya está cerrado cuando el dedo
+  // llega a lo que se quería tocar); y pasar a pantalla ancha también.
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      buttonRef.current?.focus();
+    }
+    function onPointerDown(event: PointerEvent) {
+      if (!headerRef.current?.contains(event.target as Node)) setMenuOpen(false);
+    }
+    const wide = window.matchMedia("(min-width: 901px)");
+    function onWide(event: MediaQueryListEvent) {
+      if (event.matches) setMenuOpen(false);
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    wide.addEventListener("change", onWide);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+      wide.removeEventListener("change", onWide);
+    };
+  }, [menuOpen]);
 
   // "Chi sono" está marcado en la sección de la home y en la página /chi-sono;
   // mientras tanto la Home no, para que no haya dos ítems activos a la vez.
@@ -71,64 +103,89 @@ export function Header({ settings, pages }: HeaderProps) {
   // Si la Home no está en el menú, "Chi sono" va el primero.
   if (settings.showAboutInMenu && !items.includes(aboutItem)) items.unshift(aboutItem);
 
-  return (
-    <header className={styles.header}>
-      <div className={`container ${styles.inner}`}>
-        <Link to="/" className={styles.brand}>
-          {/* Logo fijo (client/public/images/logo.png). Decorativo: el nombre va al lado. */}
-          <img className={styles.logo} src="/images/logo.png" alt="" width={113} height={128} />
-          <span className={styles.brandText}>
-            <span className={styles.name}>{settings.siteName}</span>
-            <span className={styles.role}>{settings.professionalTitle}</span>
-          </span>
+  // Las mismas voces en la barra de escritorio y en el panel del móvil. Solo se ve
+  // una de las dos a la vez (la otra tiene display: none), así que no se repiten.
+  // Link y no NavLink: NavLink marcaría la Home también en "/#chi-sono".
+  // Se cierra el menú al pulsar: ir a "/#chi-sono" desde "/" no cambia de página.
+  const renderItems = (staggered: boolean) =>
+    items.map((item, index) => (
+      <li key={item.key} style={staggered ? ({ "--i": index } as CSSProperties) : undefined}>
+        <Link
+          to={item.to}
+          className={item.active ? styles.active : undefined}
+          aria-current={item.active ? "page" : undefined}
+          onClick={() => setMenuOpen(false)}
+        >
+          {item.label}
         </Link>
+      </li>
+    ));
 
-        <button
-          type="button"
-          className={styles.menuButton}
-          aria-expanded={menuOpen}
-          aria-controls="main-menu"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span className="visually-hidden">{menuOpen ? it.nav.closeMenu : it.nav.openMenu}</span>
-          {/* Icono: tres rayas, o una X cuando está abierto */}
-          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d={menuOpen ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"}
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
+  return (
+    <>
+      <header ref={headerRef} className={`${styles.header} ${menuOpen ? styles.open : ""}`}>
+        <div className={`container ${styles.bar}`}>
+          <Link to="/" className={styles.brand}>
+            {/* Monograma (client/public/images/logo.png) usado como máscara: toma el
+                color del texto. Decorativo: el nombre va al lado. */}
+            <span className={styles.monogram} aria-hidden="true">
+              <span className={styles.mark} />
+            </span>
+            <span className={styles.identity}>
+              <span className={styles.name}>{settings.siteName}</span>
+              <span className={styles.role}>{settings.professionalTitle}</span>
+            </span>
+          </Link>
 
-        <nav
-          id="main-menu"
-          aria-label={it.nav.label}
-          className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
-        >
-          <ul>
-            {items.map((item) => (
-              <li key={item.key}>
-                {/* Link y no NavLink: NavLink marcaría la Home también en "/#chi-sono".
-                    Se cierra el menú al pulsar: ir a "/#chi-sono" desde "/" no cambia de página. */}
-                <Link
-                  to={item.to}
-                  className={item.active ? styles.active : undefined}
-                  aria-current={item.active ? "page" : undefined}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav aria-label={it.nav.label} className={styles.desktopNav}>
+            <ul>{renderItems(false)}</ul>
+            <Link to={CONTACTS_PATH} className="button">
+              {it.nav.bookCta}
+            </Link>
+          </nav>
 
-        <div className={styles.icons}>
-          <ContactIcons settings={settings} />
+          <button
+            ref={buttonRef}
+            type="button"
+            className={styles.menuButton}
+            aria-expanded={menuOpen}
+            aria-controls="main-menu"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className="visually-hidden">{menuOpen ? it.nav.closeMenu : it.nav.openMenu}</span>
+            {/* Tres rayas y una X superpuestas que se cambian: el botón no se mueve. */}
+            <span className={styles.signs} aria-hidden="true">
+              <svg className={styles.signOpen} width="24" height="24" viewBox="0 0 24 24">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+              <svg className={styles.signClose} width="24" height="24" viewBox="0 0 24 24">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </span>
+          </button>
         </div>
-      </div>
-    </header>
+
+        {/* Panel del móvil: baja desde la cabecera y cubre la página sin empujarla.
+            No es un diálogo modal (la página sigue a la vista): se cierra con Esc,
+            tocando fuera o eligiendo una voz. El botón "Prenota" no está aquí:
+            en el móvil vive en la barra fija de abajo, que sigue visible. */}
+        <div id="main-menu" className={styles.panel}>
+          <div className={styles.panelClip}>
+            <div className={styles.panelBody}>
+              <nav aria-label={it.nav.label}>
+                <ul>{renderItems(true)}</ul>
+              </nav>
+              <div className={styles.panelIcons} style={{ "--i": items.length } as CSSProperties}>
+                <ContactIcons settings={settings} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Con el menú abierto, la página de debajo se aleja: desenfocada y un poco más
+          oscura. Fuera de la cabecera: su backdrop-filter rompería el position: fixed. */}
+      <div className={`${styles.veil} ${menuOpen ? styles.veilVisible : ""}`} aria-hidden="true" />
+    </>
   );
 }

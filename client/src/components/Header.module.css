@@ -1,146 +1,331 @@
+/* La cabecera deja ver la página que pasa por debajo, desenfocada. El color es el
+   del fondo pero transparente: sin el velo, el texto de la página se leería a
+   través del menú. */
 .header {
   position: sticky;
   top: 0;
-  z-index: 10;
-  border-bottom: 1px solid var(--color-border);
+  z-index: var(--z-header);
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  backdrop-filter: blur(var(--header-blur));
+  transition: background-color var(--duration-menu) ease;
+}
+
+/* Con el menú abierto el fondo es pleno: bajo el panel pasa la página. */
+.header.open {
   background: var(--color-bg);
 }
 
-.inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2) var(--space-4);
-  padding-block: var(--space-3);
+/* Donde no hay desenfoque, fondo pleno. */
+@supports not (backdrop-filter: blur(1px)) {
+  .header {
+    background: var(--color-bg);
+  }
 }
 
-/* Logo, una línea vertical y el nombre. */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+}
+
+/* ---- Logo: monograma, una barra vertical y el nombre ---- */
+
 .brand {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
   color: var(--color-text);
   text-decoration: none;
-  line-height: 1.25;
-}
-
-.logo {
-  width: auto;
-  height: 2.75rem;
-}
-
-.brandText {
-  display: flex;
-  flex-direction: column;
-  padding-left: var(--space-3);
-  border-left: 1px solid var(--color-border-strong);
 }
 
 .brand:hover {
   color: var(--color-text);
 }
 
+.monogram {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  padding-right: var(--space-3);
+  border-right: 1px solid var(--color-accent);
+}
+
+/* La imagen hace de máscara: el color es el del texto de alrededor. */
+.mark {
+  width: calc(var(--logo-monogram) * 113 / 128);
+  height: var(--logo-monogram);
+  background-color: currentColor;
+  mask-image: url("/images/logo.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.15;
+}
+
 .name {
   font-family: var(--font-heading);
-  font-size: var(--text-lg);
+  font-style: italic;
   font-weight: 500;
+  font-size: var(--logo-name);
 }
 
 .role {
-  font-size: var(--text-sm);
   color: var(--color-text-muted);
+  font-size: var(--logo-role);
 }
 
-.menuButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  cursor: pointer;
-}
+/* ---- Escritorio: voces en línea y el botón "Prenota" ---- */
 
-/* Iconos de contacto. En móvil van en una fila propia, bajo el nombre; el menú,
-   cuando se abre, queda debajo de ellos. */
-.icons {
-  flex-basis: 100%;
-  order: 1;
-}
-
-/* Móvil: el menú ocupa toda la fila y solo se ve cuando está abierto */
-.nav {
-  display: none;
-  flex-basis: 100%;
-  order: 2;
-}
-
-.navOpen {
-  display: block;
-}
-
-.nav ul {
+.desktopNav {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.desktopNav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-1) var(--space-6);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.nav a {
+.desktopNav a:not(:global(.button)) {
   display: block;
-  padding: var(--space-3) 0;
-  border-top: 1px solid var(--color-border);
+  padding-block: 10px;
   color: var(--color-text);
-  font-weight: 600;
+  font-size: var(--text-nav);
+  font-weight: 500;
   text-decoration: none;
 }
 
-.nav a:hover,
-.nav a.active {
+.desktopNav a:not(:global(.button)):hover,
+.desktopNav a.active {
   color: var(--color-primary-strong);
 }
 
-.nav a.active {
+.desktopNav a.active {
   text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.4em;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
 }
 
-/* Escritorio: menú siempre visible, en línea */
-@media (min-width: 48rem) {
-  .menuButton {
+/* ---- Botón del menú (solo móvil) ---- */
+
+.menuButton {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-size);
+  height: var(--touch-size);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* Las dos figuras ocupan la misma celda y se cambian girando. */
+.signs {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.signs svg {
+  grid-area: 1 / 1;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition:
+    opacity var(--duration-menu) var(--ease-calm),
+    transform var(--duration-menu) var(--ease-calm);
+}
+
+.signClose {
+  opacity: 0;
+  transform: rotate(-45deg);
+}
+
+.open .signOpen {
+  opacity: 0;
+  transform: rotate(45deg);
+}
+
+.open .signClose {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Panel del móvil ---- */
+
+/* Colgado bajo la barra y fuera del flujo: al abrirse cubre la página en lugar
+   de empujarla. La altura se anima de 0fr a 1fr: la real del contenido, sin
+   medir nada en JavaScript. */
+.panel {
+  display: none;
+  position: absolute;
+  inset: 100% 0 auto;
+  grid-template-rows: 0fr;
+  background: var(--color-bg);
+  transition: grid-template-rows var(--duration-menu) var(--ease-calm);
+}
+
+.open .panel {
+  grid-template-rows: 1fr;
+}
+
+/* El recorte que permite la fila de altura cero. Cerrado sale también del orden
+   de tabulación: las voces no se ven, no se deben alcanzar. */
+.panelClip {
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear var(--duration-menu);
+}
+
+.open .panelClip {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* Todo alineado a la derecha, bajo el botón que ha abierto el panel: es donde
+   acaba de estar el pulgar. */
+.panelBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-5);
+  padding: var(--space-2) var(--page-gutter) var(--space-6);
+}
+
+.panelBody ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panelBody nav a {
+  display: flex;
+  align-items: center;
+  min-height: var(--touch-size);
+  color: var(--color-text-muted);
+  text-align: right;
+  text-decoration: none;
+  transition: color var(--duration-hover) ease;
+}
+
+.panelBody nav a:hover,
+.panelBody nav a:focus-visible,
+.panelBody nav a.active {
+  color: var(--color-text);
+}
+
+.panelBody nav a.active {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+/* Las voces entran una tras otra; los iconos, los últimos. */
+.panelBody li,
+.panelIcons {
+  opacity: 0;
+  transform: translateY(var(--space-2));
+  transition:
+    opacity var(--duration-menu) var(--ease-calm),
+    transform var(--duration-menu) var(--ease-calm);
+}
+
+.open .panelBody li,
+.open .panelIcons {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * var(--menu-stagger));
+}
+
+/* ---- Velo sobre la página con el menú abierto ---- */
+
+.veil {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-veil);
+  background: color-mix(in srgb, var(--color-text) 14%, transparent);
+  backdrop-filter: blur(var(--header-blur));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* visibility no se anima: se retrasa hasta que acaba el fundido. */
+  transition:
+    opacity var(--duration-menu) ease,
+    visibility 0s linear var(--duration-menu);
+}
+
+.veilVisible {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--duration-menu) ease,
+    visibility 0s linear 0s;
+}
+
+@media (max-width: 900px) {
+  .bar {
+    gap: var(--space-3);
+  }
+
+  /* El nombre de Michela no se parte nunca a la mitad. */
+  .brand {
+    gap: var(--space-2);
+  }
+
+  .monogram {
+    padding-right: var(--space-2);
+  }
+
+  .name,
+  .role {
+    white-space: nowrap;
+  }
+
+  .desktopNav {
     display: none;
   }
 
-  .logo {
-    height: 3.25rem;
+  .menuButton {
+    display: flex;
   }
 
-  .nav {
+  .panel {
+    display: grid;
+  }
+
+  .veil {
     display: block;
-    flex-basis: auto;
-    order: 0;
-    /* Empuja el menú y los iconos a la derecha, junto al borde. */
-    margin-left: auto;
   }
+}
 
-  .icons {
-    flex-basis: auto;
-    order: 0;
-    margin-left: var(--space-4);
-  }
-
-  .nav ul {
-    flex-direction: row;
-    gap: var(--space-8);
-  }
-
-  .nav a {
-    padding: var(--space-2) 0;
-    border-top: 0;
+@media (prefers-reduced-motion: reduce) {
+  .panelBody li,
+  .panelIcons {
+    opacity: 1;
+    transform: none;
   }
 }

@@ -104,13 +104,31 @@
   --button-height-compact: 44px;
   --field-height: 48px;
 
+  --touch-size: 44px; /* área mínima para tocar con el dedo */
+
+  /* Logo de la cabecera: monograma, nombre y profesión */
+  --logo-monogram: 32px;
+  --logo-name: 18px;
+  --logo-role: 12px;
+  --footer-name: 22px;
+  --text-nav: 15.5px;
+
   /* Estructuras fijas */
   --header-height: 76px;
+  --header-blur: 12px;
   --booking-bar-height: 0px; /* la barra de reserva solo existe en móvil */
+
+  /* Capas */
+  --z-veil: 10; /* bajo la cabecera, sobre la página */
+  --z-header: 20;
+  --z-bar: 60;
+  --z-skip: 70;
 
   /* Movimiento */
   --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-hover: 150ms;
+  --duration-menu: 250ms;
+  --menu-stagger: 40ms;
 }
 
 /* Móvil (el diseño usa un único punto de corte: 900px). */
@@ -129,6 +147,10 @@
     --section-space: 64px;
     --section-title-space: 36px;
     --radius: 16px;
+
+    --logo-monogram: 20px;
+    --logo-name: 17px;
+    --logo-role: 11px;
 
     --header-height: 64px;
     /* 12px + 52px + 16px de relleno, más la muesca de los iPhone */

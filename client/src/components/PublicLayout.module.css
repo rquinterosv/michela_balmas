@@ -1,8 +1,10 @@
-/* El pie queda abajo aunque la página tenga poco contenido */
+/* El pie queda abajo aunque la página tenga poco contenido. Hasta 900 px la
+   barra de reserva está fija abajo: este hueco evita que tape el pie. */
 .layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-bottom: var(--booking-bar-height);
 }
 
 .main {
@@ -18,15 +20,17 @@
   position: absolute;
   left: var(--space-4);
   top: -10rem;
-  z-index: 20;
-  padding: var(--space-2) var(--space-4);
+  z-index: var(--z-skip);
+  padding: var(--space-3) 18px;
   border-radius: var(--radius-sm);
-  background: var(--color-primary-strong);
-  color: var(--color-on-primary);
+  background: var(--color-text);
+  color: var(--color-surface);
   font-weight: 600;
+  text-decoration: none;
+  transition: top var(--duration-hover) ease;
 }
 
 .skipLink:focus {
-  top: var(--space-2);
-  color: var(--color-on-primary);
+  top: var(--space-3);
+  color: var(--color-surface);
 }

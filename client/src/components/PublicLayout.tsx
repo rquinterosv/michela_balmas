@@ -5,6 +5,7 @@ import { api } from "../lib/api";
 import { PublishedPagesContext } from "../lib/PublishedPagesContext";
 import { SiteSettingsContext } from "../lib/SiteSettingsContext";
 import { useLoad } from "../lib/useLoad";
+import { BookingBar } from "./BookingBar";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { PageError, PageLoading } from "./PageStatus";
@@ -57,6 +58,7 @@ export function PublicLayout() {
             <Outlet />
           </main>
           <Footer settings={settings} pages={pages} />
+          <BookingBar settings={settings} />
         </div>
       </PublishedPagesContext.Provider>
     </SiteSettingsContext.Provider>
