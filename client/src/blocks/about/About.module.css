@@ -71,7 +71,31 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  align-items: center;
+  gap: var(--space-3) var(--space-8);
+}
+
+.arrow {
+  width: 18px;
+  height: 18px;
+}
+
+/* Enlace a Instagram: texto con icono; en el móvil, una fila con flecha. */
+.instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.instagram:hover {
+  text-decoration: underline;
+}
+
+.chevron {
+  display: none;
 }
 
 /* En el móvil: la foto arriba, a todo el ancho, y las listas como filas en una tarjeta. */
@@ -101,7 +125,28 @@
     margin-top: 3px;
   }
 
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+
   .button {
     width: 100%;
+  }
+
+  .instagram {
+    justify-content: flex-start;
+    min-height: var(--field-height);
+    padding-block: 0;
+    font-weight: 500;
+  }
+
+  .chevron {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    color: var(--color-primary);
   }
 }

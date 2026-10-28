@@ -9,7 +9,7 @@ export function pagePath(slug: string): string {
 // El id lo pone el bloque "about" (AboutRender).
 export const ABOUT_ANCHOR = "chi-sono";
 export const ABOUT_HREF = `/#${ABOUT_ANCHOR}`;
-// Página con la presentación completa, a la que lleva el botón "Scopri di più".
+// Página con la presentación completa, a la que lleva el botón "Leggi il mio percorso completo".
 // No sale en el menú: mientras se ve, el ítem "Chi sono" queda marcado.
 export const ABOUT_PAGE_PATH = "/chi-sono";
 

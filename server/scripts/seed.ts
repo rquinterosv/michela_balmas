@@ -1,5 +1,6 @@
 import {
   type Block,
+  blockSchema,
   type BlockType,
   categoryInputSchema,
   pageInputSchema,
@@ -20,32 +21,50 @@ import {
   seedPosts,
   seedSettings,
 } from "@studio/shared/seedContent";
+import { z } from "zod";
 import { contentFingerprint } from "../src/services/contentFingerprint";
+import { redesignChiSono } from "../src/services/chiSonoRedesign";
+import { sanitizeBlocks } from "../src/services/sanitizeHtml";
 import { appendBlockIfMissing } from "../src/services/seedAdditions";
 import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
+
+// Cambios de una sola vez en páginas que ya existen: secciones nuevas del contenido
+// inicial o una página rehecha con el diseño nuevo. Cada uno se aplica una sola vez:
+// queda anotado en seedState/main y no se repite aunque después se cambie la página
+// desde el panel. `change` devuelve las secciones nuevas, o null si no hay que hacer
+// nada (la página ya tiene la sección, o ya no es la que se esperaba).
+interface PageAddition {
+  id: string;
+  slug: string;
+  change: (blocks: Block[]) => Block[] | null;
+}
+
+// Añade una sección (ver appendBlockIfMissing). `after`: detrás de la última de ese
+// tipo (o al final, si no hay).
+function addBlock(block: Block, after?: BlockType) {
+  return (blocks: Block[]) => appendBlockIfMissing(blocks, sanitizeBlocks([block])[0]!, after);
+}
+
+const PAGE_ADDITIONS: PageAddition[] = [
+  // Preguntas frecuentes al final de la Home.
+  { id: "home-faq", slug: "home", change: addBlock(homeFaqBlock) },
+  // Formulario de contacto al final de «Contatti».
+  { id: "contatti-form", slug: "contatti", change: addBlock(contattiFormBlock) },
+  // Secciones del rediseño (Sito-Michi), en el orden de su Home. Se aplican en este
+  // orden: cada una puede apoyarse en la anterior.
+  { id: "home-services", slug: "home", change: addBlock(homeServicesBlock, "hero") },
+  { id: "home-how-it-works", slug: "home", change: addBlock(homeHowItWorksBlock, "services") },
+  { id: "home-pricing", slug: "home", change: addBlock(homePricingBlock, "about") },
+  { id: "home-latest-posts", slug: "home", change: addBlock(homeLatestPostsBlock, "faq") },
+  { id: "home-book", slug: "home", change: addBlock(homeBookBlock, "latestPosts") },
+  { id: "home-cta", slug: "home", change: addBlock(homeCtaBlock) },
+  // «Chi sono» con la estructura del diseño, con los mismos textos y fotos.
+  { id: "chi-sono-redesign", slug: "chi-sono", change: redesignChiSono },
+];
 
 // Huellas de las secciones de versiones anteriores del contenido inicial, por
 // dirección de página. Una página que sigue idéntica a una de ellas no la ha
 // editado nadie, y el seed puede ponerle la versión nueva sin pisar nada.
-// Secciones nuevas del contenido inicial para páginas que ya existen. Cada añadido
-// se aplica una sola vez: queda anotado en seedState/main y no se repite aunque
-// después se borre la sección desde el panel.
-// `after`: la sección se coloca detrás de la última de ese tipo (o al final, si no hay).
-const PAGE_ADDITIONS: { id: string; slug: string; block: Block; after?: BlockType }[] = [
-  // Preguntas frecuentes al final de la Home.
-  { id: "home-faq", slug: "home", block: homeFaqBlock },
-  // Formulario de contacto al final de «Contatti».
-  { id: "contatti-form", slug: "contatti", block: contattiFormBlock },
-  // Secciones del rediseño (Sito-Michi), en el orden de su Home. Se aplican en este
-  // orden: cada una puede apoyarse en la anterior.
-  { id: "home-services", slug: "home", block: homeServicesBlock, after: "hero" },
-  { id: "home-how-it-works", slug: "home", block: homeHowItWorksBlock, after: "services" },
-  { id: "home-pricing", slug: "home", block: homePricingBlock, after: "about" },
-  { id: "home-latest-posts", slug: "home", block: homeLatestPostsBlock, after: "faq" },
-  { id: "home-book", slug: "home", block: homeBookBlock, after: "latestPosts" },
-  { id: "home-cta", slug: "home", block: homeCtaBlock },
-];
-
 const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
   // «Come lavoro» solo con texto (commit a4aa7ba), antes de las tarjetas y el percorso.
   "come-lavoro": ["f2b5a28428e7910d496c8499baa1d7eb093d98cfb351a7525d8094ce7ccc0b2c"],
@@ -88,7 +107,6 @@ async function main() {
   const { Timestamp } = await import("firebase-admin/firestore");
   const { env } = await import("../src/env");
   const { db } = await import("../src/firebase");
-  const { sanitizeBlocks } = await import("../src/services/sanitizeHtml");
 
   const target = env.usingEmulators ? "emuladores" : `proyecto ${env.FIREBASE_PROJECT_ID}`;
   console.log(
@@ -101,7 +119,7 @@ async function main() {
     throw new Error("--only-additions no se combina con --force.");
   }
 
-  // Añadidos de una sola vez: secciones nuevas para páginas que ya existen (ver
+  // Cambios de una sola vez en páginas que ya existen (ver
   // PAGE_ADDITIONS). Es lo único que hace --only-additions.
   async function applyPageAdditions() {
     const stateRef = db.collection("seedState").doc("main");
@@ -115,18 +133,17 @@ async function main() {
       const pageDoc = (
         await db.collection("pages").where("slug", "==", addition.slug).limit(1).get()
       ).docs[0];
-      const blocks = pageDoc
-        ? appendBlockIfMissing(
-            pageDoc.get("blocks") as Block[],
-            sanitizeBlocks([addition.block])[0]!,
-            addition.after,
-          )
-        : null;
-      if (pageDoc && blocks) {
+      const changed = pageDoc ? addition.change(pageDoc.get("blocks") as Block[]) : null;
+      if (pageDoc && changed) {
+        // Se valida con el esquema de la API antes de escribir: lo guardado tiene que
+        // poder abrirse y guardarse desde el panel.
+        const blocks = z.array(blockSchema).parse(changed);
         await pageDoc.ref.update({ blocks, updatedAt: Timestamp.now() });
-        console.log(`Añadido "${addition.id}": sección añadida a /${addition.slug}.`);
+        console.log(`Añadido "${addition.id}": /${addition.slug} actualizada.`);
       } else {
-        console.log(`Añadido "${addition.id}": no hace falta (la página ya la tiene o no existe).`);
+        console.log(
+          `Añadido "${addition.id}": no hace falta (la página ya lo tiene, cambió o no existe).`,
+        );
       }
       applied.push(addition.id);
     }

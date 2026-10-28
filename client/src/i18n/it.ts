@@ -95,7 +95,9 @@ export const it = {
 
   about: {
     // Botón por defecto de la sección "Chi sono" (ver AboutRender).
-    defaultButtonLabel: "Scopri di più",
+    defaultButtonLabel: "Leggi il mio percorso completo",
+    // Enlace a Instagram bajo el botón (si hay perfil en «Impostazioni del sito»).
+    instagramLabel: "Instagram",
   },
 
   // Cabecera (bloque «hero»).
@@ -163,6 +165,9 @@ export const it = {
     pricing: "Tariffe",
     book: "Libro",
     latestPosts: "Ultimi articoli del blog",
+    milestones: "Tappe in breve",
+    chapter: "Capitolo",
+    quote: "Citazione",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -185,6 +190,10 @@ export const it = {
     pricing: "L'elenco dei prezzi e, sotto, le informazioni pratiche (dove, pagamento, disdetta…).",
     book: "La copertina di un libro con titolo, presentazione, un pulsante e un collegamento.",
     latestPosts: "Gli ultimi articoli pubblicati nel blog, aggiornati da soli.",
+    milestones: "Le tappe principali in righe: anno, che cosa e dove.",
+    chapter:
+      "Un testo lungo con il titolo fisso a lato mentre si legge; può chiudersi con una foto.",
+    quote: "Una frase grande e centrata, su una fascia color sabbia.",
   } satisfies Record<BlockType, string>,
 
   messageStatus: {
@@ -375,7 +384,7 @@ export const it = {
         removeItem: "Rimuovi voce",
         button: "Pulsante sotto il testo di presentazione",
         buttonLabel: "Testo del pulsante",
-        buttonLabelPlaceholder: "Es. Scopri di più",
+        buttonLabelPlaceholder: "Es. Leggi il mio percorso completo",
         buttonHref: "Collegamento del pulsante",
         buttonHrefHelp:
           "Es. /chi-sono per portare alla pagina «Chi sono». Il pulsante compare solo se " +
@@ -477,6 +486,24 @@ export const it = {
         linkLabel: "Testo del collegamento secondario",
         linkHref: "Collegamento secondario",
         linkHrefHelp: "Es. un articolo del blog sullo stesso tema: /blog/titolo-articolo.",
+      },
+      milestones: {
+        title: "Titolo della sezione",
+        intro: "Testo introduttivo",
+        items: "Tappe",
+        item: (number: number) => `Tappa ${number}`,
+        year: "Anno",
+        itemTitle: "Che cosa",
+        place: "Dove",
+        add: "Aggiungi tappa",
+      },
+      chapter: {
+        title: "Titolo",
+        text: "Testo",
+        caption: "Didascalia della foto",
+      },
+      quote: {
+        text: "Frase",
       },
       latestPosts: {
         title: "Titolo della sezione",

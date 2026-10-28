@@ -1,5 +1,5 @@
 import type { BlockData } from "@studio/shared";
-import { Check } from "lucide-react";
+import { ArrowUpRight, Check, ChevronRight } from "lucide-react";
 import { RichText } from "../../components/RichText";
 import { SmartLink } from "../../components/SmartLink";
 import styles from "./About.module.css";
@@ -7,13 +7,47 @@ import { imageSrc } from "../../lib/images";
 import { it } from "../../i18n/it";
 import { ABOUT_ANCHOR, ABOUT_PAGE_PATH, pagePath } from "../../lib/paths";
 import { usePublishedPages } from "../../lib/PublishedPagesContext";
+import { useSiteSettings } from "../../lib/SiteSettingsContext";
+
+// "https://www.instagram.com/dottoressa_michelabalmas?x=1" -> "@dottoressa_michelabalmas".
+// null si la dirección no tiene esa forma.
+function instagramHandle(url: string): string | null {
+  try {
+    const name = new URL(url).pathname.split("/").filter(Boolean)[0];
+    return name ? `@${name}` : null;
+  } catch {
+    return null;
+  }
+}
+
+// Contorno de Instagram, dibujado aquí (lucide no trae logotipos de marcas).
+function InstagramIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" />
+    </svg>
+  );
+}
 
 // Presentación: foto, texto, botón opcional y listas (formazione, specializzazioni…).
 export function AboutRender({ data }: { data: BlockData<"about"> }) {
   const publishedPages = usePublishedPages();
+  const settings = useSiteSettings();
 
   // Botón: lo que diga el panel. Un bloque guardado antes de existir el botón no
-  // trae los campos (undefined) y usa el botón por defecto, "Scopri di più" a
+  // trae los campos (undefined) y usa el botón por defecto, "Leggi il mio percorso completo" a
   // /chi-sono, pero solo si esa página está publicada: así no lleva a un 404.
   // Dejar los campos vacíos en el panel ("") quita el botón.
   const usesDefaultButton = data.buttonLabel === undefined && data.buttonHref === undefined;
@@ -23,6 +57,8 @@ export function AboutRender({ data }: { data: BlockData<"about"> }) {
     publishedPages === null || // vista previa del panel: no se comprueba
     publishedPages.some((page) => pagePath(page.slug) === buttonHref);
   const showButton = buttonLabel && buttonHref && (!usesDefaultButton || targetPublished);
+  // El perfil de Instagram de «Impostazioni del sito», si lo hay.
+  const instagram = settings.social.instagram;
 
   return (
     // El id es el ancla del ítem "Chi sono" del menú (/#chi-sono). tabIndex={-1}
@@ -56,14 +92,31 @@ export function AboutRender({ data }: { data: BlockData<"about"> }) {
               </div>
             ))}
 
-            {showButton && (
+            {(showButton || instagram) && (
               <div className={styles.actions}>
-                <SmartLink
-                  href={buttonHref}
-                  className={`button button-secondary button-large ${styles.button}`}
-                >
-                  {buttonLabel}
-                </SmartLink>
+                {showButton && (
+                  <SmartLink
+                    href={buttonHref}
+                    className={`button button-secondary button-large ${styles.button}`}
+                  >
+                    {buttonLabel}
+                    {/* Flecha en diagonal: el botón lleva a otra página. */}
+                    <ArrowUpRight className={styles.arrow} aria-hidden="true" focusable="false" />
+                  </SmartLink>
+                )}
+                {instagram && (
+                  <a
+                    href={instagram}
+                    className={styles.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <InstagramIcon />
+                    <span>{instagramHandle(instagram) ?? it.about.instagramLabel}</span>
+                    <span className="visually-hidden"> ({it.common.opensInNewTab})</span>
+                    <ChevronRight className={styles.chevron} aria-hidden="true" focusable="false" />
+                  </a>
+                )}
               </div>
             )}
           </div>

@@ -457,7 +457,7 @@ export const seedPages: Record<string, PageInput> = {
               ],
             },
           ],
-          buttonLabel: "Scopri di più",
+          buttonLabel: "Leggi il mio percorso completo",
           buttonHref: "/chi-sono",
         },
       },
@@ -665,7 +665,7 @@ export const seedPages: Record<string, PageInput> = {
     ],
   },
 
-  // Presentación completa. No sale en el menú: se llega con el botón "Scopri di più"
+  // Presentación completa. No sale en el menú: se llega con el botón "Leggi il mio percorso completo"
   // de la sección "Chi sono" de la home. Textos provisionales, hasta tener los reales.
   "chi-sono": {
     title: "Chi sono",
@@ -678,49 +678,100 @@ export const seedPages: Record<string, PageInput> = {
       description:
         "Formazione, esperienza professionale e approccio della Dott.ssa Anna Rossi, psicologa a Milano.",
     },
+    // Estructura del rediseño (prototipo Sito-Michi): cabecera, «In breve», capítulos
+    // con el título fijo al lado, una cita y la franja final.
     blocks: [
       {
-        id: "chi-sono-zigzag",
-        type: "zigzag",
+        id: "chi-sono-hero",
+        type: "hero",
         data: {
-          rows: [
+          title: "Il mio percorso",
+          subtitle:
+            "Mi chiamo Anna Rossi e sono una psicologa iscritta all'Albo degli Psicologi della " +
+            "Lombardia. Nel mio lavoro offro uno spazio riservato e privo di giudizio. " +
+            "[DA REVISIONARE]",
+          imageUrl: "/images/placeholder-portrait.svg",
+          imageAlt: "",
+          buttonLabel: "",
+          buttonHref: "",
+          highlights: ["Psicologa", "Colloqui in studio e online"],
+          showAlbo: true,
+          showWhatsapp: false,
+        },
+      },
+      {
+        id: "chi-sono-milestones",
+        type: "milestones",
+        data: {
+          title: "In breve",
+          intro: "Le tappe principali, per chi preferisce uno sguardo d'insieme.",
+          items: [
             {
-              id: "chi-sono-formazione",
-              imageUrl: "/images/placeholder-portrait.svg",
-              imageAlt: "",
-              title: "Formazione",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<p>Mi sono laureata in Psicologia clinica e ho conseguito l'abilitazione " +
-                "all'esercizio della professione di psicologo. Sono iscritta all'Albo degli " +
-                "Psicologi della Lombardia.</p>" +
-                "<ul><li>Laurea magistrale in Psicologia clinica</li>" +
-                "<li>Tirocinio professionalizzante in ambito clinico</li>" +
-                "<li>Esame di Stato e iscrizione all'Albo</li></ul>",
+              id: "milestone-1",
+              year: "[Anno]",
+              title: "Laurea in Psicologia",
+              place: "[Università]",
             },
             {
-              id: "chi-sono-esperienza",
-              imageUrl: "/images/placeholder-hero.svg",
-              imageAlt: "",
-              title: "Esperienza professionale",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<p>Negli anni ho lavorato con persone adulte in momenti diversi della loro " +
-                "vita: periodi di cambiamento, difficoltà nelle relazioni, stress e ansia. " +
-                "Ricevo in studio a Milano e online.</p>",
+              id: "milestone-2",
+              year: "[Anno]",
+              title: "Iscrizione all'Albo degli Psicologi",
+              place: "n. 00000",
             },
             {
-              id: "chi-sono-approccio",
-              imageUrl: "/images/placeholder-portrait.svg",
-              imageAlt: "",
-              title: "Il mio approccio",
-              html:
-                "<p><strong>[DA REVISIONARE]</strong></p>" +
-                "<p>Ogni percorso parte dall'ascolto della Sua richiesta. Nel primo colloquio " +
-                "ci conosciamo e valutiamo insieme se e come proseguire, nel rispetto dei " +
-                "Suoi tempi e del Codice Deontologico degli Psicologi Italiani.</p>",
+              id: "milestone-3",
+              year: "[Anno]",
+              title: "Inizio dell'attività clinica",
+              place: "Milano e online",
             },
           ],
+        },
+      },
+      {
+        id: "chi-sono-formazione",
+        type: "chapter",
+        data: {
+          title: "Formazione",
+          html:
+            "<p><strong>[DA REVISIONARE]</strong></p>" +
+            "<p>Mi sono laureata in Psicologia clinica e ho conseguito l'abilitazione " +
+            "all'esercizio della professione di psicologo. Sono iscritta all'Albo degli " +
+            "Psicologi della Lombardia.</p>",
+          imageUrl: "",
+          imageAlt: "",
+          caption: "",
+        },
+      },
+      {
+        id: "chi-sono-quote",
+        type: "quote",
+        data: {
+          text: "Credo che ogni storia meriti uno spazio in cui essere ascoltata senza giudizio.",
+        },
+      },
+      {
+        id: "chi-sono-esperienza",
+        type: "chapter",
+        data: {
+          title: "Esperienza professionale",
+          html:
+            "<p><strong>[DA REVISIONARE]</strong></p>" +
+            "<p>Negli anni ho lavorato con persone adulte in momenti diversi della loro " +
+            "vita: periodi di cambiamento, difficoltà nelle relazioni, stress e ansia. " +
+            "Ricevo in studio a Milano e online.</p>",
+          imageUrl: "/images/placeholder-hero.svg",
+          imageAlt: "",
+          caption: "[Didascalia della foto]",
+        },
+      },
+      {
+        id: "chi-sono-cta",
+        type: "cta",
+        data: {
+          title: "Il primo passo è il più importante",
+          text: "Prenoti un primo colloquio: ci conosciamo e capiamo insieme se e come posso esserLe d'aiuto.",
+          buttonLabel: "Prenota il primo colloquio",
+          buttonHref: "/contatti",
         },
       },
     ],

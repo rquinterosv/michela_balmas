@@ -36,7 +36,7 @@ export const aboutDataSchema = z.object({
       items: z.array(requiredText(200)),
     }),
   ),
-  // Botón "Scopri di più" (p. ej. a /chi-sono). Opcionales: los bloques guardados
+  // Botón "Leggi il mio percorso completo" (p. ej. a /chi-sono). Opcionales: los bloques guardados
   // antes de que existieran no los tienen. El botón solo sale con los dos rellenos.
   buttonLabel: optionalText(60).optional(),
   buttonHref: optionalLink.optional(),
@@ -241,6 +241,37 @@ export const latestPostsDataSchema = z.object({
   intro: optionalText(400),
 });
 
+// "In breve": las etapas principales en filas (año, qué, dónde).
+export const milestonesDataSchema = z.object({
+  title: optionalText(120),
+  intro: optionalText(400),
+  items: z
+    .array(
+      z.object({
+        id: blockId,
+        year: requiredText(20),
+        title: requiredText(160),
+        place: optionalText(120),
+      }),
+    )
+    .max(20),
+});
+
+// Capítulo de lectura larga: el título queda fijo al margen mientras el texto
+// avanza. Puede cerrar con una imagen y su pie.
+export const chapterDataSchema = z.object({
+  title: requiredText(120),
+  html: richTextHtml,
+  imageUrl: optionalImageUrl,
+  imageAlt: optionalText(200),
+  caption: optionalText(300),
+});
+
+// Una frase grande, centrada, sobre una franja arena.
+export const quoteDataSchema = z.object({
+  text: requiredText(400),
+});
+
 export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("hero"), data: heroDataSchema }),
   z.object({ id: blockId, type: z.literal("about"), data: aboutDataSchema }),
@@ -258,6 +289,9 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("pricing"), data: pricingDataSchema }),
   z.object({ id: blockId, type: z.literal("book"), data: bookDataSchema }),
   z.object({ id: blockId, type: z.literal("latestPosts"), data: latestPostsDataSchema }),
+  z.object({ id: blockId, type: z.literal("milestones"), data: milestonesDataSchema }),
+  z.object({ id: blockId, type: z.literal("chapter"), data: chapterDataSchema }),
+  z.object({ id: blockId, type: z.literal("quote"), data: quoteDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;

@@ -1,0 +1,68 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.intro h2 {
+  margin: 0;
+}
+
+.intro p {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-border);
+  list-style: none;
+}
+
+/* Año en cursiva, qué en la columna ancha y dónde a la derecha. */
+.item {
+  display: grid;
+  grid-template-columns: 7ch minmax(0, 2.2fr) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-3) var(--space-8);
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.year {
+  color: var(--color-primary-strong);
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--text-h3);
+  line-height: 1.2;
+}
+
+.what {
+  font-size: var(--text-base);
+}
+
+.where {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 900px) {
+  .intro p {
+    margin: 0;
+  }
+
+  /* En el móvil, el dónde baja debajo del qué. */
+  .item {
+    grid-template-columns: 6ch minmax(0, 1fr);
+    gap: var(--space-1) var(--space-4);
+    padding-block: var(--space-5);
+  }
+
+  .where {
+    grid-column: 2;
+  }
+}

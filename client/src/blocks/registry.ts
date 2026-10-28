@@ -15,6 +15,9 @@ import {
   pricingDataSchema,
   bookDataSchema,
   latestPostsDataSchema,
+  milestonesDataSchema,
+  chapterDataSchema,
+  quoteDataSchema,
   type BlockData,
   type BlockType,
 } from "@studio/shared";
@@ -38,6 +41,9 @@ import { ServicesRender } from "./services/ServicesRender";
 import { PricingRender } from "./pricing/PricingRender";
 import { BookRender } from "./book/BookRender";
 import { LatestPostsRender } from "./latestPosts/LatestPostsRender";
+import { MilestonesRender } from "./milestones/MilestonesRender";
+import { ChapterRender } from "./chapter/ChapterRender";
+import { QuoteRender } from "./quote/QuoteRender";
 
 // Todo lo que el frontend necesita saber de un tipo de bloque.
 
@@ -220,5 +226,29 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { title: "Dal blog", intro: "" },
     EditorComponent: lazy(() => import("./latestPosts/LatestPostsEditor")),
     RenderComponent: LatestPostsRender,
+  },
+  milestones: {
+    label: it.blockNames.milestones,
+    description: it.blockDescriptions.milestones,
+    zodSchema: milestonesDataSchema,
+    defaultData: { title: "In breve", intro: "", items: [] },
+    EditorComponent: lazy(() => import("./milestones/MilestonesEditor")),
+    RenderComponent: MilestonesRender,
+  },
+  chapter: {
+    label: it.blockNames.chapter,
+    description: it.blockDescriptions.chapter,
+    zodSchema: chapterDataSchema,
+    defaultData: { title: "", html: "", imageUrl: "", imageAlt: "", caption: "" },
+    EditorComponent: lazy(() => import("./chapter/ChapterEditor")),
+    RenderComponent: ChapterRender,
+  },
+  quote: {
+    label: it.blockNames.quote,
+    description: it.blockDescriptions.quote,
+    zodSchema: quoteDataSchema,
+    defaultData: { text: "" },
+    EditorComponent: lazy(() => import("./quote/QuoteEditor")),
+    RenderComponent: QuoteRender,
   },
 };

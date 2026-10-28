@@ -26,6 +26,9 @@ export function sanitizeBlocks(blocks: Block[]): Block[] {
     if (block.type === "richText") {
       return { ...block, data: { ...block.data, html: sanitizeRichText(block.data.html) } };
     }
+    if (block.type === "chapter") {
+      return { ...block, data: { ...block.data, html: sanitizeRichText(block.data.html) } };
+    }
     if (block.type === "about") {
       return { ...block, data: { ...block.data, html: sanitizeRichText(block.data.html) } };
     }

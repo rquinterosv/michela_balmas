@@ -1,0 +1,68 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: var(--column-gap);
+}
+
+/* El título sigue a la vista mientras se lee el capítulo. */
+.title {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-10));
+  align-self: start;
+  margin: 0;
+  /* Un título colgado no necesita la medida de los títulos de sección. */
+  font-size: clamp(30px, 2.6vw, 38px);
+  text-wrap: balance;
+}
+
+/* La medida de lectura: más de 68 caracteres por línea y el ojo pierde la fila. */
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 68ch;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+}
+
+.prose p {
+  margin-bottom: var(--space-6);
+}
+
+/* Párrafos vacíos que deja a veces el editor: no deben abrir huecos dobles. */
+.prose p:empty {
+  display: none;
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+}
+
+.frame {
+  aspect-ratio: 3 / 2;
+}
+
+.figure figcaption {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--section-title-space);
+  }
+
+  .title {
+    position: static;
+  }
+
+  .prose {
+    gap: var(--space-5);
+    line-height: 1.7;
+  }
+}
