@@ -174,6 +174,62 @@ export const zigzagDataSchema = z.object({
 });
 
 // Un bloque = { id, type, data }. `type` decide qué esquema valida `data`.
+// "Di cosa mi occupo": filas con la categoría (etiqueta pequeña), una frase de
+// quien llega (en cursiva, grande) y qué abarca.
+export const servicesDataSchema = z.object({
+  title: optionalText(120),
+  intro: optionalText(400),
+  items: z
+    .array(
+      z.object({
+        id: blockId,
+        category: requiredText(60),
+        quote: optionalText(200),
+        description: optionalText(300),
+      }),
+    )
+    .max(12),
+});
+
+// "Tariffe": la lista de precios y, debajo, las informaciones prácticas con icono
+// (dónde, pago, cancelación…). El precio es texto libre ("€ 60", "da € 50").
+export const pricingDataSchema = z.object({
+  title: optionalText(120),
+  intro: optionalText(400),
+  prices: z
+    .array(
+      z.object({
+        id: blockId,
+        name: requiredText(80),
+        description: optionalText(200),
+        price: requiredText(30),
+      }),
+    )
+    .max(10),
+  notes: z.array(iconItemSchema).max(8),
+});
+
+// "Il mio libro": portada, título, subtítulo, sinopsis, un botón y un enlace.
+export const bookDataSchema = z.object({
+  eyebrow: optionalText(60),
+  title: requiredText(120),
+  subtitle: optionalText(160),
+  text: optionalText(800),
+  coverUrl: optionalImageUrl,
+  coverAlt: optionalText(200),
+  buttonLabel: optionalText(60),
+  buttonHref: optionalLink,
+  linkLabel: optionalText(120),
+  linkHref: optionalLink,
+});
+
+// "Dal blog": los últimos artículos publicados. Solo se escriben título y entradilla;
+// los artículos salen solos del blog.
+export const latestPostsDataSchema = z.object({
+  title: optionalText(120),
+  intro: optionalText(400),
+});
+
 export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("hero"), data: heroDataSchema }),
   z.object({ id: blockId, type: z.literal("about"), data: aboutDataSchema }),
@@ -187,6 +243,10 @@ export const blockSchema = z.discriminatedUnion("type", [
   z.object({ id: blockId, type: z.literal("features"), data: featuresDataSchema }),
   z.object({ id: blockId, type: z.literal("timeline"), data: timelineDataSchema }),
   z.object({ id: blockId, type: z.literal("faq"), data: faqDataSchema }),
+  z.object({ id: blockId, type: z.literal("services"), data: servicesDataSchema }),
+  z.object({ id: blockId, type: z.literal("pricing"), data: pricingDataSchema }),
+  z.object({ id: blockId, type: z.literal("book"), data: bookDataSchema }),
+  z.object({ id: blockId, type: z.literal("latestPosts"), data: latestPostsDataSchema }),
 ]);
 
 export type Block = z.infer<typeof blockSchema>;

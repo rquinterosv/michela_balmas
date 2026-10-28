@@ -1,0 +1,128 @@
+.book {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--column-gap);
+}
+
+.panel {
+  display: flex;
+  flex: 1 1 380px;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(40px, 6vw, 72px) var(--space-6);
+  border-radius: var(--radius);
+  background: var(--color-secondary);
+}
+
+/* La portada con la sombra de un libro de verdad. */
+.cover {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 3px;
+  box-shadow: var(--shadow-book);
+}
+
+.column,
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.column {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.title,
+.subtitle,
+.synopsis {
+  margin: 0;
+}
+
+.subtitle {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--text-book-subtitle);
+  line-height: 1.3;
+}
+
+.synopsis {
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-1);
+}
+
+.link {
+  padding-block: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .book {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-6);
+  }
+
+  /* En columna el flex-basis se volvería una altura. */
+  .panel,
+  .column {
+    flex: 0 1 auto;
+  }
+
+  .panel {
+    padding: 36px var(--space-5);
+  }
+
+  .cover {
+    width: 190px;
+  }
+
+  .text {
+    gap: var(--space-3);
+  }
+
+  .titles {
+    gap: var(--space-1);
+  }
+
+  /* En columna las dos acciones son filas a todo el ancho. */
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    margin-top: 0;
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--field-height);
+    padding-block: 0;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-align: center;
+  }
+}

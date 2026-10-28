@@ -1,0 +1,172 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.intro h2 {
+  margin: 0;
+}
+
+.intro p {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+/* Una fila que se desliza: tres tarjetas enteras y un trozo de la cuarta, que
+   es lo que dice que la fila sigue. */
+.posts {
+  display: flex;
+  gap: var(--space-6);
+  margin: 0;
+  /* Espacio para no cortar el contorno de foco ni el levantamiento al pasar. */
+  padding: var(--space-2) 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  list-style: none;
+}
+
+.posts::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex: 0 0 clamp(280px, 27.5%, 330px);
+  scroll-snap-align: start;
+}
+
+.post {
+  /* Referencia del enlace que cubre la tarjeta. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  height: 100%;
+  transition: transform var(--duration-menu) var(--ease-calm);
+}
+
+/* La tarjeta se levanta un poco: un paso hacia quien mira. */
+.post:hover,
+.post:has(.link:focus-visible) {
+  transform: translateY(-4px);
+}
+
+/* El marco recorta la portada a 16:9. Un velo terracota la lleva a la paleta de
+   la página; al pasar el ratón se retira. */
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--color-secondary);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  isolation: isolate;
+}
+
+.frame > * {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85);
+}
+
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary);
+  mix-blend-mode: color;
+  opacity: 0.22;
+  pointer-events: none;
+  transition: opacity var(--duration-menu) var(--ease-calm);
+}
+
+.post:hover .frame::after,
+.post:has(.link:focus-visible) .frame::after {
+  opacity: 0.04;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.title {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-size: var(--text-card-title);
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.link {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+}
+
+.excerpt {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.readMore {
+  margin-top: auto;
+  color: var(--color-primary-strong);
+  font-weight: 600;
+}
+
+.all {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-8) 0 0;
+}
+
+@media (max-width: 900px) {
+  .intro p {
+    margin: 0;
+  }
+
+  .item {
+    flex-basis: 82%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post:hover,
+  .post:has(.link:focus-visible) {
+    transform: none;
+  }
+}

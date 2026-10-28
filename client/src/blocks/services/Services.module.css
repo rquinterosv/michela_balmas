@@ -1,0 +1,95 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.intro h2 {
+  margin: 0;
+}
+
+.intro p {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+@media (max-width: 900px) {
+  .intro p {
+    margin: 0;
+  }
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-border);
+  list-style: none;
+}
+
+/* El fondo al pasar el ratón sobresale un poco del texto; el margen negativo lo
+   devuelve a la columna. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4) var(--space-12);
+  margin-inline: calc(-1 * var(--space-5));
+  padding: var(--space-10) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-menu) var(--ease-calm);
+}
+
+.row:hover {
+  background: var(--color-secondary);
+}
+
+.category {
+  flex: 1 1 170px;
+  min-width: 0;
+}
+
+/* Comillas colgadas: el signo sale de la columna. */
+.quote {
+  flex: 2.2 1 340px;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--text-quote);
+  line-height: 1.35;
+  text-indent: -0.4em;
+}
+
+.description {
+  flex: 1.6 1 260px;
+  min-width: 0;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-inline: calc(-1 * var(--space-3));
+    padding: var(--space-8) var(--space-3);
+  }
+
+  /* En columna el flex-basis se volvería una altura. */
+  .category,
+  .quote,
+  .description {
+    flex: 0 1 auto;
+  }
+
+  /* Sin columna a la izquierda las comillas saldrían del margen de la página. */
+  .quote {
+    text-indent: 0;
+  }
+}

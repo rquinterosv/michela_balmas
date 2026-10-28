@@ -11,6 +11,10 @@ import {
   timelineDataSchema,
   videoDataSchema,
   zigzagDataSchema,
+  servicesDataSchema,
+  pricingDataSchema,
+  bookDataSchema,
+  latestPostsDataSchema,
   type BlockData,
   type BlockType,
 } from "@studio/shared";
@@ -30,6 +34,10 @@ import { RichTextRender } from "./richText/RichTextRender";
 import { TimelineRender } from "./timeline/TimelineRender";
 import { VideoRender } from "./video/VideoRender";
 import { ZigzagRender } from "./zigzag/ZigzagRender";
+import { ServicesRender } from "./services/ServicesRender";
+import { PricingRender } from "./pricing/PricingRender";
+import { BookRender } from "./book/BookRender";
+import { LatestPostsRender } from "./latestPosts/LatestPostsRender";
 
 // Todo lo que el frontend necesita saber de un tipo de bloque.
 
@@ -169,5 +177,48 @@ export const blockRegistry: { [T in BlockType]: BlockDefinition<T> } = {
     defaultData: { url: "", title: "", posterUrl: "", linkLabel: "ascolta" },
     EditorComponent: lazy(() => import("./video/VideoEditor")),
     RenderComponent: VideoRender,
+  },
+  services: {
+    label: it.blockNames.services,
+    description: it.blockDescriptions.services,
+    zodSchema: servicesDataSchema,
+    defaultData: { title: "Di cosa mi occupo", intro: "", items: [] },
+    EditorComponent: lazy(() => import("./services/ServicesEditor")),
+    RenderComponent: ServicesRender,
+  },
+  pricing: {
+    label: it.blockNames.pricing,
+    description: it.blockDescriptions.pricing,
+    zodSchema: pricingDataSchema,
+    defaultData: { title: "Tariffe e modalità", intro: "", prices: [], notes: [] },
+    EditorComponent: lazy(() => import("./pricing/PricingEditor")),
+    RenderComponent: PricingRender,
+  },
+  book: {
+    label: it.blockNames.book,
+    description: it.blockDescriptions.book,
+    zodSchema: bookDataSchema,
+    defaultData: {
+      eyebrow: "Il mio libro",
+      title: "",
+      subtitle: "",
+      text: "",
+      coverUrl: "",
+      coverAlt: "",
+      buttonLabel: "",
+      buttonHref: "",
+      linkLabel: "",
+      linkHref: "",
+    },
+    EditorComponent: lazy(() => import("./book/BookEditor")),
+    RenderComponent: BookRender,
+  },
+  latestPosts: {
+    label: it.blockNames.latestPosts,
+    description: it.blockDescriptions.latestPosts,
+    zodSchema: latestPostsDataSchema,
+    defaultData: { title: "Dal blog", intro: "" },
+    EditorComponent: lazy(() => import("./latestPosts/LatestPostsEditor")),
+    RenderComponent: LatestPostsRender,
   },
 };

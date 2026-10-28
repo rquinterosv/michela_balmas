@@ -98,6 +98,12 @@ export const it = {
     defaultButtonLabel: "Scopri di più",
   },
 
+  // Bloque «Ultimi articoli del blog».
+  latestPosts: {
+    listLabel: "Ultimi articoli",
+    allPosts: "Tutti gli articoli",
+  },
+
   // Etiqueta sobre el título de cada etapa del bloque «Percorso a tappe».
   timeline: {
     step: (number: number) => `Passo ${number}`,
@@ -145,6 +151,10 @@ export const it = {
     features: "Schede con icone",
     timeline: "Percorso a tappe",
     faq: "Domande frequenti",
+    services: "Di cosa mi occupo",
+    pricing: "Tariffe",
+    book: "Libro",
+    latestPosts: "Ultimi articoli del blog",
   } satisfies Record<BlockType, string>,
 
   // Explicación corta de cada tipo, al elegir qué sección agregar.
@@ -162,6 +172,11 @@ export const it = {
     faq: "Domande e risposte che si aprono con un clic (a fisarmonica).",
     video:
       "Un video di YouTube, oppure un pulsante per ascoltare o guardare su un altro sito (Spotify, la radio…).",
+    services:
+      "Righe con un ambito (es. «Coppie»), una frase di chi arriva e cosa comprende il lavoro.",
+    pricing: "L'elenco dei prezzi e, sotto, le informazioni pratiche (dove, pagamento, disdetta…).",
+    book: "La copertina di un libro con titolo, presentazione, un pulsante e un collegamento.",
+    latestPosts: "Gli ultimi articoli pubblicati nel blog, aggiornati da soli.",
   } satisfies Record<BlockType, string>,
 
   messageStatus: {
@@ -399,6 +414,60 @@ export const it = {
         addStep: "Aggiungi tappa",
         remove: "Rimuovi",
         noItems: "Nessun elemento. Aggiungerne uno con il pulsante qui sotto.",
+      },
+      // Lista de elementos que se añaden, reordenan y quitan (ver ItemListEditor).
+      itemList: {
+        remove: "Rimuovi",
+        empty: "Nessun elemento. Aggiungerne uno con il pulsante qui sotto.",
+      },
+      services: {
+        title: "Titolo della sezione",
+        intro: "Testo introduttivo",
+        items: "Ambiti",
+        item: (number: number) => `Ambito ${number}`,
+        category: "Ambito",
+        categoryHelp: "Es. «Adulti», «Coppie», «Famiglie».",
+        quote: "Frase di chi arriva",
+        quoteHelp: "Es. «Litighiamo sempre per le stesse cose.» (con le virgolette)",
+        description: "Di cosa si occupa",
+        add: "Aggiungi ambito",
+      },
+      pricing: {
+        title: "Titolo della sezione",
+        intro: "Testo introduttivo",
+        prices: "Prezzi",
+        price: (number: number) => `Voce ${number}`,
+        name: "Nome",
+        description: "Descrizione breve",
+        amount: "Prezzo",
+        amountHelp: "Come deve apparire, es. «€ 60» o «da € 50».",
+        addPrice: "Aggiungi voce",
+        notes: "Informazioni pratiche",
+        note: (number: number) => `Informazione ${number}`,
+        icon: "Icona",
+        noteTitle: "Titolo",
+        noteText: "Testo",
+        addNote: "Aggiungi informazione",
+      },
+      book: {
+        eyebrow: "Etichetta sopra il titolo",
+        eyebrowHelp: "Es. «Il mio libro».",
+        title: "Titolo del libro",
+        subtitle: "Sottotitolo",
+        text: "Presentazione",
+        cover: "Copertina",
+        coverAlt: "Descrizione della copertina",
+        buttonLabel: "Testo del pulsante",
+        buttonHref: "Collegamento del pulsante",
+        buttonHrefHelp: "Es. la pagina del libro su una libreria online.",
+        linkLabel: "Testo del collegamento secondario",
+        linkHref: "Collegamento secondario",
+        linkHrefHelp: "Es. un articolo del blog sullo stesso tema: /blog/titolo-articolo.",
+      },
+      latestPosts: {
+        title: "Titolo della sezione",
+        intro: "Testo introduttivo",
+        help: "Gli articoli si aggiornano da soli: compaiono gli ultimi pubblicati nel blog.",
       },
       cta: {
         title: "Titolo",

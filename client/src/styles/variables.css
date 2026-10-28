@@ -69,6 +69,9 @@
 
   --text-quote: clamp(26px, 2.4vw, 34px); /* frases en cursiva (tarjetas de "features") */
   --text-question: 18px; /* pregunta de las FAQ */
+  --text-price: 40px; /* precio en "Tariffe" */
+  --text-book-subtitle: 26px;
+  --text-card-title: 24px; /* título de un artículo en "Dal blog" */
   --hero-space-top: clamp(40px, 7vw, 96px);
   --cta-space: clamp(64px, 7vw, 88px);
   --step-size: 56px; /* círculo de cada etapa del percorso */
@@ -157,6 +160,9 @@
     --text-xs: 0.75rem;
     --text-quote: 23px;
     --text-question: 16px;
+    --text-price: 28px;
+    --text-book-subtitle: 22px;
+    --text-card-title: 21px;
     --hero-space-top: var(--space-8);
     --cta-space: 56px;
     --step-size: 40px;
