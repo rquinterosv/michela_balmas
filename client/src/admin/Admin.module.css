@@ -67,6 +67,10 @@
   font-size: var(--text-xl);
 }
 
+.content h3 {
+  font-size: var(--text-lg);
+}
+
 .centered {
   display: flex;
   flex-direction: column;
