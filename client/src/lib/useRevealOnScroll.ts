@@ -28,7 +28,10 @@ export function useRevealOnScroll<T extends HTMLElement>(count: number) {
           });
         if (shown.length > 0) setRevealed((current) => new Set([...current, ...shown]));
       },
-      { threshold: 0.15 },
+      // Aparece en cuanto entra un poco en pantalla (el margen de abajo deja un
+      // 12 % de aire). Sin umbral de área: una sección más alta que la pantalla
+      // nunca llegaría a mostrar un porcentaje fijo de sí misma.
+      { threshold: 0, rootMargin: "0px 0px -12% 0px" },
     );
     children.forEach((child) => observer.observe(child));
     return () => observer.disconnect();

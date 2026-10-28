@@ -136,6 +136,12 @@
   --duration-hover: 150ms;
   --duration-menu: 250ms;
   --menu-stagger: 40ms;
+  --duration-reveal: 600ms; /* aparición de las secciones */
+  --duration-unveil: 900ms; /* apertura de las imágenes */
+  --duration-hero: 700ms;
+  --hero-stagger: 90ms;
+  --reveal-rise: 16px;
+  --hero-rise: 12px;
 }
 
 /* Móvil (el diseño usa un único punto de corte: 900px). */

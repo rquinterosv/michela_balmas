@@ -1,0 +1,25 @@
+/* Aparición de cada sección al llegar a ella: sube un poco y se aclara. Las
+   imágenes enmarcadas (.frame) se abren de abajo arriba. */
+@media (prefers-reduced-motion: no-preference) {
+  .block {
+    opacity: 0;
+    transform: translateY(var(--reveal-rise));
+    transition:
+      opacity var(--duration-reveal) var(--ease-calm),
+      transform var(--duration-reveal) var(--ease-calm);
+  }
+
+  .block :global(.frame) {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path var(--duration-unveil) var(--ease-calm) 120ms;
+  }
+
+  .revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  .revealed :global(.frame) {
+    clip-path: inset(0 0 0 0);
+  }
+}

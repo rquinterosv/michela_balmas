@@ -64,3 +64,49 @@
     max-width: none;
   }
 }
+
+/* ---- Entrada al cargar la página, una sola vez ----
+   Título, subtítulo y botón suben uno tras otro; la foto se asienta despacio. */
+@media (prefers-reduced-motion: no-preference) {
+  .text > * {
+    opacity: 0;
+    animation: enter var(--duration-hero) var(--ease-calm) forwards;
+  }
+
+  .text > :nth-child(2) {
+    animation-delay: var(--hero-stagger);
+  }
+
+  .text > :nth-child(3) {
+    animation-delay: calc(2 * var(--hero-stagger));
+  }
+
+  .portrait {
+    opacity: 0;
+    animation: settle var(--duration-unveil) var(--ease-calm) forwards;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hero-rise));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
