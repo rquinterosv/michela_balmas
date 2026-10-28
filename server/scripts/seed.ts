@@ -122,7 +122,7 @@ async function main() {
         : null;
       if (pageDoc && blocks) {
         await pageDoc.ref.update({ blocks, updatedAt: Timestamp.now() });
-        console.log(`Añadido "${addition.id}": sección añadida al final de /${addition.slug}.`);
+        console.log(`Añadido "${addition.id}": sección añadida a /${addition.slug}.`);
       } else {
         console.log(`Añadido "${addition.id}": no hace falta (la página ya la tiene o no existe).`);
       }
