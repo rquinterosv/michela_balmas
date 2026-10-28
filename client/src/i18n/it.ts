@@ -98,6 +98,11 @@ export const it = {
     defaultButtonLabel: "Scopri di più",
   },
 
+  // Etiqueta sobre el título de cada etapa del bloque «Percorso a tappe».
+  timeline: {
+    step: (number: number) => `Passo ${number}`,
+  },
+
   // Bloque «Video» y copertine con video.
   video: {
     play: (title: string) => (title ? `Riproduci il video: ${title}` : "Riproduci il video"),

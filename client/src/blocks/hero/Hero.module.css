@@ -1,51 +1,66 @@
 .hero {
-  padding-block: var(--space-12);
+  padding-block: var(--hero-space-top) var(--section-space);
 }
 
-.inner {
+.grid {
   display: grid;
-  gap: var(--space-8);
   align-items: center;
+  gap: var(--space-6) var(--column-gap);
+}
+
+/* Con foto: texto (11 partes) y foto (9 partes), como en el diseño. */
+@media (min-width: 901px) {
+  .withImage {
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
 }
 
 .title {
-  font-size: var(--text-2xl);
-  margin-bottom: var(--space-6);
+  margin: 0;
   text-wrap: balance;
 }
 
 .subtitle {
-  max-width: 34rem;
-  margin-bottom: var(--space-8);
-  font-size: var(--text-lg);
+  max-width: 520px;
+  margin: 0;
   color: var(--color-text-muted);
+  font-size: var(--text-lg);
 }
 
-/* La imagen conserva su proporción (vertical u horizontal): no se recorta. Solo se
-   limita su tamaño, y se centra si no llena la columna. */
-.image {
-  width: auto;
-  max-width: 100%;
-  max-height: 28rem;
-  justify-self: center;
-  border-radius: var(--radius);
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
-@media (min-width: 56rem) {
-  .hero {
-    padding-block: var(--space-24);
+.portrait {
+  display: flex;
+  justify-content: center;
+}
+
+/* La foto se recorta a 4:5 dentro del marco redondeado. */
+.frame {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4 / 5;
+}
+
+@media (max-width: 900px) {
+  .text {
+    gap: var(--space-4);
   }
 
-  .inner {
-    grid-template-columns: 1.1fr 1fr;
-    gap: var(--space-16);
+  .actions {
+    margin-top: var(--space-2);
   }
 
-  .title {
-    font-size: var(--text-3xl);
-  }
-
-  .image {
-    max-height: 34rem;
+  .frame {
+    max-width: none;
   }
 }

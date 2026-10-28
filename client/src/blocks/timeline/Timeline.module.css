@@ -1,143 +1,93 @@
-/* Banda rosa, como las secciones alternas del sitio. */
-.section {
-  padding-block: var(--space-12);
-  background: var(--color-secondary);
-  --marker-size: 3.5rem;
-}
-
-.title {
-  margin-bottom: var(--space-8);
-  font-size: var(--text-2xl);
-}
-
+/* Cuatro filas compartidas por todas las etapas (círculo, etiqueta, título y
+   texto): se alinean aunque un título ocupe dos líneas y otro una. */
 .timeline {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  grid-template-rows: repeat(4, auto);
+  gap: var(--step-gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* --- Móvil: vertical, con la línea a la izquierda --- */
-
 .step {
   position: relative;
-  min-height: var(--marker-size);
-  padding: 0 0 var(--space-8) calc(var(--marker-size) + var(--space-4));
-}
-
-/* Línea que une cada etapa con la siguiente. */
-.step:not(:last-child)::before {
-  content: "";
-  position: absolute;
-  top: var(--marker-size);
-  bottom: 0;
-  left: calc(var(--marker-size) / 2 - 1px);
-  width: 2px;
-  background: var(--color-primary);
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  justify-items: center;
+  row-gap: var(--space-4);
+  text-align: center;
 }
 
 .marker {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--marker-size);
-  height: var(--marker-size);
-  border: 2px solid var(--color-primary);
-  border-radius: 50%;
-  background: var(--color-surface);
+  display: grid;
+  place-items: center;
+  width: var(--step-size);
+  height: var(--step-size);
+  margin-bottom: var(--space-1);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  /* Opaco: la línea pasa por detrás sin verse. */
+  background: var(--color-bg);
   color: var(--color-primary-strong);
 }
 
 .icon {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 26px;
+  height: 26px;
 }
 
-/* Número de la etapa, en un círculo pequeño sobre el icono. */
-.number {
+/* Del borde derecho de este círculo al borde izquierdo del siguiente: media
+   columna, más el hueco entre columnas, menos medio círculo. */
+.step:not(:last-child)::after {
+  content: "";
   position: absolute;
-  top: -0.35rem;
-  right: -0.35rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  background: var(--color-primary-strong);
-  color: var(--color-on-primary);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  line-height: 1;
+  top: calc(var(--step-size) / 2);
+  left: calc(50% + var(--step-size) / 2);
+  right: calc(-50% - var(--step-gap) + var(--step-size) / 2);
+  height: 1px;
+  background: var(--color-border-sand);
 }
 
 .stepTitle {
-  margin: var(--space-1) 0 var(--space-1);
-  font-size: var(--text-lg);
+  max-width: 18ch;
+  margin: 0;
 }
 
-/* Texto de la etapa en una tarjeta clara sobre la banda rosa. */
 .stepText {
+  max-width: 38ch;
   margin: var(--space-2) 0 0;
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xs);
-  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 1.6;
 }
 
-/* --- Escritorio: horizontal, etapas en columnas iguales ---
-   Desde 64rem y no antes: con seis etapas, más estrecho las tarjetas quedan
-   demasiado angostas para leerlas (en tableta se ve en vertical). */
-
-@media (min-width: 64rem) {
-  .section {
-    padding-block: var(--space-16);
-  }
-
-  /* Tres filas compartidas por todas las etapas: círculo, título y tarjeta. Así
-     las tarjetas empiezan a la misma altura aunque un título ocupe dos líneas, y
-     todas miden lo que la más alta. */
+/* Muchas etapas no caben en columnas cómodas: hasta 1100 px van en columna. */
+@media (max-width: 1100px) {
   .timeline {
-    display: grid;
-    /* minmax(0, 1fr): columnas iguales aunque una palabra larga pida más sitio. */
-    grid-auto-columns: minmax(0, 1fr);
-    grid-auto-flow: column;
-    grid-template-rows: auto auto 1fr;
-    column-gap: var(--space-6);
+    grid-auto-flow: row;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: var(--space-10);
   }
 
   .step {
-    display: grid;
-    grid-row: span 3;
-    grid-template-rows: subgrid;
-    padding: 0;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+    align-items: center;
+    gap: var(--space-3);
   }
 
-  .stepTitle {
-    margin: 0;
-  }
-
-  .stepText {
-    margin-top: var(--space-3);
-    padding-inline: var(--space-3);
-  }
-
-  /* La línea va de este círculo al siguiente, por detrás de ellos. */
-  .step:not(:last-child)::before {
-    top: calc(var(--marker-size) / 2 - 1px);
-    bottom: auto;
-    left: 50%;
-    width: calc(100% + var(--space-6));
-    height: 2px;
-  }
-
-  .marker {
-    position: relative;
-    z-index: 1;
-    margin: 0 auto var(--space-4);
+  /* En columna la línea vive solo en el hueco entre una etapa y la siguiente. */
+  .step:not(:last-child)::after {
+    top: 100%;
+    left: calc(50% - 0.5px);
+    right: auto;
+    width: 1px;
+    height: var(--space-10);
   }
 }
 
@@ -146,10 +96,10 @@
 @media (prefers-reduced-motion: no-preference) {
   .step {
     opacity: 0;
-    transform: translateY(1rem);
+    transform: translateY(16px);
     transition:
-      opacity 0.5s ease,
-      transform 0.5s ease;
+      opacity 0.6s var(--ease-calm),
+      transform 0.6s var(--ease-calm);
     transition-delay: var(--step-delay, 0ms);
   }
 

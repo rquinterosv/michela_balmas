@@ -1,86 +1,107 @@
-.about {
-  padding-block: var(--space-16);
-  background: var(--color-secondary);
-  /* Sobre rosa, los enlaces van en el marrón del texto (el terracota no contrasta). */
-  --color-link: var(--color-text);
-  --color-link-hover: var(--color-text);
-}
-
-.intro {
-  display: grid;
-  gap: var(--space-8);
-  align-items: start;
-}
-
-/* La foto conserva su proporción (vertical u horizontal): no se recorta. */
-.photo {
-  width: auto;
-  max-width: min(100%, 20rem);
-  max-height: 28rem;
-  border-radius: var(--radius);
-  /* En móvil va primero el texto y después la foto (en el HTML la foto está antes). */
-  order: 1;
-}
-
 .about:focus {
   outline: none;
 }
 
-.title {
-  font-size: var(--text-2xl);
-}
-
-.button {
-  margin-top: var(--space-2);
-}
-
-.lists {
+.intro {
   display: grid;
+  gap: var(--space-6) var(--column-gap);
+}
+
+/* Foto a la izquierda en 4:5; el texto ocupa el resto. */
+@media (min-width: 901px) {
+  .withPhoto {
+    grid-template-columns: clamp(300px, 38%, 440px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--color-bg);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-6);
-  margin-top: var(--space-12);
+  min-width: 0;
+  color: var(--color-text-muted);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text);
 }
 
 .list {
-  padding: var(--space-6);
-  border-radius: var(--radius);
-  background: var(--color-surface);
-  box-shadow: var(--shadow);
-}
-
-.listTitle {
-  font-size: var(--text-lg);
-  color: var(--color-primary-strong);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .list ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
   margin: 0;
-  padding-left: var(--space-6);
+  padding: 0;
+  list-style: none;
 }
 
 .list li {
-  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 500;
 }
 
-.list li::marker {
-  color: var(--color-accent);
+.check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
 }
 
-@media (min-width: 56rem) {
-  .about {
-    padding-block: var(--space-24);
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* En el móvil: la foto arriba, a todo el ancho, y las listas como filas en una tarjeta. */
+@media (max-width: 900px) {
+  .list ul {
+    flex-direction: column;
+    gap: 0;
+    padding-inline: 18px;
+    border-radius: var(--radius);
+    background: var(--color-surface);
   }
 
-  .withPhoto {
-    grid-template-columns: 20rem 1fr;
-    gap: var(--space-16);
+  .list li {
+    align-items: flex-start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    background: none;
+    font-weight: 400;
   }
 
-  /* En pantallas anchas la foto vuelve a su sitio, a la izquierda del texto. */
-  .photo {
-    order: 0;
+  .list li:last-child {
+    border-bottom: 0;
   }
 
-  .lists {
-    grid-template-columns: repeat(3, 1fr);
+  .check {
+    margin-top: 3px;
+  }
+
+  .button {
+    width: 100%;
   }
 }

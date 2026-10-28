@@ -1,4 +1,5 @@
 import type { BlockData } from "@studio/shared";
+import { Check } from "lucide-react";
 import { RichText } from "../../components/RichText";
 import { SmartLink } from "../../components/SmartLink";
 import styles from "./About.module.css";
@@ -26,43 +27,47 @@ export function AboutRender({ data }: { data: BlockData<"about"> }) {
   return (
     // El id es el ancla del ítem "Chi sono" del menú (/#chi-sono). tabIndex={-1}
     // deja que reciba el foco al llegar por el ancla (ver useScrollToHash).
-    <section id={ABOUT_ANCHOR} tabIndex={-1} className={styles.about}>
+    <section id={ABOUT_ANCHOR} tabIndex={-1} className={`section band-sand ${styles.about}`}>
       <div className="container">
         {/* Sin foto, el texto ocupa todo el ancho en vez de la columna de la foto. */}
         <div className={data.photoUrl ? `${styles.intro} ${styles.withPhoto}` : styles.intro}>
           {data.photoUrl && (
-            <img
-              className={styles.photo}
-              src={imageSrc(data.photoUrl)}
-              alt={data.photoAlt}
-              loading="lazy"
-            />
+            <div className={`frame ${styles.photo}`}>
+              <img src={imageSrc(data.photoUrl)} alt={data.photoAlt} loading="lazy" />
+            </div>
           )}
-          <div>
+          <div className={styles.text}>
             <h2 className={styles.title}>{data.title}</h2>
             <RichText html={data.html} />
-            {showButton && (
-              <SmartLink href={buttonHref} className={`button ${styles.button}`}>
-                {buttonLabel}
-              </SmartLink>
-            )}
-          </div>
-        </div>
 
-        {data.lists.length > 0 && (
-          <div className={styles.lists}>
+            {/* Cada lista (formazione, specializzazioni…): su título como etiqueta y
+                sus elementos en pastillas con una marca. */}
             {data.lists.map((list, index) => (
               <div key={index} className={styles.list}>
-                <h3 className={styles.listTitle}>{list.title}</h3>
+                <h3 className="eyebrow">{list.title}</h3>
                 <ul>
                   {list.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>{item}</li>
+                    <li key={itemIndex}>
+                      <Check className={styles.check} aria-hidden="true" focusable="false" />
+                      {item}
+                    </li>
                   ))}
                 </ul>
               </div>
             ))}
+
+            {showButton && (
+              <div className={styles.actions}>
+                <SmartLink
+                  href={buttonHref}
+                  className={`button button-secondary button-large ${styles.button}`}
+                >
+                  {buttonLabel}
+                </SmartLink>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

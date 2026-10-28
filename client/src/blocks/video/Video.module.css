@@ -1,5 +1,5 @@
 .section {
-  padding-block: var(--space-8);
+  padding-block: var(--space-12);
 }
 
 /* El video no se estira más allá del ancho cómodo de lectura. */

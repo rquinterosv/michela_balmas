@@ -1,71 +1,124 @@
-.section {
-  padding-block: var(--space-12);
-}
-
-/* Ancho cómodo de lectura: las preguntas no se estiran a todo el ancho. */
-.inner > * {
-  max-width: 48rem;
-}
-
-.title {
-  margin-bottom: var(--space-6);
-  font-size: var(--text-2xl);
-}
-
+/* Una sola columna, centrada: cada pregunta es una tarjeta arena. */
 .list {
-  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
 }
 
 .item {
-  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-secondary);
+  transition: background-color var(--duration-hover) ease;
+}
+
+.item:hover {
+  background: var(--color-secondary-warm);
+}
+
+/* La pregunta abierta toma el celeste: el único color del sitio que dice
+   "esto está activo ahora". */
+.item.open {
+  background: var(--color-hover-fill);
 }
 
 .question {
   margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-lg);
-  font-weight: 600;
 }
 
-/* Toda la fila es el botón: zona táctil amplia. */
+/* Toda la fila es el botón: zona táctil amplia. Las preguntas van en la letra
+   del texto, no en cursiva: se leen mejor. */
 .button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--space-5);
   width: 100%;
-  min-height: 2.75rem;
-  padding: var(--space-4) 0;
+  min-height: 64px;
+  padding: var(--space-5) var(--space-6);
   border: 0;
-  background: none;
+  background: transparent;
   color: var(--color-text);
-  font: inherit;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: var(--text-question);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
   text-align: left;
   cursor: pointer;
 }
 
-.button:hover {
-  color: var(--color-primary-strong);
+.button:focus-visible {
+  border-radius: var(--radius);
 }
 
-.chevron {
+/* ---- El signo más ---- */
+
+.sign {
+  position: relative;
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: var(--color-primary-strong);
-  transition: transform 0.2s ease;
+  width: 16px;
+  height: 16px;
 }
 
-.button[aria-expanded="true"] .chevron {
-  transform: rotate(180deg);
+.bar {
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--color-primary-strong);
+  transform: translateY(-50%);
 }
+
+.vertical {
+  transform: translateY(-50%) rotate(90deg);
+  transition: transform var(--duration-menu) var(--ease-calm);
+}
+
+.open .vertical {
+  transform: translateY(-50%) rotate(90deg) scaleX(0);
+}
+
+/* ---- Respuesta ---- */
 
 .answer {
-  padding-bottom: var(--space-4);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-menu) ease;
 }
 
-@media (min-width: 56rem) {
-  .section {
-    padding-block: var(--space-16);
+.open .answer {
+  grid-template-rows: 1fr;
+}
+
+.answerClip {
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear var(--duration-menu);
+}
+
+.open .answerClip {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.answerBody {
+  padding: 0 var(--space-6) var(--space-6);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .button {
+    min-height: 60px;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .answerBody {
+    padding: 0 var(--space-5) var(--space-5);
   }
 }

@@ -1,28 +1,33 @@
 .section {
-  padding-block: var(--space-8) var(--space-16);
+  padding-block: var(--space-8) var(--section-space);
 }
 
 .title {
-  font-size: var(--text-xl);
+  margin-bottom: var(--space-8);
 }
 
 .list {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   margin: 0;
 }
 
+/* Tarjetas porcelana con borde fino, como las superficies del diseño. */
 .item {
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-surface);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-soft);
 }
 
 .item dt {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+  color: var(--color-primary-strong);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .item dd {
@@ -33,11 +38,12 @@
 .online {
   display: inline-block;
   margin: var(--space-6) 0 0;
-  padding: var(--space-1) var(--space-4);
-  border-radius: 999px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
   background: var(--color-secondary);
   color: var(--color-text);
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: 500;
 }
 
 @media (min-width: 48rem) {

@@ -1,34 +1,57 @@
+/* El único sitio de la página con el terracota de fondo. */
 .section {
-  padding-block: var(--space-12);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  --color-link: var(--color-on-primary);
+  --color-link-hover: var(--color-on-primary);
 }
 
-/* Riquadro rosa, como las secciones alternas del sitio. */
-.box {
-  max-width: var(--text-width);
-  margin-inline: auto;
-  padding: var(--space-8) var(--space-6);
-  border-radius: var(--radius);
-  background: var(--color-secondary);
-  text-align: center;
-  /* Sobre rosa, los enlaces van en el marrón del texto (el terracota no contrasta). */
-  --color-link: var(--color-text);
-  --color-link-hover: var(--color-text);
-}
-
-.title {
-  font-size: var(--text-xl);
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8) var(--space-12);
+  padding-block: var(--cta-space);
 }
 
 .text {
-  margin-bottom: var(--space-6);
+  display: flex;
+  flex: 1 1 460px;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
 }
 
-@media (min-width: 56rem) {
-  .section {
-    padding-block: var(--space-16);
+.title {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--color-on-primary);
+  text-wrap: balance;
+}
+
+.text p {
+  max-width: 48ch;
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-6);
   }
 
-  .box {
-    padding: var(--space-12);
+  /* En columna el flex-basis se volvería una altura. */
+  .text {
+    flex: 0 1 auto;
+    gap: var(--space-3);
   }
+}
+
+/* El anillo de foco terracota no se vería sobre terracota. */
+.section :focus-visible {
+  outline-color: var(--color-on-primary);
 }

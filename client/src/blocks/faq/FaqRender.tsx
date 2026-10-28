@@ -1,5 +1,4 @@
 import type { BlockData } from "@studio/shared";
-import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { JsonLd } from "../../components/JsonLd";
 import { RichText } from "../../components/RichText";
@@ -21,16 +20,16 @@ export function FaqRender({ data }: { data: BlockData<"faq"> }) {
   }
 
   return (
-    <section id={FAQ_ANCHOR} className={styles.section}>
-      <div className={`container ${styles.inner}`}>
-        {data.title && <h2 className={styles.title}>{data.title}</h2>}
+    <section id={FAQ_ANCHOR} className="section">
+      <div className="container">
+        {data.title && <h2 className="section-title section-title-centered">{data.title}</h2>}
         <div className={styles.list}>
           {data.items.map((item) => {
             const open = openIds.includes(item.id);
             const buttonId = `faq-${item.id}-question`;
             const panelId = `faq-${item.id}-answer`;
             return (
-              <div key={item.id} className={styles.item}>
+              <div key={item.id} className={open ? `${styles.item} ${styles.open}` : styles.item}>
                 <h3 className={styles.question}>
                   <button
                     type="button"
@@ -41,17 +40,26 @@ export function FaqRender({ data }: { data: BlockData<"faq"> }) {
                     onClick={() => toggle(item.id)}
                   >
                     <span>{item.question}</span>
-                    <ChevronDown className={styles.chevron} aria-hidden="true" focusable="false" />
+                    {/* Un "+" que se vuelve "−" al abrir. */}
+                    <span className={styles.sign} aria-hidden="true">
+                      <span className={styles.bar} />
+                      <span className={`${styles.bar} ${styles.vertical}`} />
+                    </span>
                   </button>
                 </h3>
+                {/* Se abre a su altura real (de 0fr a 1fr) sin medir nada. Cerrada,
+                    visibility: hidden la saca también del lector de pantalla. */}
                 <div
                   id={panelId}
                   role="region"
                   aria-labelledby={buttonId}
                   className={styles.answer}
-                  hidden={!open}
                 >
-                  <RichText html={item.answer} />
+                  <div className={styles.answerClip}>
+                    <div className={styles.answerBody}>
+                      <RichText html={item.answer} />
+                    </div>
+                  </div>
                 </div>
               </div>
             );
