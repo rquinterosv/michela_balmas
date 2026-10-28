@@ -213,6 +213,142 @@ export const homeFaqBlock: Block = {
   },
 };
 
+// Secciones del rediseño (prototipo Sito-Michi) para la Home. Se exportan aparte,
+// como homeFaqBlock: el seed las añade una sola vez a una Home que ya existe, cada
+// una en su sitio (ver PAGE_ADDITIONS en server/scripts/seed.ts). "[DA REVISIONARE]".
+
+export const homeServicesBlock: Block = {
+  id: "home-services",
+  type: "services",
+  data: {
+    title: "Di cosa mi occupo",
+    intro:
+      "Ogni persona vive dentro una rete di relazioni. Per questo il lavoro può riguardare " +
+      "il singolo, la coppia o la famiglia. Spesso tutto comincia da una frase come queste. " +
+      "[DA REVISIONARE]",
+    items: [
+      {
+        id: "services-adulti",
+        category: "Adulti",
+        quote: "«Mi sento sempre in allerta e non so più come staccare.»",
+        description:
+          "Ansia e stress, autostima, momenti di cambiamento, relazioni che fanno fatica.",
+      },
+      {
+        id: "services-coppie",
+        category: "Coppie",
+        quote: "«Litighiamo sempre per le stesse cose.»",
+        description:
+          "Conflitti ricorrenti, crisi, distanza, scelte importanti da affrontare insieme.",
+      },
+      {
+        id: "services-famiglie",
+        category: "Famiglie e genitori",
+        quote: "«Da quando nostro figlio è cresciuto non ci capiamo più.»",
+        description:
+          "Fasi di passaggio, difficoltà con i figli, equilibri familiari da ricostruire.",
+      },
+    ],
+  },
+};
+
+export const homePricingBlock: Block = {
+  id: "home-pricing",
+  type: "pricing",
+  data: {
+    title: "Tariffe e modalità",
+    intro: "Trasparenza fin dall'inizio, per decidere con serenità. [DA REVISIONARE]",
+    prices: [
+      {
+        id: "pricing-primo",
+        name: "Primo colloquio",
+        description: "50 minuti, per conoscersi e capire insieme come procedere.",
+        price: "€ —",
+      },
+      {
+        id: "pricing-individuale",
+        name: "Seduta individuale",
+        description: "50 minuti, con frequenza concordata insieme.",
+        price: "€ —",
+      },
+      {
+        id: "pricing-coppia",
+        name: "Seduta di coppia o familiare",
+        description: "Con tutti i partecipanti presenti o collegati.",
+        price: "€ —",
+      },
+    ],
+    notes: [
+      {
+        id: "pricing-dove",
+        icon: "monitor-smartphone",
+        title: "Dove",
+        text: "In studio oppure online in videochiamata, da un luogo tranquillo e riservato.",
+      },
+      {
+        id: "pricing-pagamento",
+        icon: "calendar-days",
+        title: "Pagamento",
+        text: "Con bonifico o carta. Viene rilasciata fattura detraibile come spesa sanitaria.",
+      },
+      {
+        id: "pricing-disdetta",
+        icon: "clock",
+        title: "Disdetta",
+        text: "Gratuita fino a 48 ore prima dell'appuntamento.",
+      },
+      {
+        id: "pricing-riservatezza",
+        icon: "shield-check",
+        title: "Riservatezza",
+        text: "Segreto professionale e piattaforme protette, nel rispetto del Codice Deontologico.",
+      },
+    ],
+  },
+};
+
+export const homeLatestPostsBlock: Block = {
+  id: "home-latest-posts",
+  type: "latestPosts",
+  data: {
+    title: "Dal blog",
+    intro: "Riflessioni, consigli e approfondimenti sul benessere psicologico.",
+  },
+};
+
+export const homeBookBlock: Block = {
+  id: "home-book",
+  type: "book",
+  data: {
+    eyebrow: "Il mio libro",
+    title: "[Titolo del libro]",
+    subtitle: "[Sottotitolo]",
+    text:
+      "[Due o tre righe di presentazione: di cosa parla il libro e a chi si rivolge.] " +
+      "[DA REVISIONARE]",
+    // Vacía: sin portada no se ve el panel; se sube desde el panel.
+    coverUrl: "",
+    coverAlt: "",
+    buttonLabel: "",
+    buttonHref: "",
+    linkLabel: "",
+    linkHref: "",
+  },
+};
+
+export const homeCtaBlock: Block = {
+  id: "home-cta",
+  type: "cta",
+  data: {
+    title: "Il primo passo è il più importante",
+    text:
+      "Prenoti un primo colloquio: ci conosciamo e capiamo insieme se e come posso esserLe " +
+      "d'aiuto. [DA REVISIONARE]",
+    buttonLabel: "Prenota il primo colloquio",
+    buttonHref: "/contatti",
+  },
+};
+
 // La clave es el id del documento en Firestore.
 export const seedPages: Record<string, PageInput> = {
   home: {
@@ -241,6 +377,7 @@ export const seedPages: Record<string, PageInput> = {
           buttonHref: "/contatti",
         },
       },
+      homeServicesBlock,
       {
         id: "home-about",
         type: "about",
@@ -287,7 +424,11 @@ export const seedPages: Record<string, PageInput> = {
           buttonHref: "/chi-sono",
         },
       },
+      homePricingBlock,
       homeFaqBlock,
+      homeLatestPostsBlock,
+      homeBookBlock,
+      homeCtaBlock,
     ],
   },
 

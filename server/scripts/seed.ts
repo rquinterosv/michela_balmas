@@ -1,5 +1,6 @@
 import {
   type Block,
+  type BlockType,
   categoryInputSchema,
   pageInputSchema,
   postInputSchema,
@@ -7,7 +8,12 @@ import {
 } from "@studio/shared";
 import {
   contattiFormBlock,
+  homeBookBlock,
+  homeCtaBlock,
   homeFaqBlock,
+  homeLatestPostsBlock,
+  homePricingBlock,
+  homeServicesBlock,
   seedCategories,
   seedPages,
   seedPosts,
@@ -23,11 +29,19 @@ import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
 // Secciones nuevas del contenido inicial para páginas que ya existen. Cada añadido
 // se aplica una sola vez: queda anotado en seedState/main y no se repite aunque
 // después se borre la sección desde el panel.
-const PAGE_ADDITIONS = [
+// `after`: la sección se coloca detrás de la última de ese tipo (o al final, si no hay).
+const PAGE_ADDITIONS: { id: string; slug: string; block: Block; after?: BlockType }[] = [
   // Preguntas frecuentes al final de la Home.
   { id: "home-faq", slug: "home", block: homeFaqBlock },
   // Formulario de contacto al final de «Contatti».
   { id: "contatti-form", slug: "contatti", block: contattiFormBlock },
+  // Secciones del rediseño (Sito-Michi), en el orden de su Home. Se aplican en este
+  // orden: cada una puede apoyarse en la anterior.
+  { id: "home-services", slug: "home", block: homeServicesBlock, after: "hero" },
+  { id: "home-pricing", slug: "home", block: homePricingBlock, after: "about" },
+  { id: "home-latest-posts", slug: "home", block: homeLatestPostsBlock, after: "faq" },
+  { id: "home-book", slug: "home", block: homeBookBlock, after: "latestPosts" },
+  { id: "home-cta", slug: "home", block: homeCtaBlock },
 ];
 
 const OUTDATED_SEED_BLOCKS: Record<string, string[]> = {
@@ -103,6 +117,7 @@ async function main() {
         ? appendBlockIfMissing(
             pageDoc.get("blocks") as Block[],
             sanitizeBlocks([addition.block])[0]!,
+            addition.after,
           )
         : null;
       if (pageDoc && blocks) {

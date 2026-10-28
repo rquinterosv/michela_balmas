@@ -8,7 +8,12 @@ import {
 import { describe, expect, it } from "vitest";
 import {
   contattiFormBlock,
+  homeBookBlock,
+  homeCtaBlock,
   homeFaqBlock,
+  homeLatestPostsBlock,
+  homePricingBlock,
+  homeServicesBlock,
   seedCategories,
   seedPages,
   seedPosts,
@@ -147,6 +152,50 @@ describe("appendBlockIfMissing", () => {
     const otherFaq = { ...faq, id: "otra" };
     expect(appendBlockIfMissing([text, otherFaq], faq)).toBeNull();
   });
+
+  it("con `after`, la coloca detrás de la última sección de ese tipo", () => {
+    const last = { ...text, id: "t2" };
+    expect(appendBlockIfMissing([text, last, faq], homeServicesBlock, "richText")).toEqual([
+      text,
+      last,
+      homeServicesBlock,
+      faq,
+    ]);
+  });
+
+  it("con `after` y sin una sección de ese tipo, la añade al final", () => {
+    expect(appendBlockIfMissing([text], homeServicesBlock, "hero")).toEqual([
+      text,
+      homeServicesBlock,
+    ]);
+  });
+});
+
+describe("secciones del rediseño para la Home", () => {
+  const blocks = [
+    homeServicesBlock,
+    homePricingBlock,
+    homeLatestPostsBlock,
+    homeBookBlock,
+    homeCtaBlock,
+  ];
+
+  it.each(blocks.map((block) => [block.id, block]))("%s cumple el esquema", (_id, block) => {
+    expect(blockSchema.safeParse(block).success).toBe(true);
+  });
+
+  it("la Home de ejemplo las incluye en el orden del diseño", () => {
+    expect(seedPages.home?.blocks.map((block) => block.type)).toEqual([
+      "hero",
+      "services",
+      "about",
+      "pricing",
+      "faq",
+      "latestPosts",
+      "book",
+      "cta",
+    ]);
+  });
 });
 
 describe("formulario de contacto de ejemplo", () => {
@@ -162,7 +211,7 @@ describe("preguntas frecuentes de ejemplo", () => {
     const items = homeFaqBlock.type === "faq" ? homeFaqBlock.data.items : [];
     expect(items).toHaveLength(5);
     for (const item of items) expect(item.answer).toContain("DA REVISIONARE");
-    expect(seedPages.home?.blocks.at(-1)).toEqual(homeFaqBlock);
+    expect(seedPages.home?.blocks).toContainEqual(homeFaqBlock);
   });
 
   it("la respuesta se limpia como el resto del HTML", () => {
