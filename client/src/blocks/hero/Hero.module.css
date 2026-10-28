@@ -39,6 +39,31 @@
   gap: var(--space-3);
 }
 
+/* Frases cortas con una marca, en fila (en columna en el móvil). */
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px var(--space-8);
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  list-style: none;
+}
+
+.highlights li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
+}
+
 .portrait {
   display: flex;
   justify-content: center;
@@ -60,13 +85,22 @@
     margin-top: var(--space-2);
   }
 
+  /* En el móvil WhatsApp ya está en la barra fija de abajo. */
+  .whatsapp {
+    display: none;
+  }
+
+  .highlights {
+    flex-direction: column;
+  }
+
   .frame {
     max-width: none;
   }
 }
 
 /* ---- Entrada al cargar la página, una sola vez ----
-   Título, subtítulo y botón suben uno tras otro; la foto se asienta despacio. */
+   Título, subtítulo, botones y frases suben uno tras otro; la foto se asienta despacio. */
 @media (prefers-reduced-motion: no-preference) {
   .text > * {
     opacity: 0;
@@ -79,6 +113,10 @@
 
   .text > :nth-child(3) {
     animation-delay: calc(2 * var(--hero-stagger));
+  }
+
+  .text > :nth-child(4) {
+    animation-delay: calc(3 * var(--hero-stagger));
   }
 
   .portrait {

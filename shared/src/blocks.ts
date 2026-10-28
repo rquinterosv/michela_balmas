@@ -13,6 +13,15 @@ export const heroDataSchema = z.object({
   imageAlt: optionalText(200),
   buttonLabel: optionalText(60),
   buttonHref: optionalLink,
+  // Del rediseño. Opcionales: una cabecera guardada antes no los trae (undefined) y
+  // usa los valores por defecto (ver HeroRender).
+  // Frases cortas con una marca bajo los botones ("Sedute da 50 minuti"…).
+  // Se ven las 4 primeras no vacías (el panel las escribe una por línea).
+  highlights: z.array(optionalText(80)).max(10).optional(),
+  // Añade a esas frases la inscripción al Albo, con los datos del sitio.
+  showAlbo: z.boolean().optional(),
+  // Segundo botón, "Scriva su WhatsApp", con el teléfono de los datos del sitio.
+  showWhatsapp: z.boolean().optional(),
 });
 
 export const aboutDataSchema = z.object({

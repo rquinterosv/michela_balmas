@@ -98,6 +98,14 @@ export const it = {
     defaultButtonLabel: "Scopri di più",
   },
 
+  // Cabecera (bloque «hero»).
+  hero: {
+    // Frases bajo los botones si la cabecera no tiene las suyas (ver HeroRender).
+    defaultHighlights: ["Sedute da 50 minuti", "Risposta entro 2 giorni lavorativi"],
+    // "Albo Psicologi del Lazio n. 24509"
+    albo: (region: string, number: string) => `Albo Psicologi ${region} n. ${number}`,
+  },
+
   // Bloque «Ultimi articoli del blog».
   latestPosts: {
     listLabel: "Ultimi articoli",
@@ -347,6 +355,11 @@ export const it = {
         buttonLabel: "Testo del pulsante",
         buttonHref: "Collegamento del pulsante",
         buttonHrefHelp: "Es. /contatti per portare alla pagina dei contatti.",
+        showWhatsapp:
+          "Mostrare anche il pulsante «Scriva su WhatsApp» (usa il telefono di «Impostazioni del sito»)",
+        highlights: "Frasi brevi sotto i pulsanti",
+        highlightsHelp: "Una per riga, al massimo 4. Es. «Sedute da 50 minuti».",
+        showAlbo: "Aggiungere l'iscrizione all'Albo (presa da «Impostazioni del sito»)",
       },
       about: {
         title: "Titolo",

@@ -1,5 +1,5 @@
 import { ImageField } from "../../admin/ImageField";
-import { TextField } from "../../components/TextField";
+import { CheckboxField, TextField } from "../../components/TextField";
 import { it } from "../../i18n/it";
 import type { BlockEditorProps } from "../editorTypes";
 
@@ -57,6 +57,31 @@ export default function HeroEditor({ data, onChange, errors, idPrefix }: BlockEd
         onChange={(buttonHref) => onChange({ ...data, buttonHref })}
         error={errors.buttonHref}
         optional
+      />
+      {/* Sin valor guardado (cabecera anterior al rediseño), se muestran los valores
+          por defecto, los mismos que se ven en el sitio. */}
+      <CheckboxField
+        id={`${idPrefix}-showWhatsapp`}
+        label={labels.showWhatsapp}
+        checked={data.showWhatsapp ?? true}
+        onChange={(showWhatsapp) => onChange({ ...data, showWhatsapp })}
+      />
+      <TextField
+        id={`${idPrefix}-highlights`}
+        label={labels.highlights}
+        hint={labels.highlightsHelp}
+        value={(data.highlights ?? it.hero.defaultHighlights).join("\n")}
+        onChange={(text) => onChange({ ...data, highlights: text.split("\n") })}
+        error={errors.highlights}
+        multiline
+        rows={3}
+        optional
+      />
+      <CheckboxField
+        id={`${idPrefix}-showAlbo`}
+        label={labels.showAlbo}
+        checked={data.showAlbo ?? true}
+        onChange={(showAlbo) => onChange({ ...data, showAlbo })}
       />
     </>
   );

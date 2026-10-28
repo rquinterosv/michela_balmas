@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { it } from "../i18n/it";
 import { CONTACTS_PATH, whatsappHref } from "../lib/paths";
 import styles from "./BookingBar.module.css";
+import { WhatsappIcon } from "./WhatsappIcon";
 
 // Barra fija abajo, solo hasta 900 px: el botón "Prenota" (lleva a "Contatti") y,
 // si hay teléfono en "Impostazioni del sito", un botón redondo de WhatsApp con el
@@ -22,20 +23,7 @@ export function BookingBar({ settings }: { settings: SiteSettings }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {/* Bocadillo genérico, no el logotipo de WhatsApp. */}
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z" />
-          </svg>
+          <WhatsappIcon size={22} />
           <span className="visually-hidden">
             {it.nav.whatsapp} ({it.common.opensInNewTab})
           </span>
