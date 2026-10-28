@@ -162,6 +162,8 @@ export const featuresDataSchema = z.object({
 // vertical en móvil), p. ej. "Il percorso".
 export const timelineDataSchema = z.object({
   title: optionalText(120),
+  // Entradilla bajo el título. Opcional: un percorso guardado antes no la trae.
+  intro: optionalText(400).optional(),
   items: z.array(iconItemSchema).max(10),
 });
 

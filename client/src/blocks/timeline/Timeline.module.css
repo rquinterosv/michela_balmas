@@ -1,3 +1,26 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.intro h2 {
+  margin: 0;
+}
+
+.intro p {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+@media (max-width: 900px) {
+  .intro p {
+    margin: 0;
+  }
+}
+
 /* Cuatro filas compartidas por todas las etapas (círculo, etiqueta, título y
    texto): se alinean aunque un título ocupe dos líneas y otro una. */
 .timeline {

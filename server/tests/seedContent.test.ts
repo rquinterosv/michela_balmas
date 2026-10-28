@@ -11,6 +11,7 @@ import {
   homeBookBlock,
   homeCtaBlock,
   homeFaqBlock,
+  homeHowItWorksBlock,
   homeLatestPostsBlock,
   homePricingBlock,
   homeServicesBlock,
@@ -174,6 +175,7 @@ describe("appendBlockIfMissing", () => {
 describe("secciones del rediseño para la Home", () => {
   const blocks = [
     homeServicesBlock,
+    homeHowItWorksBlock,
     homePricingBlock,
     homeLatestPostsBlock,
     homeBookBlock,
@@ -188,6 +190,7 @@ describe("secciones del rediseño para la Home", () => {
     expect(seedPages.home?.blocks.map((block) => block.type)).toEqual([
       "hero",
       "services",
+      "timeline",
       "about",
       "pricing",
       "faq",

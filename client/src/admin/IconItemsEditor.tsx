@@ -1,4 +1,5 @@
 import type { IconItem, IconName } from "@studio/shared";
+import type { ReactNode } from "react";
 import { TextField } from "../components/TextField";
 import { it } from "../i18n/it";
 import styles from "./Admin.module.css";
@@ -16,6 +17,8 @@ interface IconItemsEditorProps<T extends IconItemsData> {
   idPrefix: string;
   // "card": tarjetas («Elemento 1»); "step": etapas numeradas («Tappa 1»).
   variant: "card" | "step";
+  // Campos extra bajo el título de la sección (p. ej. la entradilla del percorso).
+  afterTitle?: ReactNode;
   // Icono de un elemento recién añadido.
   defaultIcon: IconName;
 }
@@ -24,7 +27,7 @@ interface IconItemsEditorProps<T extends IconItemsData> {
 // una lista de elementos (icono, título, texto) que se pueden añadir, editar,
 // reordenar y eliminar.
 export function IconItemsEditor<T extends IconItemsData>(props: IconItemsEditorProps<T>) {
-  const { data, onChange, errors, idPrefix, variant, defaultIcon } = props;
+  const { data, onChange, errors, idPrefix, variant, defaultIcon, afterTitle } = props;
   const labels = it.admin.blockEditors.iconItems;
   const itemLabel = variant === "step" ? labels.step : labels.item;
 
@@ -54,6 +57,7 @@ export function IconItemsEditor<T extends IconItemsData>(props: IconItemsEditorP
         error={errors.title}
         optional
       />
+      {afterTitle}
 
       <fieldset className={styles.fieldset}>
         <legend>{variant === "step" ? labels.steps : labels.items}</legend>

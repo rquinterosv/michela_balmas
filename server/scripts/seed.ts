@@ -11,6 +11,7 @@ import {
   homeBookBlock,
   homeCtaBlock,
   homeFaqBlock,
+  homeHowItWorksBlock,
   homeLatestPostsBlock,
   homePricingBlock,
   homeServicesBlock,
@@ -38,6 +39,7 @@ const PAGE_ADDITIONS: { id: string; slug: string; block: Block; after?: BlockTyp
   // Secciones del rediseño (Sito-Michi), en el orden de su Home. Se aplican en este
   // orden: cada una puede apoyarse en la anterior.
   { id: "home-services", slug: "home", block: homeServicesBlock, after: "hero" },
+  { id: "home-how-it-works", slug: "home", block: homeHowItWorksBlock, after: "services" },
   { id: "home-pricing", slug: "home", block: homePricingBlock, after: "about" },
   { id: "home-latest-posts", slug: "home", block: homeLatestPostsBlock, after: "faq" },
   { id: "home-book", slug: "home", block: homeBookBlock, after: "latestPosts" },

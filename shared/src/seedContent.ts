@@ -252,6 +252,42 @@ export const homeServicesBlock: Block = {
   },
 };
 
+// "Come funziona": tres pasos, después de "Di cosa mi occupo".
+export const homeHowItWorksBlock: Block = {
+  id: "home-how-it-works",
+  type: "timeline",
+  data: {
+    title: "Come funziona",
+    intro: "Iniziare è più semplice di quanto sembri. Ecco cosa succede, passo dopo passo.",
+    items: [
+      {
+        id: "how-prenota",
+        icon: "calendar-days",
+        title: "Prenoti il primo colloquio",
+        text:
+          "Mi scriva dal modulo dei contatti oppure su WhatsApp: Le risponderò per fissare " +
+          "insieme giorno e orario. [DA REVISIONARE]",
+      },
+      {
+        id: "how-conosciamo",
+        icon: "message-circle",
+        title: "Ci conosciamo",
+        text:
+          "Nel primo incontro ascolto la Sua richiesta e capiamo insieme se e come proseguire. " +
+          "Nessun impegno oltre questo colloquio.",
+      },
+      {
+        id: "how-percorso",
+        icon: "route",
+        title: "Costruiamo il percorso",
+        text:
+          "Definiamo obiettivi e frequenza. Sedute da 50 minuti, momenti di verifica e follow " +
+          "up a 3, 6 o 12 mesi dalla fine.",
+      },
+    ],
+  },
+};
+
 export const homePricingBlock: Block = {
   id: "home-pricing",
   type: "pricing",
@@ -378,6 +414,7 @@ export const seedPages: Record<string, PageInput> = {
         },
       },
       homeServicesBlock,
+      homeHowItWorksBlock,
       {
         id: "home-about",
         type: "about",

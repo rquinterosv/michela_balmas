@@ -415,6 +415,7 @@ export const it = {
       },
       iconItems: {
         sectionTitle: "Titolo della sezione",
+        intro: "Testo introduttivo",
         items: "Schede",
         steps: "Tappe",
         stepsHelp: "Le tappe vengono numerate nell'ordine qui indicato.",

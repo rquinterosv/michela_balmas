@@ -16,7 +16,12 @@ export function TimelineRender({ data }: { data: BlockData<"timeline"> }) {
   return (
     <section className="section">
       <div className="container">
-        {data.title && <h2 className="section-title section-title-centered">{data.title}</h2>}
+        {(data.title || data.intro) && (
+          <div className={`section-title section-title-centered ${styles.intro}`}>
+            {data.title && <h2>{data.title}</h2>}
+            {data.intro && <p>{data.intro}</p>}
+          </div>
+        )}
         <ol ref={ref} className={styles.timeline}>
           {data.items.map((item, index) => (
             <li
