@@ -1,4 +1,4 @@
-import { BLOG_SLUG, CATEGORY_SEGMENT, HOME_SLUG } from "@studio/shared";
+import { BLOG_SLUG, type BlockType, CATEGORY_SEGMENT, HOME_SLUG } from "@studio/shared";
 
 // Ruta pública de una página: la de inicio vive en "/".
 export function pagePath(slug: string): string {
@@ -12,6 +12,17 @@ export const ABOUT_HREF = `/#${ABOUT_ANCHOR}`;
 // Página con la presentación completa, a la que lleva el botón "Leggi il mio percorso completo".
 // No sale en el menú: mientras se ve, el ítem "Chi sono" queda marcado.
 export const ABOUT_PAGE_PATH = "/chi-sono";
+
+// Anclas de las secciones de la Home (como en el prototipo: /#per-chi, /#tariffe…).
+// La primera sección de cada tipo lleva la suya; las usa el menú. «Chi sono» y las
+// preguntas frecuentes ponen su id en su propio componente (ABOUT_ANCHOR, "faq").
+export const HOME_SECTION_ANCHORS = {
+  services: "per-chi",
+  timeline: "come-funziona",
+  pricing: "tariffe",
+  book: "libro",
+} as const satisfies Partial<Record<BlockType, string>>;
+export const FAQ_ANCHOR = "faq";
 
 // Página de contacto (con el formulario): destino del botón "Prenota" de la
 // cabecera y de la barra de reserva del móvil.

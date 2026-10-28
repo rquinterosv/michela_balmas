@@ -33,16 +33,30 @@ import { mergePageOrder, type OrderedPage } from "../src/services/seedOrder";
 // queda anotado en seedState/main y no se repite aunque después se cambie la página
 // desde el panel. `change` devuelve las secciones nuevas, o null si no hay que hacer
 // nada (la página ya tiene la sección, o ya no es la que se esperaba).
+interface PageFields {
+  blocks: Block[];
+  showInMenu: boolean;
+}
+
 interface PageAddition {
   id: string;
   slug: string;
-  change: (blocks: Block[]) => Block[] | null;
+  // Los campos que cambian, o null si no hay que hacer nada.
+  change: (page: PageFields) => Partial<PageFields> | null;
 }
 
 // Añade una sección (ver appendBlockIfMissing). `after`: detrás de la última de ese
 // tipo (o al final, si no hay).
 function addBlock(block: Block, after?: BlockType) {
-  return (blocks: Block[]) => appendBlockIfMissing(blocks, sanitizeBlocks([block])[0]!, after);
+  return ({ blocks }: PageFields) => {
+    const changed = appendBlockIfMissing(blocks, sanitizeBlocks([block])[0]!, after);
+    return changed && { blocks: changed };
+  };
+}
+
+// Quita la página del menú (se puede volver a poner con "Mostra nel menu").
+function hideFromMenu({ showInMenu }: PageFields) {
+  return showInMenu ? { showInMenu: false } : null;
 }
 
 const PAGE_ADDITIONS: PageAddition[] = [
@@ -59,7 +73,18 @@ const PAGE_ADDITIONS: PageAddition[] = [
   { id: "home-book", slug: "home", change: addBlock(homeBookBlock, "latestPosts") },
   { id: "home-cta", slug: "home", change: addBlock(homeCtaBlock) },
   // «Chi sono» con la estructura del diseño, con los mismos textos y fotos.
-  { id: "chi-sono-redesign", slug: "chi-sono", change: redesignChiSono },
+  {
+    id: "chi-sono-redesign",
+    slug: "chi-sono",
+    change: ({ blocks }) => {
+      const changed = redesignChiSono(blocks);
+      return changed && { blocks: changed };
+    },
+  },
+  // Menú del diseño: un índice de la Home (ver Header). «Come lavoro» repite lo que ya
+  // cuenta «Come funziona», y a «Contatti» lleva el botón "Prenota".
+  { id: "menu-come-lavoro", slug: "come-lavoro", change: hideFromMenu },
+  { id: "menu-contatti", slug: "contatti", change: hideFromMenu },
 ];
 
 // Huellas de las secciones de versiones anteriores del contenido inicial, por
@@ -133,12 +158,20 @@ async function main() {
       const pageDoc = (
         await db.collection("pages").where("slug", "==", addition.slug).limit(1).get()
       ).docs[0];
-      const changed = pageDoc ? addition.change(pageDoc.get("blocks") as Block[]) : null;
+      const changed = pageDoc
+        ? addition.change({
+            blocks: pageDoc.get("blocks") as Block[],
+            showInMenu: pageDoc.get("showInMenu") as boolean,
+          })
+        : null;
       if (pageDoc && changed) {
         // Se valida con el esquema de la API antes de escribir: lo guardado tiene que
         // poder abrirse y guardarse desde el panel.
-        const blocks = z.array(blockSchema).parse(changed);
-        await pageDoc.ref.update({ blocks, updatedAt: Timestamp.now() });
+        const update = {
+          ...changed,
+          ...(changed.blocks && { blocks: z.array(blockSchema).parse(changed.blocks) }),
+        };
+        await pageDoc.ref.update({ ...update, updatedAt: Timestamp.now() });
         console.log(`Añadido "${addition.id}": /${addition.slug} actualizada.`);
       } else {
         console.log(

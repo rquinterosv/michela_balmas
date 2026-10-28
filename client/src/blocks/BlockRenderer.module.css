@@ -23,3 +23,8 @@
     clip-path: inset(0 0 0 0);
   }
 }
+
+/* Sección a la que se llega desde el menú: recibe el foco, pero no es un control. */
+.block:focus {
+  outline: none;
+}

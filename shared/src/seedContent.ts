@@ -474,7 +474,8 @@ export const seedPages: Record<string, PageInput> = {
     slug: "contatti",
     order: 3,
     published: true,
-    showInMenu: true,
+    // Fuera del menú: lleva aquí el botón "Prenota" de la cabecera.
+    showInMenu: false,
     seo: {
       title: "Contatti | Dott.ssa Anna Rossi, Psicologa",
       description:
@@ -540,7 +541,8 @@ export const seedPages: Record<string, PageInput> = {
     slug: "come-lavoro",
     order: 1,
     published: true,
-    showInMenu: true,
+    // Fuera del menú: el menú es el índice de la Home, que ya tiene «Come funziona».
+    showInMenu: false,
     seo: {
       title: "",
       description:

@@ -32,6 +32,15 @@ export const it = {
     label: "Navigazione principale",
     openMenu: "Apri il menu",
     closeMenu: "Chiudi il menu",
+    // Voces del menú que bajan a una sección de la Home (las del prototipo). «Chi
+    // sono» usa el texto de «Impostazioni del sito» > «Menu del sito».
+    sections: {
+      services: "Di cosa mi occupo",
+      timeline: "Come funziona",
+      pricing: "Tariffe",
+      faq: "Domande frequenti",
+      book: "Il mio libro",
+    },
     // Botón de la cabecera y de la barra fija del móvil: lleva a "Contatti".
     bookCta: "Prenota il primo colloquio",
     // Barra fija del móvil: el botón y el redondo de WhatsApp (mensaje ya escrito).

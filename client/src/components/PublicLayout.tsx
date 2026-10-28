@@ -1,3 +1,4 @@
+import { HOME_SLUG } from "@studio/shared";
 import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { it } from "../i18n/it";
@@ -16,7 +17,20 @@ const MAIN_ID = "contenuto";
 // Marco común del sitio público: cabecera, contenido de la página y pie.
 // Carga una sola vez los datos del sitio y la lista de páginas publicadas.
 export function PublicLayout() {
-  const { state, reload } = useLoad(() => Promise.all([api.getSettings(), api.getMenuPages()]), []);
+  // Las secciones de la Home arman el menú (ver Header). Si no cargan, el menú se
+  // queda con las páginas: no es motivo para que falle todo el sitio.
+  const { state, reload } = useLoad(
+    () =>
+      Promise.all([
+        api.getSettings(),
+        api.getMenuPages(),
+        api.getPage(HOME_SLUG).then(
+          (page) => page.blocks,
+          () => null,
+        ),
+      ]),
+    [],
+  );
   const { pathname, hash, key } = useLocation();
 
   // Cada página nueva empieza arriba, y el foco pasa al contenido para que el lector
@@ -43,7 +57,7 @@ export function PublicLayout() {
     return <PageError message={state.error.message} onRetry={reload} />;
   }
 
-  const [settings, pages] = state.data;
+  const [settings, pages, homeBlocks] = state.data;
 
   return (
     <SiteSettingsContext.Provider value={settings}>
@@ -53,7 +67,7 @@ export function PublicLayout() {
           <a href={`#${MAIN_ID}`} className={styles.skipLink}>
             {it.common.skipToContent}
           </a>
-          <Header settings={settings} pages={pages} />
+          <Header settings={settings} pages={pages} homeBlocks={homeBlocks} />
           <main id={MAIN_ID} tabIndex={-1} className={styles.main}>
             <Outlet />
           </main>

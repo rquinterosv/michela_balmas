@@ -2,10 +2,8 @@ import type { BlockData } from "@studio/shared";
 import { useState } from "react";
 import { JsonLd } from "../../components/JsonLd";
 import { RichText } from "../../components/RichText";
+import { FAQ_ANCHOR } from "../../lib/paths";
 import styles from "./Faq.module.css";
-
-// Ancla de la sección (p. ej. para un enlace a "/#faq").
-const FAQ_ANCHOR = "faq";
 
 // Preguntas frecuentes en acordeón: cada pregunta es un botón que abre o cierra su
 // respuesta (aria-expanded). Incluye los datos FAQPage para los buscadores.
@@ -20,7 +18,7 @@ export function FaqRender({ data }: { data: BlockData<"faq"> }) {
   }
 
   return (
-    <section id={FAQ_ANCHOR} className="section">
+    <section id={FAQ_ANCHOR} tabIndex={-1} className={`section ${styles.section}`}>
       <div className="container">
         {data.title && <h2 className="section-title section-title-centered">{data.title}</h2>}
         <div className={styles.list}>

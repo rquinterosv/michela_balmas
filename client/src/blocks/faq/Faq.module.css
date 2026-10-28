@@ -122,3 +122,8 @@
     padding: 0 var(--space-5) var(--space-5);
   }
 }
+
+/* Recibe el foco al llegar desde el menú (/#faq): no es un control, sin contorno. */
+.section:focus {
+  outline: none;
+}

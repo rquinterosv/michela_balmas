@@ -60,7 +60,7 @@ export function PageContent({ page, updateMeta = true }: { page: Page; updateMet
           <h1>{page.title}</h1>
         </div>
       )}
-      <BlockList blocks={page.blocks} />
+      <BlockList blocks={page.blocks} withAnchors={page.slug === HOME_SLUG} />
     </>
   );
 }
