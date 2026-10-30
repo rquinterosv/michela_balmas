@@ -2,6 +2,7 @@ import {
   categoriesWithCounts,
   paginatePosts,
   relatedPosts,
+  withSettingsDefaults,
   type CategoryWithCount,
   type MenuPage,
   type Page,
@@ -39,8 +40,10 @@ export function createStaticApi(site: StaticSite, loadBlog: () => Promise<Static
       return page;
     },
 
+    // Con los valores por defecto: una copia hecha con un backend aún sin actualizar
+    // no trae los textos añadidos después.
     async getSettings(): Promise<SiteSettings> {
-      return site.settings;
+      return withSettingsDefaults(site.settings);
     },
 
     async getBlogCategories(): Promise<CategoryWithCount[]> {
