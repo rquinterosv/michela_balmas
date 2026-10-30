@@ -1,4 +1,4 @@
-import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
+import { DEFAULT_SITE_SEO, DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import type { Block } from "./blocks";
 import type { PageInput, SiteSettings } from "./types";
 
@@ -29,6 +29,7 @@ export const seedSettings: SiteSettings = {
     "Altro",
   ],
   texts: DEFAULT_SITE_TEXTS,
+  seo: DEFAULT_SITE_SEO,
 };
 
 const DRAFT_NOTICE =

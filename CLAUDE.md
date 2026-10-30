@@ -38,7 +38,10 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 - **El sitio público en producción no llama a la API para leer.** El build descarga
   todo el contenido publicado (`GET /api/content`) con `client/siteContentPlugin.ts`:
   datos del sitio y páginas dentro de `index.html`, el blog en `/content/blog.json` y
-  las imágenes en `/images/uploads/<id>.jpg`. `lib/api.ts` lo lee con
+  las imágenes en `/images/uploads/<id>.jpg`; además, una copia de `index.html` por
+  dirección (`/chi-sono/index.html`…) con su título, descripción e imagen para la
+  vista previa de enlaces (`shared/src/seo.ts`). Por eso Vite carga la configuración
+  con `--configLoader runner`. `lib/api.ts` lo lee con
   `lib/staticApi.ts` (lo mismo que usa el modo demo). Tras cada cambio del panel el
   backend llama al Deploy Hook de Vercel (`DEPLOY_HOOK_URL`, `services/siteRebuild.ts`)
   y el cambio se ve en 1-2 minutos. En desarrollo no hay copia: se lee de la API.
@@ -96,11 +99,12 @@ profesional pueda querer cambiar va ahí, no en `it.ts`.
 ### Modelo de datos (Firestore)
 
 ```
-pages/{pageId}      title, slug, order, published, showInMenu, seo{title,description},
+pages/{pageId}      title, slug, order, published, showInMenu, seo{title,description,imageUrl},
                     blocks[{id,type,data}], updatedAt
 siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber, email,
                     phone, address, onlineSessions, social{facebook,instagram,linkedin},
                     showAboutInMenu, photoUrl, officeHours, contactReasons[],
+                    seo{description,imageUrl} (vista previa por defecto),
                     texts{onlineSessions,alboPrefix,vatLabel,copyright,emailLabel,
                     phoneLabel,addressLabel,aboutMenu,blog…,officeHoursLabel,contactCardButton,
                     whatsappButton,whatsappMessage,socialTitle,emergencyNotice,form…,

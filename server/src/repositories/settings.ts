@@ -1,4 +1,9 @@
-import { DEFAULT_SITE_TEXTS, withSettingsDefaults, type SiteSettings } from "@studio/shared";
+import {
+  DEFAULT_SITE_SEO,
+  DEFAULT_SITE_TEXTS,
+  withSettingsDefaults,
+  type SiteSettings,
+} from "@studio/shared";
 import { db } from "../firebase";
 
 const settingsDoc = () => db.collection("siteSettings").doc("main");
@@ -20,6 +25,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   social: { facebook: "", instagram: "", linkedin: "" },
   contactReasons: [],
   texts: DEFAULT_SITE_TEXTS,
+  seo: DEFAULT_SITE_SEO,
 };
 
 export async function getSettings(): Promise<SiteSettings> {

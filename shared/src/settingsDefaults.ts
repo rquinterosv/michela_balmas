@@ -1,4 +1,4 @@
-import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
+import { DEFAULT_SITE_SEO, DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import type { SiteSettings } from "./types";
 
 // Completa los datos del sitio con los campos que se han ido añadiendo después
@@ -13,5 +13,6 @@ export function withSettingsDefaults(settings: SiteSettings): SiteSettings {
     photoUrl: settings.photoUrl ?? "",
     officeHours: settings.officeHours ?? "",
     texts: { ...DEFAULT_SITE_TEXTS, ...settings.texts },
+    seo: { ...DEFAULT_SITE_SEO, ...settings.seo },
   };
 }

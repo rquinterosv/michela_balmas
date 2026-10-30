@@ -21,6 +21,7 @@ import { PageContent } from "../pages/PublicPage";
 import styles from "./Admin.module.css";
 import { adminApi } from "./adminApi";
 import { BlockListEditor } from "./BlockListEditor";
+import { ImageField } from "./ImageField";
 import { toPageInput } from "./PagesList";
 import { useToast } from "./Toast";
 import { useUnsavedChangesWarning } from "./useUnsavedChangesWarning";
@@ -209,6 +210,14 @@ function PageEditorForm({ page, settings }: PageEditorFormProps) {
             error={errors["seo.description"]}
             multiline
             optional
+          />
+          <p className={styles.help}>{labels.seoImageHelp}</p>
+          <ImageField
+            id="page-seo-image"
+            label={labels.seoImage}
+            value={draft.seo.imageUrl ?? ""}
+            onChange={(imageUrl) => update({ seo: { ...draft.seo, imageUrl } })}
+            error={errors["seo.imageUrl"]}
           />
         </section>
       </div>

@@ -358,9 +358,13 @@ npm run start        # backend en modo producción
   `SITE_URL` del backend). Firebase Hosting no admite ese rewrite a otro dominio.
   Los videos de YouTube se cargan solo al pulsar play (ver
   [docs/cookie-policy-youtube.md](./docs/cookie-policy-youtube.md)).
-- **Vista previa de enlaces en redes:** al ser una aplicación de una sola
-  página, WhatsApp, Facebook, etc. solo ven el título y la descripción fijos de
-  `client/index.html`, no los de cada página. Google sí ejecuta JavaScript.
+- **Vista previa de enlaces en redes:** WhatsApp, Facebook, etc. no ejecutan
+  JavaScript: el build escribe una copia de `index.html` por página, artículo y
+  categoría con su título, descripción e imagen (`siteContentPlugin.ts`, valores de
+  `shared/src/seo.ts`). Lo que falta sale de «Impostazioni del sito» > «Anteprima dei
+  collegamenti». Una dirección que no existe al hacer el build (p. ej. un artículo
+  aún no publicado) muestra la de la Home. En Firebase Hosting habría que comprobar
+  que sirve `/chi-sono/index.html` en `/chi-sono`.
 - **Rate limit en memoria:** el límite del formulario de contacto se reinicia
   si el servidor se reinicia. Vale para una sola instancia.
 - **Conservación de mensajes:** los mensajes se guardan hasta que se eliminan

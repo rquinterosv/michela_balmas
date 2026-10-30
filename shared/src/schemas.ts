@@ -2,7 +2,7 @@ import { z } from "zod";
 import { blockSchema } from "./blocks";
 import { optionalImageUrl, optionalText, optionalUrl, requiredText } from "./fields";
 import { RESERVED_SLUGS, SLUG_PATTERN } from "./slug";
-import { DEFAULT_SITE_TEXTS } from "./siteTexts.it";
+import { DEFAULT_SITE_SEO, DEFAULT_SITE_TEXTS } from "./siteTexts.it";
 import { validation } from "./validationMessages.it";
 
 const email = z
@@ -52,6 +52,9 @@ export const pageInputSchema = z.object({
   seo: z.object({
     title: optionalText(70),
     description: optionalText(200),
+    // Imagen de la vista previa al compartir el enlace. Vacía = la del sitio
+    // (ver seo.ts). Opcional: las páginas guardadas antes no la tienen.
+    imageUrl: optionalImageUrl.optional(),
   }),
   blocks: z.array(blockSchema).max(50),
 });
@@ -88,6 +91,14 @@ export const siteSettingsSchema = z.object({
   // Ítem del menú que baja a la sección "Chi sono" de la home. Su texto va en texts.aboutMenu.
   showAboutInMenu: z.boolean().default(true),
   contactReasons: z.array(requiredText(120)).min(1, validation.atLeastOneReason).max(20),
+  // Vista previa de los enlaces (y Google) cuando la página no tiene la suya. Imagen
+  // vacía = la foto profesional.
+  seo: z
+    .object({
+      description: requiredText(200),
+      imageUrl: optionalImageUrl,
+    })
+    .default(DEFAULT_SITE_SEO),
   // Rótulos fijos del sitio, editables desde el panel (ver siteTexts.it.ts).
   texts: z
     .object({

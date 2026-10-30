@@ -1,4 +1,4 @@
-import { BLOG_SLUG, type PostInput } from "@studio/shared";
+import { BLOG_SLUG, postShareMeta, type PostInput } from "@studio/shared";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BlockList } from "../blocks/BlockRenderer";
@@ -34,14 +34,11 @@ export function BlogPostPage() {
     if (!data) return;
     const { post } = data[2];
     setPageMeta({
-      title: post.seo.title || `${post.title} | ${settings.siteName}`,
-      description: post.seo.description || post.excerpt,
+      ...postShareMeta(post, settings),
       path: postPath(post.slug),
       siteName: settings.siteName,
-      image: post.seo.imageUrl || post.cover.imageUrl || undefined,
-      type: "article",
     });
-  }, [data, settings.siteName]);
+  }, [data, settings]);
 
   if (state.status === "loading") return <PageLoading />;
   if (state.status === "error") {

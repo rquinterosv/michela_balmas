@@ -199,6 +199,28 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className={styles.card}>
+        <h2>{labels.seoSection}</h2>
+        <p className={styles.help}>{labels.seoHelp}</p>
+        <TextField
+          id="settings-seo-description"
+          label={labels.seoDescription}
+          value={draft.seo.description}
+          onChange={(description) => update({ seo: { ...draft.seo, description } })}
+          error={errors["seo.description"]}
+          multiline
+        />
+        <p className={styles.help}>{labels.seoImageHelp}</p>
+        <ImageField
+          id="settings-seo-image"
+          label={labels.seoImage}
+          value={draft.seo.imageUrl}
+          onChange={(imageUrl) => update({ seo: { ...draft.seo, imageUrl } })}
+          error={errors["seo.imageUrl"]}
+        />
+        <p className={styles.help}>{labels.seoCacheNote}</p>
+      </section>
+
+      <section className={styles.card}>
         <h2>{labels.textsSection}</h2>
         <p className={styles.help}>{labels.textsHelp}</p>
         <TextField

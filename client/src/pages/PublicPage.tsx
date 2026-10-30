@@ -1,9 +1,8 @@
-import { HOME_SLUG, type Page } from "@studio/shared";
+import { HOME_SLUG, pageShareMeta, type Page } from "@studio/shared";
 import { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { BlockList } from "../blocks/BlockRenderer";
 import { PageError, PageLoading } from "../components/PageStatus";
-import { it } from "../i18n/it";
 import { api } from "../lib/api";
 import { pagePath } from "../lib/paths";
 import { setPageMeta } from "../lib/seo";
@@ -42,12 +41,11 @@ export function PageContent({ page, updateMeta = true }: { page: Page; updateMet
   useEffect(() => {
     if (!updateMeta) return;
     setPageMeta({
-      title: page.seo.title || `${page.title} | ${settings.siteName}`,
-      description: page.seo.description || it.seo.defaultDescription,
+      ...pageShareMeta(page, settings),
       path: pagePath(page.slug),
       siteName: settings.siteName,
     });
-  }, [page, settings.siteName, updateMeta]);
+  }, [page, settings, updateMeta]);
 
   // Cada página necesita un <h1>. El bloque "Intestazione" trae el suyo;
   // si la página no empieza por uno, el título de la página hace de <h1>.

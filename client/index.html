@@ -3,15 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Título y descripción por página se ajustan desde React (lib/seo.ts). -->
+    <!--
+      Entre los dos comentarios "share-meta", el build escribe el título, la descripción
+      y la vista previa de cada dirección (siteContentPlugin.ts); en el navegador los
+      ajusta React (lib/seo.ts). Lo de aquí solo se ve en desarrollo y en modo demo.
+    -->
+    <!-- share-meta -->
     <title>Studio di psicologia</title>
     <meta
       name="description"
-      content="Studio di psicologia: uno spazio di ascolto e sostegno. Colloqui in studio e online."
+      content="Uno spazio di ascolto e sostegno psicologico. Colloqui in studio e online."
     />
+    <!-- /share-meta -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:locale" content="it_IT" />
-    <meta property="og:type" content="website" />
     <!--
       TODO (cookies): el sitio no usa analytics ni cookies de terceros, por eso no hay
       banner de consentimiento. Si se agrega analytics u otro servicio externo, hay que

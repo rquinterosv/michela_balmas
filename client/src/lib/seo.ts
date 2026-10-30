@@ -1,8 +1,8 @@
 // Metadatos SEO y Open Graph de la página actual. Se actualizan a mano en <head>
-// (sin librería): cada página llama a setPageMeta al cargarse.
-//
-// Limitación conocida: al ser una SPA, quien no ejecuta JavaScript (p. ej. la vista
-// previa de enlaces de WhatsApp o Facebook) solo ve los valores fijos de index.html.
+// (sin librería): cada página llama a setPageMeta al cargarse, con los valores de
+// shared/src/seo.ts. Quien no ejecuta JavaScript (la vista previa de enlaces de
+// WhatsApp o Facebook) los lee del HTML que el build escribe para cada dirección
+// (siteContentPlugin.ts).
 
 import { imageSrc } from "./images";
 

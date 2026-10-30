@@ -10,6 +10,7 @@ export * from "./blog";
 export * from "./fieldErrors";
 export * from "./images";
 export * from "./schemas";
+export * from "./seo";
 export * from "./settingsDefaults";
 export * from "./siteTexts.it";
 export * from "./slug";

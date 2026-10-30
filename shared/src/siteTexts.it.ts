@@ -48,3 +48,10 @@ export const DEFAULT_SITE_TEXTS = {
   // Página "no encontrada".
   notFoundText: "La pagina che cerchi non esiste o è stata spostata.",
 };
+
+// Vista previa de los enlaces cuando la página no tiene la suya: "Impostazioni del
+// sito" > "Anteprima dei collegamenti". Imagen vacía = la foto profesional.
+export const DEFAULT_SITE_SEO = {
+  description: "Uno spazio di ascolto e sostegno psicologico. Colloqui in studio e online.",
+  imageUrl: "",
+};

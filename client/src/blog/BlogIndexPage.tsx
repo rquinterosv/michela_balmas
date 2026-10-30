@@ -1,5 +1,7 @@
 import {
   BLOG_SLUG,
+  categoryShareMeta,
+  pageShareMeta,
   type CategoryWithCount,
   type Page,
   type PostsPage,
@@ -77,17 +79,14 @@ function BlogIndex({ blogPage, categories, category, firstPage }: BlogIndexProps
   const title = category ? category.name : blogPage.title;
 
   useEffect(() => {
-    const blogTitle = blogPage.seo.title || `${blogPage.title} | ${settings.siteName}`;
-    const blogDescription = blogPage.seo.description || it.seo.defaultDescription;
     setPageMeta({
-      title: category
-        ? category.seo.title || `${category.name} | ${blogPage.title} | ${settings.siteName}`
-        : blogTitle,
-      description: category ? category.seo.description || blogDescription : blogDescription,
+      ...(category
+        ? categoryShareMeta(category, blogPage, settings)
+        : pageShareMeta(blogPage, settings)),
       path,
       siteName: settings.siteName,
     });
-  }, [blogPage, category, path, settings.siteName]);
+  }, [blogPage, category, path, settings]);
 
   // Tras "Carica altri", el foco pasa al título del primer artículo nuevo: así quien
   // navega con teclado o lector de pantalla sigue leyendo desde ahí.

@@ -23,12 +23,6 @@ export const it = {
     opensInNewTab: "si apre in una nuova scheda",
   },
 
-  seo: {
-    // Descripción por defecto si la página no tiene una propia.
-    defaultDescription:
-      "Studio di psicologia: uno spazio di ascolto e sostegno. Colloqui in studio e online.",
-  },
-
   nav: {
     label: "Navigazione principale",
     openMenu: "Apri il menu",
@@ -299,11 +293,15 @@ export const it = {
         "Viene creato automaticamente dal titolo. È la parte finale dell'indirizzo web della pagina.",
       showInMenu: "Mostra nel menu del sito",
       published: "Pagina pubblicata (visibile sul sito)",
-      seoSection: "Come appare su Google",
+      seoSection: "Come appare su Google e quando si condivide il collegamento",
       seoHelp:
-        "Titolo e descrizione mostrati nei risultati di ricerca. Se lasciati vuoti, viene usato il titolo della pagina.",
+        "Titolo e descrizione mostrati nei risultati di ricerca e nell'anteprima del collegamento " +
+        "(WhatsApp, Facebook…). Se lasciati vuoti, si usano il titolo della pagina e la " +
+        "descrizione di «Impostazioni del sito».",
       seoTitle: "Titolo per i motori di ricerca",
       seoDescription: "Breve descrizione",
+      seoImage: "Immagine dell'anteprima del collegamento",
+      seoImageHelp: "Se vuota, si usa quella di «Impostazioni del sito».",
       sections: "Sezioni",
       sectionsHelp: "Ogni pagina è composta da sezioni, mostrate una sotto l'altra.",
       noSections: "Questa pagina non ha ancora sezioni.",
@@ -641,8 +639,9 @@ export const it = {
       authorName: "Nome dell'autore",
       authorPhoto: "Foto dell'autore",
       sectionsHelp: "Il contenuto dell'articolo, sezione per sezione.",
-      seoImage: "Immagine per la condivisione sui social",
-      seoImageHelp: "Se vuota, si usa l'immagine di copertina.",
+      seoImage: "Immagine dell'anteprima del collegamento",
+      seoImageHelp:
+        "Se vuota, si usa l'immagine di copertina o, senza copertina, quella di «Impostazioni del sito».",
       created: "Articolo creato",
     },
 
@@ -706,6 +705,19 @@ export const it = {
         "sezione «Chi sono» della pagina iniziale; compare subito dopo «Home».",
       showAboutInMenu: "Mostra nel menu la voce che porta alla sezione «Chi sono»",
       aboutMenu: "Testo della voce",
+      seoSection: "Anteprima dei collegamenti",
+      seoHelp:
+        "Come si presenta il sito su Google e quando si invia un collegamento (WhatsApp, " +
+        "Facebook…). Ogni pagina e ogni articolo può avere i suoi; questi si usano quando " +
+        "mancano. Il titolo della pagina iniziale è il nome e il titolo professionale, " +
+        "se non se ne scrive un altro in «Pagine».",
+      seoDescription: "Descrizione",
+      seoImage: "Immagine",
+      seoImageHelp:
+        "Se vuota, si usa la foto professionale. Formato consigliato: orizzontale (circa 1200 × 630).",
+      seoCacheNote:
+        "Le modifiche si vedono sul sito dopo 1-2 minuti. WhatsApp e Facebook possono continuare a " +
+        "mostrare per alcuni giorni l'anteprima vecchia di un collegamento già condiviso.",
       textsSection: "Testi del sito",
       textsHelp: "Le diciture fisse che compaiono in fondo a ogni pagina e nei recapiti.",
       textOnlineSessions: "Dicitura sui colloqui online",
