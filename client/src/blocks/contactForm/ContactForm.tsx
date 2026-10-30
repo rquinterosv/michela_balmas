@@ -66,7 +66,7 @@ export function ContactForm() {
     // Misma validación que hace el backend, para avisar sin esperar a la red.
     const result = contactSchema.safeParse({ ...values, phone });
     if (!result.success) {
-      showErrors(zodFieldErrors(result.error), it.contactForm.errorValidation);
+      showErrors(zodFieldErrors(result.error), settings.texts.formErrorValidation);
       return;
     }
 
@@ -84,12 +84,12 @@ export function ContactForm() {
       const hasFieldErrors = apiError !== null && Object.keys(apiError.fields).length > 0;
 
       if (hasFieldErrors) {
-        showErrors(apiError.fields, it.contactForm.errorValidation);
+        showErrors(apiError.fields, settings.texts.formErrorValidation);
       } else if (apiError?.status === 429) {
         // Demasiados envíos: el backend ya explica qué pasa.
         showErrors({}, apiError.message);
       } else {
-        showErrors({}, it.contactForm.errorGeneric);
+        showErrors({}, settings.texts.formErrorGeneric);
       }
     }
   }
@@ -98,7 +98,7 @@ export function ContactForm() {
     return (
       <div ref={successRef} tabIndex={-1} role="status" className={styles.success}>
         <h3>{it.contactForm.successTitle}</h3>
-        <p>{it.contactForm.successText}</p>
+        <p>{settings.texts.formSuccessText}</p>
         {DEMO_MODE && <p className={styles.demoNotice}>{it.contactForm.demoNotice}</p>}
         <button type="button" className="button button-secondary" onClick={() => setStatus("idle")}>
           {it.contactForm.sendAnother}
@@ -158,7 +158,7 @@ export function ContactForm() {
           aria-invalid={Boolean(errors.reason)}
           aria-describedby={describedBy(fieldId("reason"), undefined, errors.reason)}
         >
-          <option value="">{it.contactForm.reasonPlaceholder}</option>
+          <option value="">{settings.texts.formReasonPlaceholder}</option>
           {settings.contactReasons.map((reason) => (
             <option key={reason} value={reason}>
               {reason}
@@ -225,7 +225,7 @@ export function ContactForm() {
         {status === "submitting" ? it.contactForm.submitting : it.contactForm.submit}
       </button>
 
-      <p className={styles.notice}>{it.contactForm.notice}</p>
+      <p className={styles.notice}>{settings.texts.formNotice}</p>
     </form>
   );
 }

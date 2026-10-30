@@ -10,8 +10,10 @@ formulario de contacto y panel de administración. Monorepo con npm workspaces.
    Esto incluye el panel de administración, `aria-label`, `alt` fijos y `placeholder`.
 2. **Código en inglés** (variables, funciones, archivos, commits). **Comentarios y
    documentación en español.**
-3. **Registro del italiano:** forma de cortesía ("Lei") con el paciente en el sitio
-   público y en los emails; forma impersonal y lenguaje no técnico en el panel. En el
+3. **Registro del italiano:** en el sitio público el tono (tu o Lei) lo decide la
+   profesional: toda frase que se dirige al visitante es editable desde el panel
+   (`siteTexts.it.ts`, hoy en "tu"), no va en `it.ts`. Forma impersonal en los mensajes
+   de validación y de la API, y forma impersonal y lenguaje no técnico en el panel. En el
    panel nunca se muestran JSON, IDs ni la palabra "slug" (es "Indirizzo della pagina").
 4. **Código simple y legible, sin magia.** No agregar librerías sin una razón clara.
 5. **Sin Cloud Functions** (plan Spark). El backend es Express y se despliega aparte.
@@ -83,7 +85,7 @@ client/   React 18 + Vite + React Router v6, estilos con CSS Modules
 | Validación de formularios (client y server) | `shared/src/validationMessages.it.ts` |
 | Errores de la API y plantilla de email      | `server/src/messages.it.ts`           |
 | Contenido de ejemplo (seed y modo demo)     | `shared/src/seedContent.ts`           |
-| Rótulos del pie, recapiti, menú y blog      | `shared/src/siteTexts.it.ts`          |
+| Rótulos y frases al visitante (editables)   | `shared/src/siteTexts.it.ts`          |
 | Contenido de ejemplo del blog               | `shared/src/seedBlog.ts`              |
 
 Los rótulos del pie y de los recapiti no están en `it.ts`: son editables desde el panel
@@ -100,7 +102,9 @@ siteSettings/main   siteName, professionalTitle, albo{region,number}, vatNumber,
                     phone, address, onlineSessions, social{facebook,instagram,linkedin},
                     showAboutInMenu, photoUrl, officeHours, contactReasons[],
                     texts{onlineSessions,alboPrefix,vatLabel,copyright,emailLabel,
-                    phoneLabel,addressLabel,aboutMenu,blog…,officeHoursLabel,contactCardButton}
+                    phoneLabel,addressLabel,aboutMenu,blog…,officeHoursLabel,contactCardButton,
+                    whatsappButton,whatsappMessage,socialTitle,emergencyNotice,form…,
+                    notFoundText}
 posts/{id}          title, slug, categoryId, date (Timestamp a medianoche UTC; por la API
                     "2026-10-15"), excerpt, cover{type:none|image|video,imageUrl,imageAlt,
                     videoUrl}, author{name,photoUrl} (vacíos = los de siteSettings),

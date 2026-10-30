@@ -302,6 +302,36 @@ function SettingsForm({ settings }: { settings: SiteSettings }) {
       </section>
 
       <section className={styles.card}>
+        <h2>{labels.visitorTextsSection}</h2>
+        <p className={styles.help}>{labels.visitorTextsHelp}</p>
+        {/* El tercer valor dice si la frase es larga (campo de varias líneas). */}
+        {(
+          [
+            ["whatsappButton", labels.textWhatsappButton, false],
+            ["whatsappMessage", labels.textWhatsappMessage, true],
+            ["socialTitle", labels.textSocialTitle, false],
+            ["emergencyNotice", labels.textEmergencyNotice, true],
+            ["formReasonPlaceholder", labels.textFormReasonPlaceholder, false],
+            ["formNotice", labels.textFormNotice, true],
+            ["formSuccessText", labels.textFormSuccessText, true],
+            ["formErrorValidation", labels.textFormErrorValidation, false],
+            ["formErrorGeneric", labels.textFormErrorGeneric, true],
+            ["notFoundText", labels.textNotFoundText, false],
+          ] as const
+        ).map(([key, label, long]) => (
+          <TextField
+            key={key}
+            id={`settings-text-${key}`}
+            label={label}
+            value={draft.texts[key]}
+            onChange={(value) => update({ texts: { ...draft.texts, [key]: value } })}
+            error={errors[`texts.${key}`]}
+            multiline={long}
+          />
+        ))}
+      </section>
+
+      <section className={styles.card}>
         <h2>{labels.reasonsSection}</h2>
         <p className={styles.help}>{labels.reasonsHelp}</p>
         {draft.contactReasons.map((reason, index) => (

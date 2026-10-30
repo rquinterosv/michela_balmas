@@ -107,6 +107,16 @@ export const siteSettingsSchema = z.object({
       blogRelated: requiredText(60),
       officeHoursLabel: requiredText(40),
       contactCardButton: requiredText(40),
+      whatsappButton: requiredText(40),
+      whatsappMessage: requiredText(300),
+      socialTitle: requiredText(60),
+      emergencyNotice: requiredText(300),
+      formReasonPlaceholder: requiredText(60),
+      formNotice: requiredText(600),
+      formSuccessText: requiredText(300),
+      formErrorValidation: requiredText(200),
+      formErrorGeneric: requiredText(300),
+      notFoundText: requiredText(200),
     })
     .default(DEFAULT_SITE_TEXTS),
 });

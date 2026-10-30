@@ -1,4 +1,5 @@
-// Textos fijos del sitio público (rótulos del pie, de los recapiti, del menú y del blog).
+// Textos fijos del sitio público (rótulos del pie, de los recapiti, del menú y del blog,
+// y las frases que se dirigen al visitante: botones, formulario y avisos).
 // Son el valor inicial: se editan desde el panel, en "Impostazioni del sito", y se
 // guardan en siteSettings.texts. También se usan si el documento guardado es
 // anterior a que existieran.
@@ -27,4 +28,23 @@ export const DEFAULT_SITE_TEXTS = {
   // Tarjeta de contacto de la barra lateral del blog.
   officeHoursLabel: "Orari",
   contactCardButton: "Contattami",
+  // Botón de WhatsApp (cabecera y barra fija del móvil) y el mensaje que deja escrito.
+  whatsappButton: "Scrivimi su WhatsApp",
+  whatsappMessage: "Buongiorno dottoressa, vorrei avere informazioni per un primo colloquio.",
+  // Pie: título de la columna de los iconos y aviso de emergencia.
+  socialTitle: "Mi trovi anche qui",
+  emergencyNotice:
+    "Questo sito non offre un servizio di emergenza. In caso di urgenza chiama il 112.",
+  // Formulario de contacto.
+  formReasonPlaceholder: "Seleziona un motivo",
+  formNotice:
+    "Per tutelare la tua riservatezza, ti invito a non inserire in questo modulo informazioni " +
+    "cliniche o dati sensibili dettagliati. In caso di urgenza contatta il 112 " +
+    "(Numero Unico di Emergenza).",
+  formSuccessText: "Grazie per avermi scritto. Ti risponderò il prima possibile.",
+  formErrorValidation: "Controlla i campi evidenziati e riprova.",
+  formErrorGeneric:
+    "Non è stato possibile inviare il messaggio. Riprova tra qualche minuto oppure scrivimi via email.",
+  // Página "no encontrada".
+  notFoundText: "La pagina che cerchi non esiste o è stata spostata.",
 };

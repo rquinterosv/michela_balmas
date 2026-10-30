@@ -18,14 +18,14 @@ export function BookingBar({ settings }: { settings: SiteSettings }) {
 
       {settings.phone && (
         <a
-          href={whatsappHref(settings.phone, it.nav.whatsappMessage)}
+          href={whatsappHref(settings.phone, settings.texts.whatsappMessage)}
           className={styles.round}
           target="_blank"
           rel="noopener noreferrer"
         >
           <WhatsappIcon size={22} />
           <span className="visually-hidden">
-            {it.nav.whatsapp} ({it.common.opensInNewTab})
+            {settings.texts.whatsappButton} ({it.common.opensInNewTab})
           </span>
         </a>
       )}

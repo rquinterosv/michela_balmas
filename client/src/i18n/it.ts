@@ -4,7 +4,8 @@ import type { BlockType, IconName, MessageStatus } from "@studio/shared";
 // texto visible escrito a mano: se agrega aquí una clave y se usa `it.algo.clave`.
 //
 // Registro:
-// - Sitio público: forma de cortesía ("Lei") con el paciente.
+// - Sitio público: las frases que se dirigen al visitante no están aquí, sino en
+//   shared/src/siteTexts.it.ts (editables en el panel): el tono lo decide ella.
 // - Panel (admin.*): forma impersonal y lenguaje no técnico.
 //
 // Los textos con datos variables son funciones: it.footer.albo("della Lombardia", "12345").
@@ -43,10 +44,8 @@ export const it = {
     },
     // Botón de la cabecera y de la barra fija del móvil: lleva a "Contatti".
     bookCta: "Prenota il primo colloquio",
-    // Barra fija del móvil: el botón y el redondo de WhatsApp (mensaje ya escrito).
+    // Barra fija del móvil (el texto de WhatsApp está en "Testi del sito").
     bookingBarLabel: "Prenotazione",
-    whatsapp: "Scriva su WhatsApp",
-    whatsappMessage: "Buongiorno dottoressa, vorrei avere informazioni per un primo colloquio.",
   },
 
   // Iconos redondos de la cabecera (nombre accesible de cada enlace).
@@ -67,9 +66,7 @@ export const it = {
     socialLabel: "Profili social",
     reservedArea: "Area riservata",
     contactsTitle: "Contatti",
-    socialTitle: "Mi trova anche qui",
     infoTitle: "Informazioni",
-    emergency: "Questo sito non offre un servizio di emergenza. In caso di urgenza chiami il 112.",
     copyright: (year: number, name: string, text: string) => `© ${year} ${name}. ${text}`,
   },
 
@@ -78,7 +75,6 @@ export const it = {
     email: "Email",
     phone: "Telefono",
     reason: "Motivo del contatto",
-    reasonPlaceholder: "Selezioni un motivo",
     message: "Messaggio",
     // El consentimiento se arma en tres partes para poder poner el enlace en medio.
     consentBefore: "Ho letto l'",
@@ -88,18 +84,10 @@ export const it = {
     submit: "Invia messaggio",
     submitting: "Invio in corso…",
     successTitle: "Messaggio inviato",
-    successText: "Grazie per avermi scritto. Le risponderò il prima possibile.",
     sendAnother: "Invia un altro messaggio",
     // Solo en modo demo (sitio sin backend): el formulario no envía nada.
     demoNotice:
       "Versione dimostrativa: i messaggi inviati da questo modulo non vengono recapitati.",
-    errorValidation: "Controlli i campi evidenziati e riprovi.",
-    errorGeneric:
-      "Non è stato possibile inviare il messaggio. Riprovi tra qualche minuto oppure mi scriva via email.",
-    notice:
-      "Per tutelare la Sua riservatezza, La invito a non inserire in questo modulo informazioni " +
-      "cliniche o dati sensibili dettagliati. Questo modulo non è un servizio di emergenza: " +
-      "in caso di urgenza contatti il 112 (Numero Unico di Emergenza).",
   },
 
   about: {
@@ -152,7 +140,6 @@ export const it = {
 
   notFound: {
     title: "Pagina non trovata",
-    text: "La pagina che cerca non esiste o è stata spostata.",
     backHome: "Torna alla pagina iniziale",
   },
 
@@ -374,7 +361,7 @@ export const it = {
         buttonHref: "Collegamento del pulsante",
         buttonHrefHelp: "Es. /contatti per portare alla pagina dei contatti.",
         showWhatsapp:
-          "Mostrare anche il pulsante «Scriva su WhatsApp» (usa il telefono di «Impostazioni del sito»)",
+          "Mostrare anche il pulsante di WhatsApp (usa il telefono e il testo di «Impostazioni del sito»)",
         highlights: "Frasi brevi sotto i pulsanti",
         highlightsHelp: "Una per riga, al massimo 4. Es. «Sedute da 50 minuti».",
         showAlbo: "Aggiungere l'iscrizione all'Albo (presa da «Impostazioni del sito»)",
@@ -745,6 +732,19 @@ export const it = {
       textBlogRelated: "Titolo degli articoli correlati",
       textOfficeHoursLabel: "Etichetta degli orari",
       textContactCardButton: "Pulsante della scheda contatti",
+      visitorTextsSection: "Pulsanti, modulo e avvisi",
+      visitorTextsHelp:
+        "Le frasi rivolte ai visitatori del sito. Il tono (tu o Lei) si sceglie liberamente.",
+      textWhatsappButton: "Pulsante di WhatsApp",
+      textWhatsappMessage: "Messaggio già scritto quando si apre WhatsApp",
+      textSocialTitle: "Titolo dei profili social, in fondo alla pagina",
+      textEmergencyNotice: "Avviso di emergenza, in fondo alla pagina",
+      textFormReasonPlaceholder: "Prima voce dell'elenco dei motivi, nel modulo",
+      textFormNotice: "Avviso sulla riservatezza, sotto il modulo",
+      textFormSuccessText: "Messaggio dopo l'invio del modulo",
+      textFormErrorValidation: "Messaggio se nel modulo ci sono campi da correggere",
+      textFormErrorGeneric: "Messaggio se l'invio del modulo non riesce",
+      textNotFoundText: "Testo della pagina «Pagina non trovata»",
       reasonsSection: "Motivi del contatto",
       reasonsHelp: "Le opzioni tra cui il visitatore può scegliere nel modulo di contatto.",
       reason: "Motivo",

@@ -51,7 +51,7 @@ export function Footer({ settings, pages }: FooterProps) {
 
           {hasContactIcons && (
             <div className={styles.column}>
-              <p className={styles.title}>{it.footer.socialTitle}</p>
+              <p className={styles.title}>{texts.socialTitle}</p>
               <div className={styles.icons}>
                 <ContactIcons settings={settings} />
               </div>
@@ -84,7 +84,7 @@ export function Footer({ settings, pages }: FooterProps) {
         </div>
 
         <div className={styles.bottom}>
-          <p>{it.footer.emergency}</p>
+          <p>{texts.emergencyNotice}</p>
           <p>{it.footer.copyright(new Date().getFullYear(), settings.siteName, texts.copyright)}</p>
         </div>
       </div>

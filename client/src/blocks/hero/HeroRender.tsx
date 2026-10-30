@@ -46,13 +46,13 @@ export function HeroRender({ data }: { data: BlockData<"hero"> }) {
               )}
               {showWhatsapp && (
                 <a
-                  href={whatsappHref(phone, it.nav.whatsappMessage)}
+                  href={whatsappHref(phone, settings.texts.whatsappMessage)}
                   className={`button button-secondary button-large ${styles.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <WhatsappIcon />
-                  {it.nav.whatsapp}
+                  {settings.texts.whatsappButton}
                   <span className="visually-hidden"> ({it.common.opensInNewTab})</span>
                 </a>
               )}
